@@ -85,7 +85,7 @@ export default function Home() {
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
               <Link to={createPageUrl('Track')}>
-                <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 w-full">
+                <Button size="lg" variant="outline" className="border-white/30 text-amber-300 hover:bg-white/10 hover:text-amber-200 w-full">
                   <Search className="w-5 h-5 mr-2" />
                   Track Application
                 </Button>

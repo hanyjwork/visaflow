@@ -4,6 +4,7 @@ import Confirmation from './pages/Confirmation';
 import Track from './pages/Track';
 import Terms from './pages/Terms';
 import Admin from './pages/Admin';
+import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
@@ -18,4 +19,5 @@ export const PAGES = {
 export const pagesConfig = {
     mainPage: "Home",
     Pages: PAGES,
+    Layout: __Layout,
 };
