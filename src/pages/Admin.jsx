@@ -26,6 +26,7 @@ export default function Admin() {
   const [actionDialog, setActionDialog] = useState({ open: false, type: '', order: null });
   const [adminNotes, setAdminNotes] = useState('');
   const [rejectionReason, setRejectionReason] = useState('');
+  const [securityDeposits, setSecurityDeposits] = useState({});
 
   const { data: orders = [], isLoading, refetch } = useQuery({
     queryKey: ['admin-orders'],
@@ -53,17 +54,38 @@ export default function Admin() {
     const apps = await base44.entities.Application.filter({ order_id: order.id });
     setApplications(apps);
     setSelectedOrder(order);
+    
+    // Initialize security deposits
+    const deposits = {};
+    apps.forEach(app => {
+      deposits[app.id] = app.security_deposit || 0;
+    });
+    setSecurityDeposits(deposits);
   };
 
   const handleApprove = async () => {
+    // Update applications with security deposits
+    const apps = await base44.entities.Application.filter({ order_id: actionDialog.order.id });
+    for (const app of apps) {
+      await base44.entities.Application.update(app.id, { 
+        security_deposit: securityDeposits[app.id] || 0 
+      });
+    }
+    
+    // Calculate new total with security deposits
+    const totalDeposits = Object.values(securityDeposits).reduce((sum, val) => sum + (Number(val) || 0), 0);
+    const newTotal = actionDialog.order.total_amount + totalDeposits;
+    
     await updateOrderMutation.mutateAsync({
       id: actionDialog.order.id,
       data: { 
         status: 'approved', 
-        admin_notes: adminNotes 
+        admin_notes: adminNotes,
+        total_amount: newTotal
       }
     });
     setAdminNotes('');
+    setSecurityDeposits({});
   };
 
   const handleReject = async () => {
@@ -386,6 +408,46 @@ export default function Admin() {
               </DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
+              {actionDialog.type === 'approve' && applications.length > 0 && (
+                <div className="space-y-3">
+                  <label className="text-sm font-medium">Security Deposits (Optional)</label>
+                  <div className="space-y-2 max-h-60 overflow-y-auto border rounded-lg p-3 bg-slate-50">
+                    {applications.map((app) => (
+                      <div key={app.id} className="flex items-center gap-3 bg-white p-3 rounded-lg border">
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-slate-700">{app.applicant_name}</p>
+                          <p className="text-xs text-slate-500">{app.service_name}</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm text-slate-600">AED</span>
+                          <Input
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            value={securityDeposits[app.id] || 0}
+                            onChange={(e) => setSecurityDeposits(prev => ({
+                              ...prev,
+                              [app.id]: parseFloat(e.target.value) || 0
+                            }))}
+                            className="w-28"
+                            placeholder="0.00"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {Object.values(securityDeposits).some(v => v > 0) && (
+                    <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                      <p className="text-sm font-medium text-amber-800">
+                        Total Security Deposit: AED {Object.values(securityDeposits).reduce((sum, val) => sum + (Number(val) || 0), 0).toFixed(2)}
+                      </p>
+                      <p className="text-xs text-amber-600 mt-1">
+                        This will be added to the customer's total payable amount
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
               {actionDialog.type === 'reject' && (
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Rejection Reason *</label>
