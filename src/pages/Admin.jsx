@@ -224,6 +224,7 @@ export default function Admin() {
                 <SelectItem value="processing">Processing</SelectItem>
                 <SelectItem value="completed">Completed</SelectItem>
                 <SelectItem value="rejected">Rejected</SelectItem>
+                <SelectItem value="returned_for_modification">Returned for Modification</SelectItem>
               </SelectContent>
             </Select>
           </CardContent>
