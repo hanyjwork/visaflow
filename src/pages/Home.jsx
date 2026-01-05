@@ -11,7 +11,8 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Plane, Shield, ShoppingCart, Search, ArrowRight, 
-  Clock, CheckCircle, Globe, Star, ChevronRight
+  Clock, CheckCircle, Globe, Star, ChevronRight, FileText, 
+  UserCheck, Send, Eye, CreditCard, Package, Award
 } from 'lucide-react';
 import ServiceCard from '@/components/services/ServiceCard';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
@@ -183,6 +184,130 @@ export default function Home() {
               </Card>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <Badge variant="outline" className="mb-4">Simple Process</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
+              How It Works
+            </h2>
+            <p className="text-slate-600 max-w-2xl mx-auto">
+              Get your UAE visa in 7 simple steps. Our streamlined process makes it easy and hassle-free.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                step: '1',
+                icon: ShoppingCart,
+                title: 'Choose Service',
+                description: 'Browse our visa and insurance options and add them to your cart',
+                color: 'from-blue-500 to-blue-600'
+              },
+              {
+                step: '2',
+                icon: FileText,
+                title: 'Fill Details',
+                description: 'Complete the application form with passport details and upload required documents',
+                color: 'from-purple-500 to-purple-600'
+              },
+              {
+                step: '3',
+                icon: Send,
+                title: 'Submit Application',
+                description: 'Submit your application and receive a tracking number instantly',
+                color: 'from-amber-500 to-amber-600'
+              },
+              {
+                step: '4',
+                icon: Eye,
+                title: 'Admin Review',
+                description: 'Our team reviews your application and documents for accuracy',
+                color: 'from-green-500 to-green-600'
+              },
+              {
+                step: '5',
+                icon: CreditCard,
+                title: 'Payment',
+                description: 'Once approved, make your payment securely through our platform',
+                color: 'from-pink-500 to-pink-600'
+              },
+              {
+                step: '6',
+                icon: Package,
+                title: 'Processing',
+                description: 'We process your visa with UAE immigration authorities',
+                color: 'from-cyan-500 to-cyan-600'
+              },
+              {
+                step: '7',
+                icon: Award,
+                title: 'Receive Visa',
+                description: 'Track your application status and receive your approved visa',
+                color: 'from-indigo-500 to-indigo-600'
+              },
+            ].map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1, duration: 0.5 }}
+                  viewport={{ once: true }}
+                  className="relative"
+                >
+                  {/* Connecting line for desktop */}
+                  {index < 6 && (
+                    <div className="hidden lg:block absolute top-12 left-full w-full h-0.5 bg-gradient-to-r from-slate-200 to-transparent -translate-y-1/2 z-0" />
+                  )}
+                  
+                  <div className="relative bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-lg transition-all duration-300 group h-full">
+                    {/* Step number badge */}
+                    <div className={`absolute -top-3 -left-3 w-10 h-10 rounded-full bg-gradient-to-br ${item.color} text-white font-bold flex items-center justify-center text-lg shadow-lg`}>
+                      {item.step}
+                    </div>
+                    
+                    {/* Icon */}
+                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                      <Icon className="w-7 h-7 text-white" />
+                    </div>
+                    
+                    {/* Content */}
+                    <h3 className="text-lg font-bold text-slate-800 mb-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* CTA below steps */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.5 }}
+            viewport={{ once: true }}
+            className="text-center mt-12"
+          >
+            <Button 
+              size="lg" 
+              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg"
+              onClick={() => document.getElementById('services').scrollIntoView({ behavior: 'smooth' })}
+            >
+              Get Started Now
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+          </motion.div>
         </div>
       </section>
 

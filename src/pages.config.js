@@ -1,19 +1,19 @@
-import Home from './pages/Home';
+import Admin from './pages/Admin';
 import Cart from './pages/Cart';
 import Confirmation from './pages/Confirmation';
-import Track from './pages/Track';
+import Home from './pages/Home';
 import Terms from './pages/Terms';
-import Admin from './pages/Admin';
+import Track from './pages/Track';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "Home": Home,
+    "Admin": Admin,
     "Cart": Cart,
     "Confirmation": Confirmation,
-    "Track": Track,
+    "Home": Home,
     "Terms": Terms,
-    "Admin": Admin,
+    "Track": Track,
 }
 
 export const pagesConfig = {
