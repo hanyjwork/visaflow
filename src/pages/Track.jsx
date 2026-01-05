@@ -186,6 +186,19 @@ export default function Track() {
                     </div>
                   )}
 
+                  {order.status === 'returned_for_modification' && (
+                    <div className="bg-orange-50 border border-orange-200 rounded-xl p-6 mt-4">
+                      <h3 className="text-orange-800 font-semibold mb-2">Modification Required</h3>
+                      <p className="text-orange-700 mb-4">{order.modification_notes}</p>
+                      <Button 
+                        onClick={() => window.location.href = createPageUrl('EditApplication') + `?tracking=${order.tracking_number}`}
+                        className="bg-orange-600 hover:bg-orange-700"
+                      >
+                        Edit Application
+                      </Button>
+                    </div>
+                  )}
+
                   {order.rejection_reason && (
                     <div className="bg-red-50 border border-red-200 rounded-xl p-4 mt-4">
                       <p className="text-red-800 font-medium">Rejection Reason:</p>

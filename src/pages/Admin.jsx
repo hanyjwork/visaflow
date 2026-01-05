@@ -26,6 +26,7 @@ export default function Admin() {
   const [actionDialog, setActionDialog] = useState({ open: false, type: '', order: null });
   const [adminNotes, setAdminNotes] = useState('');
   const [rejectionReason, setRejectionReason] = useState('');
+  const [modificationNotes, setModificationNotes] = useState('');
   const [securityDeposits, setSecurityDeposits] = useState({});
 
   const { data: orders = [], isLoading, refetch } = useQuery({
@@ -102,6 +103,23 @@ export default function Admin() {
       status: 'rejected'
     });
     setRejectionReason('');
+    setAdminNotes('');
+  };
+
+  const handleReturnForModification = async () => {
+    await updateOrderMutation.mutateAsync({
+      id: actionDialog.order.id,
+      data: { 
+        status: 'returned_for_modification',
+        modification_notes: modificationNotes,
+        admin_notes: adminNotes 
+      }
+    });
+    await updateApplicationsMutation.mutateAsync({
+      orderId: actionDialog.order.id,
+      status: 'returned_for_modification'
+    });
+    setModificationNotes('');
     setAdminNotes('');
   };
 
@@ -265,7 +283,7 @@ export default function Admin() {
                               <Eye className="w-4 h-4" />
                             </Button>
                             
-                            {order.status === 'pending_review' && (
+                            {(order.status === 'pending_review' || order.status === 'returned_for_modification') && (
                               <>
                                 <Button
                                   variant="ghost"
@@ -274,6 +292,14 @@ export default function Admin() {
                                   onClick={() => setActionDialog({ open: true, type: 'approve', order })}
                                 >
                                   <CheckCircle className="w-4 h-4" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="text-amber-600"
+                                  onClick={() => setActionDialog({ open: true, type: 'return', order })}
+                                >
+                                  <RefreshCw className="w-4 h-4" />
                                 </Button>
                                 <Button
                                   variant="ghost"
@@ -404,7 +430,9 @@ export default function Admin() {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>
-                {actionDialog.type === 'approve' ? 'Approve Application' : 'Reject Application'}
+                {actionDialog.type === 'approve' ? 'Approve Application' : 
+                 actionDialog.type === 'return' ? 'Return for Modification' : 
+                 'Reject Application'}
               </DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
@@ -448,6 +476,17 @@ export default function Admin() {
                   )}
                 </div>
               )}
+              {actionDialog.type === 'return' && (
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Modification Instructions *</label>
+                  <Textarea
+                    value={modificationNotes}
+                    onChange={(e) => setModificationNotes(e.target.value)}
+                    placeholder="Explain what needs to be modified..."
+                    rows={3}
+                  />
+                </div>
+              )}
               {actionDialog.type === 'reject' && (
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Rejection Reason *</label>
@@ -488,6 +527,19 @@ export default function Admin() {
                     <CheckCircle className="w-4 h-4 mr-2" />
                   )}
                   Approve
+                </Button>
+              ) : actionDialog.type === 'return' ? (
+                <Button 
+                  className="bg-amber-600 hover:bg-amber-700"
+                  onClick={handleReturnForModification}
+                  disabled={!modificationNotes || updateOrderMutation.isPending}
+                >
+                  {updateOrderMutation.isPending ? (
+                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                  ) : (
+                    <RefreshCw className="w-4 h-4 mr-2" />
+                  )}
+                  Return for Modification
                 </Button>
               ) : (
                 <Button 

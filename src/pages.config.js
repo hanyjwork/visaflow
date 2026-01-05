@@ -4,6 +4,7 @@ import Confirmation from './pages/Confirmation';
 import Home from './pages/Home';
 import Terms from './pages/Terms';
 import Track from './pages/Track';
+import EditApplication from './pages/EditApplication';
 import __Layout from './Layout.jsx';
 
 
@@ -14,6 +15,7 @@ export const PAGES = {
     "Home": Home,
     "Terms": Terms,
     "Track": Track,
+    "EditApplication": EditApplication,
 }
 
 export const pagesConfig = {
