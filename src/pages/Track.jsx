@@ -201,17 +201,18 @@ export default function Track() {
                   <CardTitle className="text-lg">Applicants</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {applications.map((app, index) => {
-                    const Icon = app.service_name?.toLowerCase().includes('visa') ? Plane : Shield;
-                    
-                    return (
-                      <motion.div
-                        key={app.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="flex items-center justify-between p-4 bg-slate-50 rounded-xl"
-                      >
+                {applications.map((app, index) => {
+                  const Icon = app.service_name?.toLowerCase().includes('visa') ? Plane : Shield;
+
+                  return (
+                    <motion.div
+                      key={app.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="p-4 bg-slate-50 rounded-xl"
+                    >
+                      <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-4">
                           <div className="p-2 rounded-lg bg-white shadow-sm">
                             <Icon className="w-5 h-5 text-blue-600" />
@@ -221,15 +222,21 @@ export default function Track() {
                             <p className="text-sm text-slate-500">{app.service_name}</p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-4">
-                          <span className="text-sm font-medium text-slate-600">
-                            AED {app.service_price}
-                          </span>
-                          <StatusBadge status={app.status} />
+                        <StatusBadge status={app.status} />
+                      </div>
+                      <div className="flex items-center justify-between text-sm border-t pt-3">
+                        <span className="text-slate-600">Service Fee:</span>
+                        <span className="font-medium">AED {app.service_price?.toFixed(2)}</span>
+                      </div>
+                      {app.security_deposit > 0 && (
+                        <div className="flex items-center justify-between text-sm border-t pt-2">
+                          <span className="text-slate-600">Security Deposit:</span>
+                          <span className="font-medium text-amber-600">AED {app.security_deposit?.toFixed(2)}</span>
                         </div>
-                      </motion.div>
-                    );
-                  })}
+                      )}
+                    </motion.div>
+                  );
+                })}
                 </CardContent>
               </Card>
             </motion.div>
