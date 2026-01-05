@@ -1,6 +1,6 @@
 import React from 'react';
 import { Badge } from "@/components/ui/badge";
-import { Clock, Search, CheckCircle, CreditCard, Loader2, XCircle, FileCheck } from 'lucide-react';
+import { Clock, Search, CheckCircle, CreditCard, Loader2, XCircle, FileCheck, AlertCircle } from 'lucide-react';
 
 const statusConfig = {
   pending_review: {
@@ -42,6 +42,11 @@ const statusConfig = {
     label: 'Rejected',
     color: 'bg-red-100 text-red-700 border-red-200',
     icon: XCircle,
+  },
+  returned_for_modification: {
+    label: 'Needs Modification',
+    color: 'bg-orange-100 text-orange-700 border-orange-200',
+    icon: AlertCircle,
   },
   pending: {
     label: 'Pending',
