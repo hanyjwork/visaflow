@@ -39,6 +39,10 @@ export default function Cart() {
     localStorage.setItem('uae_visa_cart', JSON.stringify(cart));
   }, [cart]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const removeItem = (index) => {
     setCart(prev => prev.filter((_, i) => i !== index));
   };
