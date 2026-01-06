@@ -23,7 +23,9 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
     applicant_name: '',
     passport_number: '',
     nationality: '',
+    residence_country: '',
     date_of_birth: '',
+    expected_travel_date: '',
     gender: '',
     passport_copy_url: '',
     photo_url: '',
@@ -53,7 +55,9 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
     if (!formData.applicant_name) newErrors.applicant_name = 'Name is required';
     if (!formData.passport_number) newErrors.passport_number = 'Passport number is required';
     if (!formData.nationality) newErrors.nationality = 'Nationality is required';
+    if (!formData.residence_country) newErrors.residence_country = 'Residence country is required';
     if (!formData.date_of_birth) newErrors.date_of_birth = 'Date of birth is required';
+    if (!formData.expected_travel_date) newErrors.expected_travel_date = 'Expected travel date is required';
     if (!formData.gender) newErrors.gender = 'Gender is required';
     if (!formData.passport_copy_url) newErrors.passport_copy_url = 'Passport copy is required';
     if (!formData.photo_url) newErrors.photo_url = 'Photo is required';
@@ -133,6 +137,39 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                 </SelectContent>
               </Select>
               {errors.nationality && <p className="text-xs text-red-500">{errors.nationality}</p>}
+            </div>
+            
+            <div className="space-y-2">
+              <Label>Residence Country *</Label>
+              <Select 
+                value={formData.residence_country} 
+                onValueChange={(value) => setFormData(prev => ({ ...prev, residence_country: value }))}
+              >
+                <SelectTrigger className={errors.residence_country ? 'border-red-500' : ''}>
+                  <SelectValue placeholder="Select country" />
+                </SelectTrigger>
+                <SelectContent className="max-h-60">
+                  {countries.map(country => (
+                    <SelectItem key={country} value={country}>{country}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {errors.residence_country && <p className="text-xs text-red-500">{errors.residence_country}</p>}
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="travel_date">Expected Travel Date *</Label>
+              <Input
+                id="travel_date"
+                type="date"
+                value={formData.expected_travel_date}
+                onChange={(e) => setFormData(prev => ({ ...prev, expected_travel_date: e.target.value }))}
+                className={errors.expected_travel_date ? 'border-red-500' : ''}
+                min={new Date().toISOString().split('T')[0]}
+              />
+              {errors.expected_travel_date && <p className="text-xs text-red-500">{errors.expected_travel_date}</p>}
             </div>
             
             <div className="space-y-2">

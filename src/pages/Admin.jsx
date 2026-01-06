@@ -391,6 +391,14 @@ export default function Admin() {
                             <p className="font-medium">{app.nationality}</p>
                           </div>
                           <div>
+                            <p className="text-sm text-slate-500">Residence Country</p>
+                            <p className="font-medium">{app.residence_country || 'N/A'}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-slate-500">Expected Travel Date</p>
+                            <p className="font-medium">{app.expected_travel_date ? format(new Date(app.expected_travel_date), 'MMM d, yyyy') : 'N/A'}</p>
+                          </div>
+                          <div>
                             <p className="text-sm text-slate-500">Service</p>
                             <p className="font-medium">{app.service_name}</p>
                           </div>

@@ -1,10 +1,10 @@
 import Admin from './pages/Admin';
 import Cart from './pages/Cart';
 import Confirmation from './pages/Confirmation';
+import EditApplication from './pages/EditApplication';
 import Home from './pages/Home';
 import Terms from './pages/Terms';
 import Track from './pages/Track';
-import EditApplication from './pages/EditApplication';
 import __Layout from './Layout.jsx';
 
 
@@ -12,10 +12,10 @@ export const PAGES = {
     "Admin": Admin,
     "Cart": Cart,
     "Confirmation": Confirmation,
+    "EditApplication": EditApplication,
     "Home": Home,
     "Terms": Terms,
     "Track": Track,
-    "EditApplication": EditApplication,
 }
 
 export const pagesConfig = {
