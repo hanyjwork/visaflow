@@ -196,7 +196,7 @@ export default function Home() {
               How It Works
             </h2>
             <p className="text-slate-600 max-w-2xl mx-auto">
-              Get your UAE visa in 6 simple steps. Our streamlined process makes it easy and hassle-free.
+              Get your UAE visa in 5 simple steps. Our streamlined process makes it easy and hassle-free.
             </p>
           </div>
 
@@ -204,45 +204,38 @@ export default function Home() {
             {[
               {
                 step: '1',
-                icon: ShoppingCart,
-                title: 'Choose Service',
-                description: 'Browse our visa and insurance options and add them to your cart',
+                icon: Send,
+                title: 'Submit Application',
+                description: 'Browse services, complete the application form, upload required documents, and submit to receive your tracking number',
                 color: 'from-blue-500 to-blue-600'
               },
               {
                 step: '2',
-                icon: Send,
-                title: 'Fill & Submit',
-                description: 'Complete the application form, upload required documents, and submit to receive your tracking number',
+                icon: Eye,
+                title: 'Admin Review',
+                description: 'Our team reviews your application and documents for accuracy',
                 color: 'from-purple-500 to-purple-600'
               },
               {
                 step: '3',
-                icon: Eye,
-                title: 'Admin Review',
-                description: 'Our team reviews your application and documents for accuracy',
+                icon: CreditCard,
+                title: 'Payment',
+                description: 'Once approved, make your payment securely through our platform',
                 color: 'from-amber-500 to-amber-600'
               },
               {
                 step: '4',
-                icon: CreditCard,
-                title: 'Payment',
-                description: 'Once approved, make your payment securely through our platform',
+                icon: Package,
+                title: 'Processing',
+                description: 'We process your visa with UAE immigration authorities',
                 color: 'from-green-500 to-green-600'
               },
               {
                 step: '5',
-                icon: Package,
-                title: 'Processing',
-                description: 'We process your visa with UAE immigration authorities',
-                color: 'from-pink-500 to-pink-600'
-              },
-              {
-                step: '6',
                 icon: Award,
                 title: 'Receive Visa',
                 description: 'Track your application status and receive your approved visa',
-                color: 'from-cyan-500 to-cyan-600'
+                color: 'from-pink-500 to-pink-600'
               },
             ].map((item, index) => {
               const Icon = item.icon;
@@ -256,7 +249,7 @@ export default function Home() {
                   className="relative"
                 >
                   {/* Connecting line for desktop */}
-                  {index < 5 && (
+                  {index < 4 && (
                     <div className="hidden lg:block absolute top-12 left-full w-full h-0.5 bg-gradient-to-r from-slate-200 to-transparent -translate-y-1/2 z-0" />
                   )}
                   
