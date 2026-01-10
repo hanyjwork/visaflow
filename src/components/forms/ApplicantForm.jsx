@@ -27,11 +27,18 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
     date_of_birth: '',
     expected_travel_date: '',
     gender: '',
-    passport_copy_url: '',
+    passport_front_url: '',
+    passport_cover_url: '',
     photo_url: '',
+    supporting_documents_urls: [],
   });
   
-  const [uploading, setUploading] = useState({ passport: false, photo: false });
+  const [uploading, setUploading] = useState({ 
+    passportFront: false, 
+    passportCover: false, 
+    photo: false, 
+    supporting: false 
+  });
   const [errors, setErrors] = useState({});
 
   const handleFileUpload = async (file, type) => {
@@ -41,10 +48,17 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
     
     const { file_url } = await base44.integrations.Core.UploadFile({ file });
     
-    if (type === 'passport') {
-      setFormData(prev => ({ ...prev, passport_copy_url: file_url }));
-    } else {
+    if (type === 'passportFront') {
+      setFormData(prev => ({ ...prev, passport_front_url: file_url }));
+    } else if (type === 'passportCover') {
+      setFormData(prev => ({ ...prev, passport_cover_url: file_url }));
+    } else if (type === 'photo') {
       setFormData(prev => ({ ...prev, photo_url: file_url }));
+    } else if (type === 'supporting') {
+      setFormData(prev => ({ 
+        ...prev, 
+        supporting_documents_urls: [...(prev.supporting_documents_urls || []), file_url] 
+      }));
     }
     
     setUploading(prev => ({ ...prev, [type]: false }));
@@ -59,7 +73,8 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
     if (!formData.date_of_birth) newErrors.date_of_birth = 'Date of birth is required';
     if (!formData.expected_travel_date) newErrors.expected_travel_date = 'Expected travel date is required';
     if (!formData.gender) newErrors.gender = 'Gender is required';
-    if (!formData.passport_copy_url) newErrors.passport_copy_url = 'Passport copy is required';
+    if (!formData.passport_front_url) newErrors.passport_front_url = 'Passport front page is required';
+    if (!formData.passport_cover_url) newErrors.passport_cover_url = 'Passport cover is required';
     if (!formData.photo_url) newErrors.photo_url = 'Photo is required';
     
     setErrors(newErrors);
@@ -191,23 +206,24 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
           </div>
           
           <div className="space-y-2">
-            <Label>Passport Copy *</Label>
-            <div className={`border-2 border-dashed rounded-lg p-4 text-center ${errors.passport_copy_url ? 'border-red-300 bg-red-50' : 'border-slate-200 hover:border-blue-400'} transition-colors`}>
-              {formData.passport_copy_url ? (
+            <Label>Passport Copy (Front) *</Label>
+            <p className="text-xs text-slate-500">Photo page with your details</p>
+            <div className={`border-2 border-dashed rounded-lg p-4 text-center ${errors.passport_front_url ? 'border-red-300 bg-red-50' : 'border-slate-200 hover:border-blue-400'} transition-colors`}>
+              {formData.passport_front_url ? (
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2 text-green-600">
                     <FileText className="w-5 h-5" />
-                    <span className="text-sm">Passport uploaded</span>
+                    <span className="text-sm">Passport front uploaded</span>
                   </div>
                   <Button 
                     variant="ghost" 
                     size="icon"
-                    onClick={() => setFormData(prev => ({ ...prev, passport_copy_url: '' }))}
+                    onClick={() => setFormData(prev => ({ ...prev, passport_front_url: '' }))}
                   >
                     <X className="w-4 h-4" />
                   </Button>
                 </div>
-              ) : uploading.passport ? (
+              ) : uploading.passportFront ? (
                 <div className="flex items-center justify-center gap-2 text-slate-500">
                   <Loader2 className="w-5 h-5 animate-spin" />
                   <span>Uploading...</span>
@@ -215,17 +231,56 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
               ) : (
                 <label className="cursor-pointer block">
                   <Upload className="w-8 h-8 mx-auto text-slate-400 mb-2" />
-                  <span className="text-sm text-slate-600">Click to upload passport copy</span>
+                  <span className="text-sm text-slate-600">Click to upload</span>
                   <input
                     type="file"
                     className="hidden"
                     accept="image/*,.pdf"
-                    onChange={(e) => handleFileUpload(e.target.files[0], 'passport')}
+                    onChange={(e) => handleFileUpload(e.target.files[0], 'passportFront')}
                   />
                 </label>
               )}
             </div>
-            {errors.passport_copy_url && <p className="text-xs text-red-500">{errors.passport_copy_url}</p>}
+            {errors.passport_front_url && <p className="text-xs text-red-500">{errors.passport_front_url}</p>}
+          </div>
+
+          <div className="space-y-2">
+            <Label>Passport Cover Copy *</Label>
+            <p className="text-xs text-slate-500">Front cover of your passport</p>
+            <div className={`border-2 border-dashed rounded-lg p-4 text-center ${errors.passport_cover_url ? 'border-red-300 bg-red-50' : 'border-slate-200 hover:border-blue-400'} transition-colors`}>
+              {formData.passport_cover_url ? (
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-green-600">
+                    <FileText className="w-5 h-5" />
+                    <span className="text-sm">Passport cover uploaded</span>
+                  </div>
+                  <Button 
+                    variant="ghost" 
+                    size="icon"
+                    onClick={() => setFormData(prev => ({ ...prev, passport_cover_url: '' }))}
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              ) : uploading.passportCover ? (
+                <div className="flex items-center justify-center gap-2 text-slate-500">
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span>Uploading...</span>
+                </div>
+              ) : (
+                <label className="cursor-pointer block">
+                  <Upload className="w-8 h-8 mx-auto text-slate-400 mb-2" />
+                  <span className="text-sm text-slate-600">Click to upload</span>
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept="image/*,.pdf"
+                    onChange={(e) => handleFileUpload(e.target.files[0], 'passportCover')}
+                  />
+                </label>
+              )}
+            </div>
+            {errors.passport_cover_url && <p className="text-xs text-red-500">{errors.passport_cover_url}</p>}
           </div>
           
           <div className="space-y-2">
@@ -265,6 +320,52 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
               )}
             </div>
             {errors.photo_url && <p className="text-xs text-red-500">{errors.photo_url}</p>}
+          </div>
+
+          <div className="space-y-2">
+            <Label>Additional Supporting Documents (Optional)</Label>
+            <p className="text-xs text-slate-500">Bank statements, hotel bookings, or other documents to assist with visa processing</p>
+            <div className="border-2 border-dashed rounded-lg p-4 text-center border-slate-200 hover:border-blue-400 transition-colors">
+              {uploading.supporting ? (
+                <div className="flex items-center justify-center gap-2 text-slate-500">
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span>Uploading...</span>
+                </div>
+              ) : (
+                <label className="cursor-pointer block">
+                  <Upload className="w-8 h-8 mx-auto text-slate-400 mb-2" />
+                  <span className="text-sm text-slate-600">Click to upload additional documents</span>
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept="image/*,.pdf"
+                    onChange={(e) => handleFileUpload(e.target.files[0], 'supporting')}
+                  />
+                </label>
+              )}
+            </div>
+            {formData.supporting_documents_urls && formData.supporting_documents_urls.length > 0 && (
+              <div className="space-y-2 mt-2">
+                {formData.supporting_documents_urls.map((url, index) => (
+                  <div key={index} className="flex items-center justify-between bg-slate-50 p-2 rounded">
+                    <div className="flex items-center gap-2 text-sm">
+                      <FileText className="w-4 h-4 text-slate-500" />
+                      <span className="text-slate-700">Document {index + 1}</span>
+                    </div>
+                    <Button 
+                      variant="ghost" 
+                      size="icon"
+                      onClick={() => setFormData(prev => ({ 
+                        ...prev, 
+                        supporting_documents_urls: prev.supporting_documents_urls.filter((_, i) => i !== index) 
+                      }))}
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
         
