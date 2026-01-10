@@ -13,7 +13,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { format } from 'date-fns';
 import { 
   Search, FileText, Users, Clock, CheckCircle, 
-  XCircle, Eye, CreditCard, Loader2, RefreshCw
+  XCircle, Eye, CreditCard, Loader2, RefreshCw, Download, Image as ImageIcon
 } from 'lucide-react';
 import StatusBadge from '@/components/tracking/StatusBadge';
 
@@ -403,26 +403,67 @@ export default function Admin() {
                             <p className="font-medium">{app.service_name}</p>
                           </div>
                         </div>
-                        <div className="flex gap-4 mt-4">
-                          {app.passport_copy_url && (
-                            <a 
-                              href={app.passport_copy_url} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="text-blue-600 text-sm hover:underline"
-                            >
-                              View Passport
-                            </a>
-                          )}
-                          {app.photo_url && (
-                            <a 
-                              href={app.photo_url} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="text-blue-600 text-sm hover:underline"
-                            >
-                              View Photo
-                            </a>
+                        <div className="mt-4 space-y-3">
+                          <div className="border-t pt-3">
+                            <h5 className="text-sm font-medium text-slate-700 mb-2">Documents</h5>
+                            <div className="grid grid-cols-2 gap-2">
+                              {app.passport_front_url && (
+                                <a 
+                                  href={app.passport_front_url} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="flex items-center gap-2 text-blue-600 text-sm hover:bg-blue-50 p-2 rounded border border-blue-200"
+                                >
+                                  <FileText className="w-4 h-4" />
+                                  <span>Passport Front</span>
+                                  <Download className="w-3 h-3 ml-auto" />
+                                </a>
+                              )}
+                              {app.passport_cover_url && (
+                                <a 
+                                  href={app.passport_cover_url} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="flex items-center gap-2 text-blue-600 text-sm hover:bg-blue-50 p-2 rounded border border-blue-200"
+                                >
+                                  <FileText className="w-4 h-4" />
+                                  <span>Passport Cover</span>
+                                  <Download className="w-3 h-3 ml-auto" />
+                                </a>
+                              )}
+                              {app.photo_url && (
+                                <a 
+                                  href={app.photo_url} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="flex items-center gap-2 text-blue-600 text-sm hover:bg-blue-50 p-2 rounded border border-blue-200"
+                                >
+                                  <ImageIcon className="w-4 h-4" />
+                                  <span>Personal Photo</span>
+                                  <Download className="w-3 h-3 ml-auto" />
+                                </a>
+                              )}
+                            </div>
+                          </div>
+                          {app.supporting_documents_urls && app.supporting_documents_urls.length > 0 && (
+                            <div className="border-t pt-3">
+                              <h5 className="text-sm font-medium text-slate-700 mb-2">Supporting Documents ({app.supporting_documents_urls.length})</h5>
+                              <div className="grid grid-cols-2 gap-2">
+                                {app.supporting_documents_urls.map((url, idx) => (
+                                  <a 
+                                    key={idx}
+                                    href={url} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-2 text-slate-600 text-sm hover:bg-slate-50 p-2 rounded border border-slate-200"
+                                  >
+                                    <FileText className="w-4 h-4" />
+                                    <span>Document {idx + 1}</span>
+                                    <Download className="w-3 h-3 ml-auto" />
+                                  </a>
+                                ))}
+                              </div>
+                            </div>
                           )}
                         </div>
                       </Card>
