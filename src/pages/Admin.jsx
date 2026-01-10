@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,9 +13,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { format } from 'date-fns';
 import { 
   Search, FileText, Users, Clock, CheckCircle, 
-  XCircle, Eye, CreditCard, Loader2, RefreshCw, Download, Image as ImageIcon
+  XCircle, Eye, CreditCard, Loader2, RefreshCw, Download, Image as ImageIcon, ShieldAlert
 } from 'lucide-react';
 import StatusBadge from '@/components/tracking/StatusBadge';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function Admin() {
   const queryClient = useQueryClient();
@@ -28,6 +29,27 @@ export default function Admin() {
   const [rejectionReason, setRejectionReason] = useState('');
   const [modificationNotes, setModificationNotes] = useState('');
   const [securityDeposits, setSecurityDeposits] = useState({});
+  const [currentUser, setCurrentUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [authError, setAuthError] = useState(null);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const user = await base44.auth.me();
+        if (user.role !== 'admin') {
+          setAuthError('unauthorized');
+        } else {
+          setCurrentUser(user);
+        }
+      } catch (error) {
+        setAuthError('not_logged_in');
+      } finally {
+        setAuthLoading(false);
+      }
+    };
+    checkAuth();
+  }, []);
 
   const { data: orders = [], isLoading, refetch } = useQuery({
     queryKey: ['admin-orders'],
@@ -160,6 +182,89 @@ export default function Admin() {
     approved: orders.filter(o => o.status === 'approved' || o.status === 'payment_pending').length,
     paid: orders.filter(o => o.status === 'paid' || o.status === 'processing').length,
   };
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin text-blue-600 mx-auto mb-4" />
+          <p className="text-slate-600">Verifying access...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (authError === 'not_logged_in') {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
+        <Card className="max-w-md w-full">
+          <CardContent className="pt-6">
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
+                <ShieldAlert className="w-8 h-8 text-red-600" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-slate-800">Authentication Required</h2>
+                <p className="text-slate-600 mt-2">
+                  You must be logged in to access the admin dashboard.
+                </p>
+              </div>
+              <Button 
+                onClick={() => base44.auth.redirectToLogin(window.location.href)}
+                className="w-full bg-blue-600 hover:bg-blue-700"
+              >
+                Sign In
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (authError === 'unauthorized') {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
+        <Card className="max-w-md w-full">
+          <CardContent className="pt-6">
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
+                <ShieldAlert className="w-8 h-8 text-red-600" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-slate-800">Access Denied</h2>
+                <p className="text-slate-600 mt-2">
+                  You do not have permission to access the admin dashboard. This area is restricted to administrators only.
+                </p>
+              </div>
+              <Alert variant="destructive" className="text-left">
+                <AlertTitle>Unauthorized Access</AlertTitle>
+                <AlertDescription>
+                  If you believe you should have admin access, please contact the system administrator.
+                </AlertDescription>
+              </Alert>
+              <div className="flex flex-col gap-2">
+                <Button 
+                  onClick={() => window.location.href = '/'}
+                  variant="outline"
+                  className="w-full"
+                >
+                  Return to Home
+                </Button>
+                <Button 
+                  onClick={() => base44.auth.logout()}
+                  variant="ghost"
+                  className="w-full"
+                >
+                  Sign Out
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 p-6">
