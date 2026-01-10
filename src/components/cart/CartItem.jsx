@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Trash2, User, Plane, Shield, AlertCircle } from 'lucide-react';
+import { Trash2, User, Plane, Shield, AlertCircle, CheckCircle2 } from 'lucide-react';
 
 export default function CartItem({ item, index, onRemove, onEdit, isComplete }) {
   const Icon = item.service.category === 'visa' ? Plane : Shield;
@@ -21,6 +21,17 @@ export default function CartItem({ item, index, onRemove, onEdit, isComplete }) 
               <Badge variant="outline" className="text-xs">
                 #{index + 1}
               </Badge>
+              {isComplete ? (
+                <Badge className="bg-green-500 hover:bg-green-600 text-white text-xs">
+                  <CheckCircle2 className="w-3 h-3 mr-1" />
+                  Completed
+                </Badge>
+              ) : (
+                <Badge className="bg-amber-500 hover:bg-amber-600 text-white text-xs">
+                  <AlertCircle className="w-3 h-3 mr-1" />
+                  Incomplete
+                </Badge>
+              )}
             </div>
             
             {item.applicant?.applicant_name ? (
