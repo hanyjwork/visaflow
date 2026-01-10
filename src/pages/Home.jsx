@@ -9,11 +9,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Plane, Shield, ShoppingCart, Search, ArrowRight, 
-  Clock, CheckCircle, Globe, Star, ChevronRight, FileText, 
-  UserCheck, Send, Eye, CreditCard, Package, Award
-} from 'lucide-react';
+import {
+  Plane, Shield, ShoppingCart, Search, ArrowRight,
+  Clock, CheckCircle, Globe, Star, ChevronRight, FileText,
+  UserCheck, Send, Eye, CreditCard, Package, Award } from
+'lucide-react';
 import ServiceCard from '@/components/services/ServiceCard';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
 
@@ -27,26 +27,26 @@ export default function Home() {
 
   const { data: services = [], isLoading } = useQuery({
     queryKey: ['services'],
-    queryFn: () => base44.entities.Service.filter({ is_active: true }),
+    queryFn: () => base44.entities.Service.filter({ is_active: true })
   });
 
   useEffect(() => {
     localStorage.setItem('uae_visa_cart', JSON.stringify(cart));
   }, [cart]);
 
-  const filteredServices = services.filter(service => {
+  const filteredServices = services.filter((service) => {
     const matchesCategory = category === 'all' || service.category === category;
     const matchesSearch = service.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      service.description?.toLowerCase().includes(searchQuery.toLowerCase());
+    service.description?.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
   const addToCart = (service) => {
-    setCart(prev => [...prev, { service, applicant: null }]);
+    setCart((prev) => [...prev, { service, applicant: null }]);
   };
 
-  const visaServices = services.filter(s => s.category === 'visa');
-  const insuranceServices = services.filter(s => s.category === 'insurance');
+  const visaServices = services.filter((s) => s.category === 'visa');
+  const insuranceServices = services.filter((s) => s.category === 'insurance');
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
@@ -56,12 +56,12 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-800/80" />
         
         <div className="relative max-w-7xl mx-auto px-4 py-20 md:py-32">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-2xl"
-          >
+            className="max-w-2xl">
+
             <Badge className="bg-amber-500/20 text-amber-300 border-amber-400/30 mb-6">
               <Star className="w-3 h-3 mr-1" /> Trusted by thousands
             </Badge>
@@ -77,16 +77,16 @@ export default function Home() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold shadow-lg shadow-amber-500/25"
-                onClick={() => document.getElementById('services').scrollIntoView({ behavior: 'smooth' })}
-              >
+                onClick={() => document.getElementById('services').scrollIntoView({ behavior: 'smooth' })}>
+
                 Start Application
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
               <Link to={createPageUrl('Track')}>
-                <Button size="lg" variant="outline" className="border-white/30 text-amber-300 hover:bg-white/10 hover:text-amber-200 w-full">
+                <Button size="lg" variant="outline" className="bg-background text-amber-500 px-8 text-sm font-medium rounded-md inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border shadow-sm h-10 border-white/30 hover:bg-white/10 hover:text-amber-200 w-full">
                   <Search className="w-5 h-5 mr-2" />
                   Track Application
                 </Button>
@@ -95,43 +95,43 @@ export default function Home() {
           </motion.div>
           
           {/* Stats */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6"
-          >
+            className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
+
             {[
-              { value: '50K+', label: 'Visas Processed' },
-              { value: '98%', label: 'Success Rate' },
-              { value: '24-48h', label: 'Processing Time' },
-              { value: '4.9★', label: 'Customer Rating' },
-            ].map((stat, index) => (
-              <div key={index} className="text-center">
+            { value: '50K+', label: 'Visas Processed' },
+            { value: '98%', label: 'Success Rate' },
+            { value: '24-48h', label: 'Processing Time' },
+            { value: '4.9★', label: 'Customer Rating' }].
+            map((stat, index) =>
+            <div key={index} className="text-center">
                 <p className="text-3xl md:text-4xl font-bold text-white">{stat.value}</p>
                 <p className="text-sm text-blue-200 mt-1">{stat.label}</p>
               </div>
-            ))}
+            )}
           </motion.div>
         </div>
         
         {/* Wave */}
         <div className="absolute bottom-0 left-0 right-0">
           <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#f8fafc"/>
+            <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#f8fafc" />
           </svg>
         </div>
       </section>
 
       {/* Cart Banner */}
       <AnimatePresence>
-        {cart.length > 0 && (
-          <motion.div 
-            initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -100, opacity: 0 }}
-            className="sticky top-0 z-40 bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-lg"
-          >
+        {cart.length > 0 &&
+        <motion.div
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -100, opacity: 0 }}
+          className="sticky top-0 z-40 bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-lg">
+
             <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-white/20 rounded-full">
@@ -153,24 +153,24 @@ export default function Home() {
               </Link>
             </div>
           </motion.div>
-        )}
+        }
       </AnimatePresence>
 
       {/* Features */}
       <section className="py-16 max-w-7xl mx-auto px-4">
         <div className="grid md:grid-cols-3 gap-6">
           {[
-            { icon: Clock, title: 'Fast Processing', desc: 'Get your visa in as little as 24 hours' },
-            { icon: CheckCircle, title: '100% Online', desc: 'No embassy visits required' },
-            { icon: Globe, title: 'All Nationalities', desc: 'We process visas for all countries' },
-          ].map((feature, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              viewport={{ once: true }}
-            >
+          { icon: Clock, title: 'Fast Processing', desc: 'Get your visa in as little as 24 hours' },
+          { icon: CheckCircle, title: '100% Online', desc: 'No embassy visits required' },
+          { icon: Globe, title: 'All Nationalities', desc: 'We process visas for all countries' }].
+          map((feature, index) =>
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            viewport={{ once: true }}>
+
               <Card className="border-0 shadow-md hover:shadow-lg transition-shadow bg-white">
                 <CardContent className="p-6 flex items-start gap-4">
                   <div className="p-3 rounded-xl bg-blue-50 text-blue-600">
@@ -183,7 +183,7 @@ export default function Home() {
                 </CardContent>
               </Card>
             </motion.div>
-          ))}
+          )}
         </div>
       </section>
 
@@ -202,42 +202,42 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              {
-                step: '1',
-                icon: Send,
-                title: 'Submit Application',
-                description: 'Browse services, complete the application form, upload required documents, and submit to receive your tracking number',
-                color: 'from-blue-500 to-blue-600'
-              },
-              {
-                step: '2',
-                icon: Eye,
-                title: 'Admin Review',
-                description: 'Our team reviews your application and documents for accuracy',
-                color: 'from-purple-500 to-purple-600'
-              },
-              {
-                step: '3',
-                icon: CreditCard,
-                title: 'Payment',
-                description: 'Once approved, make your payment securely through our platform',
-                color: 'from-amber-500 to-amber-600'
-              },
-              {
-                step: '4',
-                icon: Package,
-                title: 'Processing',
-                description: 'We process your visa with UAE immigration authorities',
-                color: 'from-green-500 to-green-600'
-              },
-              {
-                step: '5',
-                icon: Award,
-                title: 'Receive Visa',
-                description: 'Track your application status and receive your approved visa',
-                color: 'from-pink-500 to-pink-600'
-              },
-            ].map((item, index) => {
+            {
+              step: '1',
+              icon: Send,
+              title: 'Submit Application',
+              description: 'Browse services, complete the application form, upload required documents, and submit to receive your tracking number',
+              color: 'from-blue-500 to-blue-600'
+            },
+            {
+              step: '2',
+              icon: Eye,
+              title: 'Admin Review',
+              description: 'Our team reviews your application and documents for accuracy',
+              color: 'from-purple-500 to-purple-600'
+            },
+            {
+              step: '3',
+              icon: CreditCard,
+              title: 'Payment',
+              description: 'Once approved, make your payment securely through our platform',
+              color: 'from-amber-500 to-amber-600'
+            },
+            {
+              step: '4',
+              icon: Package,
+              title: 'Processing',
+              description: 'We process your visa with UAE immigration authorities',
+              color: 'from-green-500 to-green-600'
+            },
+            {
+              step: '5',
+              icon: Award,
+              title: 'Receive Visa',
+              description: 'Track your application status and receive your approved visa',
+              color: 'from-pink-500 to-pink-600'
+            }].
+            map((item, index) => {
               const Icon = item.icon;
               return (
                 <motion.div
@@ -246,12 +246,12 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1, duration: 0.5 }}
                   viewport={{ once: true }}
-                  className="relative"
-                >
+                  className="relative">
+
                   {/* Connecting line for desktop */}
-                  {index < 4 && (
-                    <div className="hidden lg:block absolute top-12 left-full w-full h-0.5 bg-gradient-to-r from-slate-200 to-transparent -translate-y-1/2 z-0" />
-                  )}
+                  {index < 4 &&
+                  <div className="hidden lg:block absolute top-12 left-full w-full h-0.5 bg-gradient-to-r from-slate-200 to-transparent -translate-y-1/2 z-0" />
+                  }
                   
                   <div className="relative bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-lg transition-all duration-300 group h-full">
                     {/* Step number badge */}
@@ -272,24 +272,24 @@ export default function Home() {
                       {item.description}
                     </p>
                   </div>
-                </motion.div>
-              );
+                </motion.div>);
+
             })}
           </div>
 
           {/* CTA below steps */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-center mt-12"
-          >
-            <Button 
-              size="lg" 
+            className="text-center mt-12">
+
+            <Button
+              size="lg"
               className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg"
-              onClick={() => document.getElementById('services').scrollIntoView({ behavior: 'smooth' })}
-            >
+              onClick={() => document.getElementById('services').scrollIntoView({ behavior: 'smooth' })}>
+
               Get Started Now
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
@@ -334,37 +334,37 @@ export default function Home() {
                 placeholder="Search services..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-white"
-              />
+                className="pl-10 bg-white" />
+
             </div>
           </div>
 
           {/* Services Grid */}
-          {isLoading ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1, 2, 3].map(i => (
-                <div key={i} className="h-72 bg-white rounded-xl animate-pulse" />
-              ))}
-            </div>
-          ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {isLoading ?
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3].map((i) =>
+            <div key={i} className="h-72 bg-white rounded-xl animate-pulse" />
+            )}
+            </div> :
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               <AnimatePresence mode="popLayout">
-                {filteredServices.map((service) => (
-                  <ServiceCard
-                    key={service.id}
-                    service={service}
-                    onAddToCart={addToCart}
-                  />
-                ))}
+                {filteredServices.map((service) =>
+              <ServiceCard
+                key={service.id}
+                service={service}
+                onAddToCart={addToCart} />
+
+              )}
               </AnimatePresence>
             </div>
-          )}
+          }
 
-          {filteredServices.length === 0 && !isLoading && (
-            <div className="text-center py-12">
+          {filteredServices.length === 0 && !isLoading &&
+          <div className="text-center py-12">
               <p className="text-slate-500">No services found. Try adjusting your filters.</p>
             </div>
-          )}
+          }
         </div>
       </section>
 
@@ -378,11 +378,11 @@ export default function Home() {
             Get your visa approved quickly and hassle-free. Our team is here to help you every step of the way.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               className="bg-amber-500 hover:bg-amber-600 text-white"
-              onClick={() => document.getElementById('services').scrollIntoView({ behavior: 'smooth' })}
-            >
+              onClick={() => document.getElementById('services').scrollIntoView({ behavior: 'smooth' })}>
+
               Apply Now
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
@@ -396,6 +396,6 @@ export default function Home() {
       </section>
 
       <WhatsAppButton />
-    </div>
-  );
+    </div>);
+
 }
