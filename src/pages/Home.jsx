@@ -34,12 +34,27 @@ export default function Home() {
     localStorage.setItem('uae_visa_cart', JSON.stringify(cart));
   }, [cart]);
 
-  const filteredServices = services.filter((service) => {
-    const matchesCategory = category === 'all' || service.category === category;
-    const matchesSearch = service.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    service.description?.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const filteredServices = services
+    .filter((service) => {
+      const matchesCategory = category === 'all' || service.category === category;
+      const matchesSearch = service.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      service.description?.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    })
+    .sort((a, b) => {
+      // Define category order
+      const categoryOrder = { visa: 1, express_visa: 2, insurance: 3 };
+      const categoryA = categoryOrder[a.category] || 999;
+      const categoryB = categoryOrder[b.category] || 999;
+      
+      // First sort by category
+      if (categoryA !== categoryB) {
+        return categoryA - categoryB;
+      }
+      
+      // Within same category, sort by price ascending
+      return a.price - b.price;
+    });
 
   const addToCart = (service) => {
     setCart((prev) => [...prev, { service, applicant: null }]);
