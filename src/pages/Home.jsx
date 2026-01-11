@@ -321,6 +321,10 @@ export default function Home() {
                   <Plane className="w-4 h-4 mr-2" />
                   Visas
                 </TabsTrigger>
+                <TabsTrigger value="express_visa" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+                  <Plane className="w-4 h-4 mr-2" />
+                  Express Visas
+                </TabsTrigger>
                 <TabsTrigger value="insurance" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
                   <Shield className="w-4 h-4 mr-2" />
                   Insurance
