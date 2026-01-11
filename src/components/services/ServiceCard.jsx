@@ -23,17 +23,19 @@ export default function ServiceCard({ service, onAddToCart }) {
     >
       <Card className="h-full bg-white border-0 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden relative">
         <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-amber-100 to-amber-50 rounded-bl-full opacity-50" />
-        {service.category === 'express_visa' && (
-          <div className="absolute top-2 right-2 z-10 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-2 py-1 rounded-full flex items-center gap-1 shadow-md">
-            <Zap className="w-3 h-3 fill-white" />
-            <span className="text-[10px] font-bold uppercase tracking-wide">Express</span>
-          </div>
-        )}
         
         <CardHeader className="pb-2">
           <div className="flex items-start justify-between">
-            <div className="p-3 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-lg">
-              <Icon className="w-6 h-6" />
+            <div className="flex items-center gap-2">
+              <div className="p-3 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-lg">
+                <Icon className="w-6 h-6" />
+              </div>
+              {service.category === 'express_visa' && (
+                <div className="bg-gradient-to-r from-amber-500 to-amber-600 text-white px-2 py-1 rounded-full flex items-center gap-1 shadow-md">
+                  <Zap className="w-3 h-3 fill-white" />
+                  <span className="text-[10px] font-bold uppercase tracking-wide">Express</span>
+                </div>
+              )}
             </div>
             <Badge 
               variant="secondary" 
