@@ -329,21 +329,21 @@ export default function Home() {
           <div className="flex flex-col md:flex-row gap-4 mb-8 items-center justify-between">
             <Tabs value={category} onValueChange={setCategory}>
               <TabsList className="bg-white shadow-sm">
-                <TabsTrigger value="all" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-                  <Package className="w-4 h-4 mr-2" />
-                  All Services
+                <TabsTrigger value="all" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex-col gap-1 h-auto py-2">
+                  <Package className="w-5 h-5" />
+                  <span className="text-xs">All Services</span>
                 </TabsTrigger>
-                <TabsTrigger value="visa" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-                  <Plane className="w-4 h-4 mr-2" />
-                  Visas
+                <TabsTrigger value="visa" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex-col gap-1 h-auto py-2">
+                  <Plane className="w-5 h-5" />
+                  <span className="text-xs">Visas</span>
                 </TabsTrigger>
-                <TabsTrigger value="express_visa" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-                  <Plane className="w-4 h-4 mr-2" />
-                  Express Visas
+                <TabsTrigger value="express_visa" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex-col gap-1 h-auto py-2">
+                  <Plane className="w-5 h-5" />
+                  <span className="text-xs">Express Visas</span>
                 </TabsTrigger>
-                <TabsTrigger value="insurance" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-                  <Shield className="w-4 h-4 mr-2" />
-                  Insurance
+                <TabsTrigger value="insurance" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex-col gap-1 h-auto py-2">
+                  <Shield className="w-5 h-5" />
+                  <span className="text-xs">Insurance</span>
                 </TabsTrigger>
               </TabsList>
             </Tabs>
