@@ -41,6 +41,13 @@ export default function Home() {
     return matchesCategory && matchesSearch;
   });
 
+  const categoryOrder = { visa: 1, express_visa: 2, insurance: 3 };
+  const sortedServices = [...filteredServices].sort((a, b) => {
+    const categoryDiff = (categoryOrder[a.category] || 999) - (categoryOrder[b.category] || 999);
+    if (categoryDiff !== 0) return categoryDiff;
+    return a.price - b.price;
+  });
+
   const addToCart = (service) => {
     setCart((prev) => [...prev, { service, applicant: null }]);
   };
@@ -352,19 +359,19 @@ export default function Home() {
             </div> :
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <AnimatePresence mode="popLayout">
-                {filteredServices.map((service) =>
-              <ServiceCard
-                key={service.id}
-                service={service}
-                onAddToCart={addToCart} />
+            <AnimatePresence mode="popLayout">
+              {sortedServices.map((service) =>
+            <ServiceCard
+              key={service.id}
+              service={service}
+              onAddToCart={addToCart} />
 
-              )}
-              </AnimatePresence>
-            </div>
+            )}
+            </AnimatePresence>
+          </div>
           }
 
-          {filteredServices.length === 0 && !isLoading &&
+          {sortedServices.length === 0 && !isLoading &&
           <div className="text-center py-12">
               <p className="text-slate-500">No services found. Try adjusting your filters.</p>
             </div>
