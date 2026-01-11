@@ -330,6 +330,7 @@ export default function Home() {
             <Tabs value={category} onValueChange={setCategory}>
               <TabsList className="bg-white shadow-sm">
                 <TabsTrigger value="all" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+                  <Package className="w-4 h-4 mr-2" />
                   All Services
                 </TabsTrigger>
                 <TabsTrigger value="visa" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
