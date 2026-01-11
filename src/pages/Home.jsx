@@ -320,21 +320,33 @@ export default function Home() {
           {/* Filters */}
           <div className="flex flex-col md:flex-row gap-4 mb-8 items-center justify-between">
             <Tabs value={category} onValueChange={setCategory}>
-              <TabsList className="bg-white shadow-sm">
-                <TabsTrigger value="all" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-                  All Services
+              <TabsList className="bg-white shadow-sm grid grid-cols-2 sm:grid-cols-4 w-full h-auto gap-2 p-2">
+                <TabsTrigger 
+                  value="all" 
+                  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex flex-col items-center gap-1 py-3 text-xs sm:text-sm"
+                >
+                  <span>All Services</span>
                 </TabsTrigger>
-                <TabsTrigger value="visa" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-                  <Plane className="w-4 h-4 mr-2" />
-                  Visas
+                <TabsTrigger 
+                  value="visa" 
+                  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex flex-col items-center gap-1 py-3 text-xs sm:text-sm"
+                >
+                  <Plane className="w-4 h-4" />
+                  <span>Visas</span>
                 </TabsTrigger>
-                <TabsTrigger value="express_visa" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-                  <Plane className="w-4 h-4 mr-2" />
-                  Express Visas
+                <TabsTrigger 
+                  value="express_visa" 
+                  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex flex-col items-center gap-1 py-3 text-xs sm:text-sm"
+                >
+                  <Plane className="w-4 h-4" />
+                  <span>Express Visas</span>
                 </TabsTrigger>
-                <TabsTrigger value="insurance" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-                  <Shield className="w-4 h-4 mr-2" />
-                  Insurance
+                <TabsTrigger 
+                  value="insurance" 
+                  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex flex-col items-center gap-1 py-3 text-xs sm:text-sm"
+                >
+                  <Shield className="w-4 h-4" />
+                  <span>Insurance</span>
                 </TabsTrigger>
               </TabsList>
             </Tabs>
