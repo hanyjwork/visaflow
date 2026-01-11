@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 
 const iconMap = {
   visa: Plane,
+  express_visa: Plane,
   insurance: Shield,
 };
 
@@ -30,9 +31,15 @@ export default function ServiceCard({ service, onAddToCart }) {
             </div>
             <Badge 
               variant="secondary" 
-              className={`${service.category === 'visa' ? 'bg-blue-100 text-blue-700' : 'bg-emerald-100 text-emerald-700'}`}
+              className={`${
+                service.category === 'visa' ? 'bg-blue-100 text-blue-700' : 
+                service.category === 'express_visa' ? 'bg-amber-100 text-amber-700' : 
+                'bg-emerald-100 text-emerald-700'
+              }`}
             >
-              {service.category === 'visa' ? 'Visa' : 'Insurance'}
+              {service.category === 'visa' ? 'Visa' : 
+               service.category === 'express_visa' ? 'Express Visa' : 
+               'Insurance'}
             </Badge>
           </div>
           <h3 className="text-lg font-semibold text-slate-800 mt-4">{service.name}</h3>
