@@ -31,7 +31,7 @@ export default function Layout({ children, currentPageName }) {
                 <Plane className={`w-5 h-5 ${isHome ? 'text-white' : 'text-white'}`} />
               </div>
               <span className={`font-bold text-xl ${isHome ? 'text-white' : 'text-slate-800'}`}>
-                UAE Visa
+                Visa Flow UAE
               </span>
             </Link>
 
