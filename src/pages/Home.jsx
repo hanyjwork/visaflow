@@ -12,7 +12,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Plane, Shield, ShoppingCart, Search, ArrowRight,
   Clock, CheckCircle, Globe, Star, ChevronRight, FileText,
-  UserCheck, Send, Eye, CreditCard, Package, Award } from
+  UserCheck, Send, Eye, CreditCard, Package, Award, LogOut } from
 'lucide-react';
 import ServiceCard from '@/components/services/ServiceCard';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
@@ -24,11 +24,32 @@ export default function Home() {
   });
   const [category, setCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [knownCustomer, setKnownCustomer] = useState(null);
 
   const { data: services = [], isLoading } = useQuery({
     queryKey: ['services'],
     queryFn: () => base44.entities.Service.filter({ is_active: true })
   });
+
+  useEffect(() => {
+    checkKnownCustomer();
+  }, []);
+
+  const checkKnownCustomer = async () => {
+    try {
+      const authenticated = await base44.auth.isAuthenticated();
+      if (authenticated) {
+        const user = await base44.auth.me();
+        setKnownCustomer(user);
+      }
+    } catch (error) {
+      setKnownCustomer(null);
+    }
+  };
+
+  const handleLogout = () => {
+    base44.auth.logout();
+  };
 
   useEffect(() => {
     localStorage.setItem('uae_visa_cart', JSON.stringify(cart));
@@ -65,6 +86,34 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      {/* Known Customer Banner */}
+      {knownCustomer && (
+        <motion.div
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 shadow-lg">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-white/20 rounded-full">
+                <Shield className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold">Known Customer</p>
+                <p className="text-xs text-blue-100">{knownCustomer.email}</p>
+              </div>
+            </div>
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              size="sm"
+              className="bg-white/10 border-white/30 text-white hover:bg-white/20">
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
+        </motion.div>
+      )}
+
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1920')] bg-cover bg-center opacity-20" />
