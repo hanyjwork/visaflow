@@ -2,9 +2,10 @@ import Admin from './pages/Admin';
 import Cart from './pages/Cart';
 import Confirmation from './pages/Confirmation';
 import EditApplication from './pages/EditApplication';
+import Home from './pages/Home';
 import Terms from './pages/Terms';
 import Track from './pages/Track';
-import Home from './pages/Home';
+import KnownCustomerLogin from './pages/KnownCustomerLogin';
 import __Layout from './Layout.jsx';
 
 
@@ -13,9 +14,10 @@ export const PAGES = {
     "Cart": Cart,
     "Confirmation": Confirmation,
     "EditApplication": EditApplication,
+    "Home": Home,
     "Terms": Terms,
     "Track": Track,
-    "Home": Home,
+    "KnownCustomerLogin": KnownCustomerLogin,
 }
 
 export const pagesConfig = {
