@@ -51,14 +51,17 @@ export default function Cart() {
       const authenticated = await base44.auth.isAuthenticated();
       if (authenticated) {
         const user = await base44.auth.me();
-        setIsKnownCustomer(true);
-        setKnownCustomerEmail(user.email);
-        // Pre-fill customer info if known customer
-        setCustomerInfo(prev => ({
-          ...prev,
-          customer_email: user.email,
-          customer_name: user.full_name || prev.customer_name,
-        }));
+        // Only set as known customer if user has customer_type = 'known_customer'
+        if (user.customer_type === 'known_customer') {
+          setIsKnownCustomer(true);
+          setKnownCustomerEmail(user.email);
+          // Pre-fill customer info if known customer
+          setCustomerInfo(prev => ({
+            ...prev,
+            customer_email: user.email,
+            customer_name: user.full_name || prev.customer_name,
+          }));
+        }
       }
     } catch (error) {
       console.error('Error checking authentication:', error);
