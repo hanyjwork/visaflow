@@ -84,10 +84,6 @@ export default function Admin() {
       deposits[app.id] = app.security_deposit || 0;
     });
     setSecurityDeposits(deposits);
-    
-    // Check if any application is from a known customer
-    const hasKnownCustomer = apps.some(app => app.is_known_customer);
-    setSelectedOrder({ ...order, has_known_customer: hasKnownCustomer });
   };
 
   const handleApprove = async () => {
@@ -385,7 +381,7 @@ export default function Admin() {
                           <StatusBadge status={order.status} />
                         </TableCell>
                         <TableCell>
-                          {applications.length > 0 && applications.some(app => app.is_known_customer) ? (
+                          {order.is_known_customer ? (
                             <Badge className="bg-blue-100 text-blue-700 border-blue-300">
                               <Shield className="w-3 h-3 mr-1" />
                               Known Customer
@@ -475,14 +471,17 @@ export default function Admin() {
             </DialogHeader>
             {selectedOrder && (
               <div className="space-y-6">
-                {selectedOrder.has_known_customer && (
+                {selectedOrder.is_known_customer && (
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-center gap-3">
                     <div className="p-2 bg-blue-100 rounded-lg">
                       <Shield className="w-5 h-5 text-blue-600" />
                     </div>
                     <div>
-                      <p className="font-semibold text-blue-900">Known Customer Application</p>
-                      <p className="text-sm text-blue-700">This application was submitted by an authenticated known customer</p>
+                      <p className="font-semibold text-blue-900">Known Customer Order</p>
+                      <p className="text-sm text-blue-700">This order was submitted by an authenticated known customer</p>
+                      {selectedOrder.customer_user_email && (
+                        <p className="text-xs text-blue-600 mt-1">Account: {selectedOrder.customer_user_email}</p>
+                      )}
                     </div>
                   </div>
                 )}

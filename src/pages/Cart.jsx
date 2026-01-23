@@ -113,6 +113,8 @@ export default function Cart() {
       status: 'pending_review',
       terms_accepted: true,
       terms_accepted_date: new Date().toISOString(),
+      is_known_customer: isKnownCustomer,
+      customer_user_email: knownCustomerEmail || undefined,
     });
 
     // Create applications
