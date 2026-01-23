@@ -88,30 +88,17 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       {/* Known Customer Banner */}
       {knownCustomer && (
-        <motion.div
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 shadow-lg">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-white/20 rounded-full">
-                <Shield className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold">Known Customer</p>
-                <p className="text-xs text-blue-100">{knownCustomer.email}</p>
-              </div>
+        <div className="bg-blue-600 text-white py-2 px-4">
+          <div className="max-w-7xl mx-auto flex items-center justify-between text-sm">
+            <div className="flex items-center gap-2">
+              <Shield className="w-4 h-4" />
+              <span>{knownCustomer.email}</span>
             </div>
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              size="sm"
-              className="bg-white/10 border-white/30 text-white hover:bg-white/20">
-              <LogOut className="w-4 h-4 mr-2" />
+            <button onClick={handleLogout} className="text-blue-100 hover:text-white underline text-xs">
               Logout
-            </Button>
+            </button>
           </div>
-        </motion.div>
+        </div>
       )}
 
       {/* Hero Section */}
