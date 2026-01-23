@@ -13,7 +13,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { format } from 'date-fns';
 import { 
   Search, FileText, Users, Clock, CheckCircle, 
-  XCircle, Eye, CreditCard, Loader2, RefreshCw, Download, Image as ImageIcon, ShieldAlert
+  XCircle, Eye, CreditCard, Loader2, RefreshCw, Download, Image as ImageIcon, ShieldAlert, Shield
 } from 'lucide-react';
 import StatusBadge from '@/components/tracking/StatusBadge';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -84,6 +84,10 @@ export default function Admin() {
       deposits[app.id] = app.security_deposit || 0;
     });
     setSecurityDeposits(deposits);
+    
+    // Check if any application is from a known customer
+    const hasKnownCustomer = apps.some(app => app.is_known_customer);
+    setSelectedOrder({ ...order, has_known_customer: hasKnownCustomer });
   };
 
   const handleApprove = async () => {
@@ -355,6 +359,7 @@ export default function Admin() {
                       <TableHead>Date</TableHead>
                       <TableHead>Amount</TableHead>
                       <TableHead>Status</TableHead>
+                      <TableHead>Type</TableHead>
                       <TableHead>Actions</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -378,6 +383,18 @@ export default function Admin() {
                         </TableCell>
                         <TableCell>
                           <StatusBadge status={order.status} />
+                        </TableCell>
+                        <TableCell>
+                          {applications.length > 0 && applications.some(app => app.is_known_customer) ? (
+                            <Badge className="bg-blue-100 text-blue-700 border-blue-300">
+                              <Shield className="w-3 h-3 mr-1" />
+                              Known Customer
+                            </Badge>
+                          ) : (
+                            <Badge variant="outline" className="text-slate-500">
+                              Regular
+                            </Badge>
+                          )}
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
@@ -458,6 +475,17 @@ export default function Admin() {
             </DialogHeader>
             {selectedOrder && (
               <div className="space-y-6">
+                {selectedOrder.has_known_customer && (
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-center gap-3">
+                    <div className="p-2 bg-blue-100 rounded-lg">
+                      <Shield className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-blue-900">Known Customer Application</p>
+                      <p className="text-sm text-blue-700">This application was submitted by an authenticated known customer</p>
+                    </div>
+                  </div>
+                )}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm text-slate-500">Customer</p>
@@ -482,6 +510,12 @@ export default function Admin() {
                   <div className="space-y-3">
                     {applications.map((app) => (
                       <Card key={app.id} className="p-4">
+                        {app.is_known_customer && (
+                          <div className="mb-3 flex items-center gap-2 text-sm text-blue-700 bg-blue-50 px-3 py-1.5 rounded-md border border-blue-200 w-fit">
+                            <Shield className="w-4 h-4" />
+                            <span className="font-medium">Known Customer</span>
+                          </div>
+                        )}
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <p className="text-sm text-slate-500">Name</p>
