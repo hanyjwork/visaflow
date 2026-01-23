@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Shield, ArrowRight, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -11,6 +13,9 @@ export default function KnownCustomerLogin() {
   const navigate = useNavigate();
   const [checking, setChecking] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loggingIn, setLoggingIn] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -22,9 +27,9 @@ export default function KnownCustomerLogin() {
       setIsAuthenticated(authenticated);
       
       if (authenticated) {
-        // Already logged in, redirect to cart
+        // Already logged in, redirect to home
         setTimeout(() => {
-          navigate(createPageUrl('Cart'));
+          navigate(createPageUrl('Home'));
         }, 1500);
       }
     } catch (error) {
@@ -34,9 +39,11 @@ export default function KnownCustomerLogin() {
     }
   };
 
-  const handleLogin = () => {
-    // Redirect to Base44 login with return URL to cart
-    base44.auth.redirectToLogin(window.location.origin + createPageUrl('Cart'));
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setLoggingIn(true);
+    // Redirect to Base44 login with return URL to home
+    base44.auth.redirectToLogin(window.location.origin + createPageUrl('Home'));
   };
 
   if (checking) {
@@ -96,36 +103,52 @@ export default function KnownCustomerLogin() {
           </CardHeader>
           
           <CardContent className="space-y-6">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h3 className="font-semibold text-blue-900 mb-2">Benefits of Known Customer Status:</h3>
-              <ul className="space-y-2 text-sm text-blue-800">
-                <li className="flex items-start gap-2">
-                  <span className="text-blue-600 mt-0.5">✓</span>
-                  <span>Priority processing for all applications</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-blue-600 mt-0.5">✓</span>
-                  <span>Streamlined approval workflow</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-blue-600 mt-0.5">✓</span>
-                  <span>Dedicated support from our team</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-blue-600 mt-0.5">✓</span>
-                  <span>Access to application history</span>
-                </li>
-              </ul>
-            </div>
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="username">Username / Email</Label>
+                <Input
+                  id="username"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Enter your username or email"
+                  required
+                  className="bg-white"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  required
+                  className="bg-white"
+                />
+              </div>
 
-            <Button 
-              onClick={handleLogin}
-              size="lg"
-              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold shadow-lg"
-            >
-              Sign In as Known Customer
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
+              <Button 
+                type="submit"
+                size="lg"
+                disabled={loggingIn}
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold shadow-lg"
+              >
+                {loggingIn ? (
+                  <>
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    Signing In...
+                  </>
+                ) : (
+                  <>
+                    Sign In
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </>
+                )}
+              </Button>
+            </form>
 
             <div className="text-center">
               <p className="text-sm text-slate-500 mb-3">Not a known customer yet?</p>
