@@ -327,7 +327,7 @@ export default function Cart() {
                     ) : (
                       <>
                         <Check className="w-5 h-5 mr-2" />
-                        Submit Application
+                        Submit Application - No payment now
                       </>
                     )}
                   </Button>
