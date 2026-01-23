@@ -89,7 +89,7 @@ export default function Home() {
       {/* Known Customer Banner */}
       {knownCustomer && (
         <div className="bg-blue-600 text-white py-2 px-4">
-          <div className="max-w-7xl mx-auto flex items-center justify-between text-sm">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-2 text-sm">
             <div className="flex items-center gap-2">
               <Shield className="w-4 h-4" />
               <span>{knownCustomer.email}</span>
