@@ -108,7 +108,7 @@ export default function Layout({ children, currentPageName }) {
                   <div className="p-2 rounded-lg bg-blue-600">
                     <Plane className="w-5 h-5 text-white" />
                   </div>
-                  <span className="font-bold text-xl">UAE Visa</span>
+                  <span className="font-bold text-xl">Visa Flow UAE</span>
                 </div>
                 <p className="text-slate-400 text-sm">
                   Your trusted partner for UAE visa services.
