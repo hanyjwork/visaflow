@@ -23,6 +23,8 @@ export default function Cart() {
     const saved = localStorage.getItem('uae_visa_cart');
     return saved ? JSON.parse(saved) : [];
   });
+  const [isKnownCustomer, setIsKnownCustomer] = useState(false);
+  const [knownCustomerEmail, setKnownCustomerEmail] = useState(null);
   
   const [customerInfo, setCustomerInfo] = useState({
     customer_name: '',
@@ -41,7 +43,27 @@ export default function Cart() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    checkKnownCustomerStatus();
   }, []);
+
+  const checkKnownCustomerStatus = async () => {
+    try {
+      const authenticated = await base44.auth.isAuthenticated();
+      if (authenticated) {
+        const user = await base44.auth.me();
+        setIsKnownCustomer(true);
+        setKnownCustomerEmail(user.email);
+        // Pre-fill customer info if known customer
+        setCustomerInfo(prev => ({
+          ...prev,
+          customer_email: user.email,
+          customer_name: user.full_name || prev.customer_name,
+        }));
+      }
+    } catch (error) {
+      console.error('Error checking authentication:', error);
+    }
+  };
 
   const removeItem = (index) => {
     setCart(prev => prev.filter((_, i) => i !== index));
@@ -102,6 +124,8 @@ export default function Cart() {
         service_price: item.service.price,
         ...item.applicant,
         status: 'pending',
+        is_known_customer: isKnownCustomer,
+        customer_user_email: knownCustomerEmail || undefined,
       });
     }
 
@@ -145,8 +169,18 @@ export default function Cart() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Services
           </Link>
-          <h1 className="text-3xl font-bold text-slate-800">Your Cart</h1>
-          <p className="text-slate-500 mt-1">{cart.length} item{cart.length > 1 ? 's' : ''} in your application</p>
+          <div className="flex items-start justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-slate-800">Your Cart</h1>
+              <p className="text-slate-500 mt-1">{cart.length} item{cart.length > 1 ? 's' : ''} in your application</p>
+            </div>
+            {isKnownCustomer && (
+              <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2 rounded-lg shadow-md flex items-center gap-2">
+                <Check className="w-4 h-4" />
+                <span className="text-sm font-semibold">Known Customer</span>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
