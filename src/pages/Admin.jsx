@@ -29,6 +29,8 @@ export default function Admin() {
   const [rejectionReason, setRejectionReason] = useState('');
   const [modificationNotes, setModificationNotes] = useState('');
   const [securityDeposits, setSecurityDeposits] = useState({});
+  const [paymentLink, setPaymentLink] = useState('');
+  const [uploadingVisa, setUploadingVisa] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
@@ -87,6 +89,11 @@ export default function Admin() {
   };
 
   const handleApprove = async () => {
+    if (!paymentLink) {
+      alert('Please provide a payment link');
+      return;
+    }
+
     // Update applications with security deposits
     const apps = await base44.entities.Application.filter({ order_id: actionDialog.order.id });
     for (const app of apps) {
@@ -102,13 +109,19 @@ export default function Admin() {
     await updateOrderMutation.mutateAsync({
       id: actionDialog.order.id,
       data: { 
-        status: 'approved', 
+        status: 'payment_pending', 
         admin_notes: adminNotes,
-        total_amount: newTotal
+        total_amount: newTotal,
+        payment_link: paymentLink
       }
+    });
+    await updateApplicationsMutation.mutateAsync({
+      orderId: actionDialog.order.id,
+      status: 'approved'
     });
     setAdminNotes('');
     setSecurityDeposits({});
+    setPaymentLink('');
   };
 
   const handleReject = async () => {
@@ -154,6 +167,30 @@ export default function Admin() {
       orderId: order.id,
       status: 'processing'
     });
+  };
+
+  const handleVisaUpload = async (order, file) => {
+    setUploadingVisa(true);
+    try {
+      const { file_url } = await base44.integrations.Core.UploadFile({ file });
+      
+      await updateOrderMutation.mutateAsync({
+        id: order.id,
+        data: { 
+          visa_document_url: file_url,
+          status: 'completed'
+        }
+      });
+
+      await updateApplicationsMutation.mutateAsync({
+        orderId: order.id,
+        status: 'completed'
+      });
+    } catch (error) {
+      alert('Failed to upload visa document');
+    } finally {
+      setUploadingVisa(false);
+    }
   };
 
   const handleMarkCompleted = async (order) => {
@@ -443,14 +480,34 @@ export default function Admin() {
                             )}
 
                             {order.status === 'processing' && (
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="text-green-600"
-                                onClick={() => handleMarkCompleted(order)}
-                              >
-                                Mark Complete
-                              </Button>
+                              <label className="cursor-pointer">
+                                <input
+                                  type="file"
+                                  accept=".pdf"
+                                  className="hidden"
+                                  onChange={(e) => e.target.files?.[0] && handleVisaUpload(order, e.target.files[0])}
+                                  disabled={uploadingVisa}
+                                />
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="text-green-600"
+                                  disabled={uploadingVisa}
+                                  asChild
+                                >
+                                  <span>
+                                    {uploadingVisa ? (
+                                      <>
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                      </>
+                                    ) : (
+                                      <>
+                                        <Upload className="w-4 h-4" />
+                                      </>
+                                    )}
+                                  </span>
+                                </Button>
+                              </label>
                             )}
                           </div>
                         </TableCell>
@@ -503,6 +560,36 @@ export default function Admin() {
                     <StatusBadge status={selectedOrder.status} />
                   </div>
                 </div>
+
+                {selectedOrder.payment_link && (
+                  <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                    <p className="text-sm text-slate-500 mb-1">Payment Link:</p>
+                    <a 
+                      href={selectedOrder.payment_link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline text-sm flex items-center gap-2"
+                    >
+                      <span className="truncate">{selectedOrder.payment_link}</span>
+                      <ExternalLink className="w-4 h-4 flex-shrink-0" />
+                    </a>
+                  </div>
+                )}
+
+                {selectedOrder.visa_document_url && (
+                  <div className="p-3 bg-green-50 rounded-lg border border-green-200">
+                    <p className="text-sm text-slate-500 mb-1">Visa Document:</p>
+                    <a 
+                      href={selectedOrder.visa_document_url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-green-600 hover:underline text-sm flex items-center gap-2"
+                    >
+                      <Download className="w-4 h-4" />
+                      Download PDF
+                    </a>
+                  </div>
+                )}
 
                 <div>
                   <h4 className="font-medium mb-3">Applicants ({applications.length})</h4>
@@ -624,6 +711,18 @@ export default function Admin() {
               </DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
+              {actionDialog.type === 'approve' && (
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Payment Link *</label>
+                  <Input
+                    type="url"
+                    value={paymentLink}
+                    onChange={(e) => setPaymentLink(e.target.value)}
+                    placeholder="https://payment-gateway.com/..."
+                  />
+                  <p className="text-xs text-slate-500">Enter the secure payment link for the customer</p>
+                </div>
+              )}
               {actionDialog.type === 'approve' && applications.length > 0 && (
                 <div className="space-y-3">
                   <label className="text-sm font-medium">Security Deposits (Optional)</label>
