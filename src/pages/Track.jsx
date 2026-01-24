@@ -292,7 +292,8 @@ export default function Track() {
                       <p className="text-orange-700 mb-4">{order.modification_notes}</p>
                       <Button 
                         onClick={() => window.location.href = createPageUrl('EditApplication') + `?tracking=${order.tracking_number}`}
-                        className="bg-orange-600 hover:bg-orange-700"
+                        className="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white shadow-lg"
+                        size="lg"
                       >
                         Edit Application
                       </Button>

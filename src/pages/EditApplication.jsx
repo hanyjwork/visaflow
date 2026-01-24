@@ -20,6 +20,7 @@ export default function EditApplication() {
   const [error, setError] = useState('');
   const [editingIndex, setEditingIndex] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [hasEditedAny, setHasEditedAny] = useState(false);
 
   useEffect(() => {
     loadOrderAndApplications();
@@ -53,6 +54,7 @@ export default function EditApplication() {
     // Reload applications
     const apps = await base44.entities.Application.filter({ order_id: order.id });
     setApplications(apps);
+    setHasEditedAny(true);
   };
 
   const handleSubmit = async () => {
@@ -155,8 +157,8 @@ export default function EditApplication() {
                   <p className="text-sm text-slate-500">{app.service_name}</p>
                 </div>
                 <Button
-                  variant="outline"
                   onClick={() => setEditingIndex(index)}
+                  className="bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white"
                 >
                   Edit Details
                 </Button>
@@ -166,34 +168,73 @@ export default function EditApplication() {
         </Card>
 
         {/* Submit Button */}
-        <Card className="border-0 shadow-lg">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-medium text-slate-800">Ready to resubmit?</p>
-                <p className="text-sm text-slate-500">Make sure all details are correct before submitting</p>
+        {hasEditedAny && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-blue-100 shadow-xl">
+              <CardContent className="p-6">
+                <div className="text-center space-y-4">
+                  <div>
+                    <p className="font-semibold text-lg text-blue-900">Ready to resubmit?</p>
+                    <p className="text-sm text-blue-700">Make sure all details are correct before submitting</p>
+                  </div>
+                  <Button
+                    onClick={handleSubmit}
+                    disabled={submitting}
+                    className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg"
+                    size="lg"
+                  >
+                    {submitting ? (
+                      <>
+                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                        Submitting...
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle className="w-5 h-5 mr-2" />
+                        Resubmit Application
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+        
+        {!hasEditedAny && (
+          <Card className="border-0 shadow-lg">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium text-slate-800">Ready to resubmit?</p>
+                  <p className="text-sm text-slate-500">Make sure all details are correct before submitting</p>
+                </div>
+                <Button
+                  onClick={handleSubmit}
+                  disabled={submitting}
+                  variant="outline"
+                  className="border-slate-300 text-slate-600"
+                  size="lg"
+                >
+                  {submitting ? (
+                    <>
+                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle className="w-5 h-5 mr-2" />
+                      Resubmit Application
+                    </>
+                  )}
+                </Button>
               </div>
-              <Button
-                onClick={handleSubmit}
-                disabled={submitting}
-                className="bg-blue-600 hover:bg-blue-700"
-                size="lg"
-              >
-                {submitting ? (
-                  <>
-                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                    Submitting...
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle className="w-5 h-5 mr-2" />
-                    Resubmit Application
-                  </>
-                )}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        )}
       </div>
 
       {/* Applicant Form Modal */}
