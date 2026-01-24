@@ -54,10 +54,12 @@ export default function OrderTracker({ currentStatus }) {
                       relative z-10 w-10 h-10 rounded-full flex items-center justify-center
                       transition-all duration-300
                       ${isCompleted 
-                        ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg' 
+                        ? step.key === 'processing' 
+                          ? 'bg-gradient-to-br from-cyan-500 to-cyan-600 text-white shadow-lg' 
+                          : 'bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg' 
                         : 'bg-slate-100 text-slate-400'
                       }
-                      ${isCurrent ? 'ring-4 ring-blue-100' : ''}
+                      ${isCurrent ? step.key === 'processing' ? 'ring-4 ring-cyan-100' : 'ring-4 ring-blue-100' : ''}
                     `}
                   >
                     {isCompleted ? (
