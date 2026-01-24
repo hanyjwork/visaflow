@@ -25,6 +25,7 @@ export default function Track() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [searched, setSearched] = useState(false);
+  const [paymentLinkClicked, setPaymentLinkClicked] = useState(false);
 
   useEffect(() => {
     if (initialTracking) {
@@ -190,7 +191,13 @@ export default function Track() {
                         Please complete the payment to proceed with visa processing
                       </p>
                       <div className="space-y-3">
-                        <a href={order.payment_link} target="_blank" rel="noopener noreferrer" className="block">
+                        <a 
+                          href={order.payment_link} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="block"
+                          onClick={() => setPaymentLinkClicked(true)}
+                        >
                           <Button 
                             className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700"
                           >
@@ -198,23 +205,27 @@ export default function Track() {
                             Pay Now - AED {order.total_amount?.toFixed(2)}
                           </Button>
                         </a>
-                        <div className="relative">
-                          <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-amber-300"></div>
-                          </div>
-                          <div className="relative flex justify-center text-xs">
-                            <span className="bg-amber-50 px-2 text-amber-600">After payment</span>
-                          </div>
-                        </div>
-                        <Button 
-                          onClick={handleConfirmPayment}
-                          disabled={loading}
-                          variant="outline"
-                          className="w-full border-amber-500 text-amber-700 hover:bg-amber-100"
-                        >
-                          {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <CheckCircle className="w-5 h-5 mr-2" />}
-                          I Have Completed Payment
-                        </Button>
+                        {paymentLinkClicked && (
+                          <>
+                            <div className="relative">
+                              <div className="absolute inset-0 flex items-center">
+                                <div className="w-full border-t border-amber-300"></div>
+                              </div>
+                              <div className="relative flex justify-center text-xs">
+                                <span className="bg-amber-50 px-2 text-amber-600">After payment</span>
+                              </div>
+                            </div>
+                            <Button 
+                              onClick={handleConfirmPayment}
+                              disabled={loading}
+                              variant="outline"
+                              className="w-full border-amber-500 text-amber-700 hover:bg-amber-100"
+                            >
+                              {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <CheckCircle className="w-5 h-5 mr-2" />}
+                              I Have Completed Payment
+                            </Button>
+                          </>
+                        )}
                       </div>
                     </div>
                   )}
