@@ -235,7 +235,7 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                   <input
                     type="file"
                     className="hidden"
-                    accept="image/*,.pdf"
+                    accept="image/*,application/pdf"
                     onChange={(e) => handleFileUpload(e.target.files[0], 'passportFront')}
                   />
                 </label>
@@ -274,7 +274,7 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                   <input
                     type="file"
                     className="hidden"
-                    accept="image/*,.pdf"
+                    accept="image/*,application/pdf"
                     onChange={(e) => handleFileUpload(e.target.files[0], 'passportCover')}
                   />
                 </label>
@@ -338,7 +338,7 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                   <input
                     type="file"
                     className="hidden"
-                    accept="image/*,.pdf"
+                    accept="image/*,application/pdf"
                     onChange={(e) => handleFileUpload(e.target.files[0], 'supporting')}
                   />
                 </label>
