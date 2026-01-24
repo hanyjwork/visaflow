@@ -181,7 +181,7 @@ export default function Home() {
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -100, opacity: 0 }}
-          className="sticky top-0 z-40 bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-lg">
+          className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-lg">
 
             <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -206,6 +206,9 @@ export default function Home() {
           </motion.div>
         }
       </AnimatePresence>
+
+      {/* Spacer for fixed cart banner */}
+      {cart.length > 0 && <div className="h-[60px]" />}
 
       {/* Features */}
       <section className="py-16 max-w-7xl mx-auto px-4">
