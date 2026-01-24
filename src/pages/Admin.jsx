@@ -711,7 +711,7 @@ export default function Admin() {
                         ) : (
                           <CheckCircle className="w-4 h-4 mr-2" />
                         )}
-                        Verify Payment
+                        I confirm that customer has paid
                       </Button>
                     </div>
                   </div>
