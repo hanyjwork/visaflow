@@ -69,7 +69,7 @@ export default function Confirmation() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="w-5 h-5 bg-blue-200 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>
-                  <span>You'll receive an email when your application is approved</span>
+                  <span>You'll receive an email when your application is ready ready for processing</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="w-5 h-5 bg-blue-200 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">3</span>
