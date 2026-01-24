@@ -12,11 +12,11 @@ const steps = [
   { key: 'completed', label: 'Completed', icon: FileCheck },
 ];
 
-const statusOrder = ['pending_review', 'under_review', 'approved', 'payment_pending', 'customer_confirmed_payment', 'paid', 'processing', 'completed'];
+const statusOrder = ['pending_review', 'under_review', 'approved', 'payment_pending', 'customer_confirmed_payment', 'paid', 'processing', 'completed', 'cannot_process_application'];
 
 export default function OrderTracker({ currentStatus }) {
   const currentIndex = statusOrder.indexOf(currentStatus);
-  const isRejected = currentStatus === 'rejected';
+  const isRejected = currentStatus === 'cannot_process_application';
   
   return (
     <Card className="border-0 shadow-lg">
@@ -77,7 +77,7 @@ export default function OrderTracker({ currentStatus }) {
         
         {isRejected && (
           <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-700 font-medium">Application Rejected</p>
+            <p className="text-red-700 font-medium">Cannot Process Application</p>
             <p className="text-sm text-red-600 mt-1">
               Please check your email or contact support for more details.
             </p>
