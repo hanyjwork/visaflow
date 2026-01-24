@@ -7,12 +7,12 @@ const steps = [
   { key: 'pending_review', label: 'Submitted', icon: Clock },
   { key: 'under_review', label: 'Under Review', icon: Search },
   { key: 'approved', label: 'Approved', icon: CheckCircle },
-  { key: 'payment_pending', label: 'Payment', icon: CreditCard },
+  { key: 'customer_confirmed_payment', label: 'Payment', icon: CreditCard },
   { key: 'processing', label: 'Processing', icon: Clock },
   { key: 'completed', label: 'Completed', icon: FileCheck },
 ];
 
-const statusOrder = ['pending_review', 'under_review', 'approved', 'payment_pending', 'paid', 'processing', 'completed'];
+const statusOrder = ['pending_review', 'under_review', 'approved', 'payment_pending', 'customer_confirmed_payment', 'paid', 'processing', 'completed'];
 
 export default function OrderTracker({ currentStatus }) {
   const currentIndex = statusOrder.indexOf(currentStatus);
@@ -36,7 +36,9 @@ export default function OrderTracker({ currentStatus }) {
             {steps.map((step, index) => {
               const isCompleted = currentIndex >= statusOrder.indexOf(step.key);
               const isCurrent = step.key === currentStatus || 
-                (currentStatus === 'paid' && step.key === 'payment_pending');
+                (currentStatus === 'payment_pending' && step.key === 'customer_confirmed_payment') ||
+                (currentStatus === 'customer_confirmed_payment' && step.key === 'customer_confirmed_payment') ||
+                (currentStatus === 'paid' && step.key === 'customer_confirmed_payment');
               const Icon = step.icon;
               
               return (

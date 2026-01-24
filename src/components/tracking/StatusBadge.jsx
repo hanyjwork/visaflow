@@ -20,8 +20,13 @@ const statusConfig = {
   },
   payment_pending: {
     label: 'Payment Pending',
-    color: 'bg-purple-100 text-purple-700 border-purple-200',
+    color: 'bg-amber-100 text-amber-700 border-amber-200',
     icon: CreditCard,
+  },
+  customer_confirmed_payment: {
+    label: 'Payment Confirmed',
+    color: 'bg-purple-100 text-purple-700 border-purple-200',
+    icon: CheckCircle,
   },
   paid: {
     label: 'Paid',

@@ -13,7 +13,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { format } from 'date-fns';
 import { 
   Search, FileText, Clock, CheckCircle, 
-  XCircle, Eye, CreditCard, Loader2, RefreshCw, Download, Upload, ExternalLink, Image as ImageIcon, ShieldAlert, Shield
+  XCircle, Eye, CreditCard, Loader2, RefreshCw, Download, Upload, ExternalLink, Image as ImageIcon, ShieldAlert, Shield, AlertCircle, Send
 } from 'lucide-react';
 import StatusBadge from '@/components/tracking/StatusBadge';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -204,6 +204,14 @@ export default function Admin() {
     });
   };
 
+  const handleUpdateOrder = async (orderId, data) => {
+    await updateOrderMutation.mutateAsync({ id: orderId, data });
+    const updatedOrders = await base44.entities.Order.filter({ id: orderId });
+    if (updatedOrders[0]) {
+      setSelectedOrder(updatedOrders[0]);
+    }
+  };
+
   const filteredOrders = orders.filter(order => {
     const matchesSearch = 
       order.tracking_number?.includes(searchQuery) ||
@@ -217,6 +225,7 @@ export default function Admin() {
     total: orders.length,
     pending: orders.filter(o => o.status === 'pending_review').length,
     approved: orders.filter(o => o.status === 'approved' || o.status === 'payment_pending').length,
+    awaiting_verification: orders.filter(o => o.status === 'customer_confirmed_payment').length,
     paid: orders.filter(o => o.status === 'paid' || o.status === 'processing').length,
   };
 
@@ -323,8 +332,8 @@ export default function Admin() {
           {[
             { label: 'Total Orders', value: stats.total, icon: FileText, color: 'blue' },
             { label: 'Pending Review', value: stats.pending, icon: Clock, color: 'amber' },
-            { label: 'Approved', value: stats.approved, icon: CheckCircle, color: 'green' },
-            { label: 'Paid/Processing', value: stats.paid, icon: CreditCard, color: 'purple' },
+            { label: 'Awaiting Verification', value: stats.awaiting_verification, icon: AlertCircle, color: 'purple' },
+            { label: 'Paid/Processing', value: stats.paid, icon: CreditCard, color: 'green' },
           ].map((stat, index) => (
             <Card key={index} className="border-0 shadow-md">
               <CardContent className="p-4 flex items-center gap-4">
@@ -362,6 +371,7 @@ export default function Admin() {
                 <SelectItem value="under_review">Under Review</SelectItem>
                 <SelectItem value="approved">Approved</SelectItem>
                 <SelectItem value="payment_pending">Payment Pending</SelectItem>
+                <SelectItem value="customer_confirmed_payment">Customer Confirmed Payment</SelectItem>
                 <SelectItem value="paid">Paid</SelectItem>
                 <SelectItem value="processing">Processing</SelectItem>
                 <SelectItem value="completed">Completed</SelectItem>
@@ -466,6 +476,18 @@ export default function Admin() {
                                   <XCircle className="w-4 h-4" />
                                 </Button>
                               </>
+                            )}
+
+                            {order.status === 'customer_confirmed_payment' && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="text-purple-600"
+                                onClick={() => loadApplications(order)}
+                                title="Verify payment"
+                              >
+                                <AlertCircle className="w-4 h-4" />
+                              </Button>
                             )}
 
                             {order.status === 'paid' && (
@@ -573,6 +595,43 @@ export default function Admin() {
                       <span className="truncate">{selectedOrder.payment_link}</span>
                       <ExternalLink className="w-4 h-4 flex-shrink-0" />
                     </a>
+                  </div>
+                )}
+
+                {selectedOrder.status === 'customer_confirmed_payment' && (
+                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 space-y-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <CheckCircle className="w-5 h-5 text-purple-600" />
+                      <p className="font-medium text-purple-800">Customer Confirmed Payment</p>
+                    </div>
+                    <p className="text-sm text-purple-700 mb-3">
+                      Customer has confirmed they completed the payment. Please verify the payment receipt before proceeding.
+                    </p>
+                    {selectedOrder.customer_payment_confirmation_date && (
+                      <p className="text-xs text-purple-600 mb-3">
+                        Confirmed on: {format(new Date(selectedOrder.customer_payment_confirmation_date), 'MMM d, yyyy HH:mm')}
+                      </p>
+                    )}
+                    <Button
+                      onClick={() => {
+                        updateOrderMutation.mutate({
+                          id: selectedOrder.id,
+                          data: { 
+                            status: 'paid',
+                            admin_payment_verification_date: new Date().toISOString()
+                          }
+                        });
+                      }}
+                      disabled={updateOrderMutation.isPending}
+                      className="w-full bg-green-600 hover:bg-green-700"
+                    >
+                      {updateOrderMutation.isPending ? (
+                        <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                      ) : (
+                        <CheckCircle className="w-4 h-4 mr-2" />
+                      )}
+                      Verify & Confirm Payment
+                    </Button>
                   </div>
                 )}
 
