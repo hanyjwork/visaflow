@@ -34,6 +34,8 @@ export default function Admin() {
   const [currentUser, setCurrentUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
+  const [editingPaymentLink, setEditingPaymentLink] = useState(false);
+  const [editedPaymentLink, setEditedPaymentLink] = useState('');
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -79,6 +81,8 @@ export default function Admin() {
     const apps = await base44.entities.Application.filter({ order_id: order.id });
     setApplications(apps);
     setSelectedOrder(order);
+    setEditedPaymentLink(order.payment_link || '');
+    setEditingPaymentLink(false);
     
     // Initialize security deposits
     const deposits = {};
@@ -583,18 +587,65 @@ export default function Admin() {
                   </div>
                 </div>
 
-                {selectedOrder.payment_link && (
+                {(selectedOrder.payment_link || editingPaymentLink) && (
                   <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
-                    <p className="text-sm text-slate-500 mb-1">Payment Link:</p>
-                    <a 
-                      href={selectedOrder.payment_link} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline text-sm flex items-center gap-2"
-                    >
-                      <span className="truncate">{selectedOrder.payment_link}</span>
-                      <ExternalLink className="w-4 h-4 flex-shrink-0" />
-                    </a>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-sm text-slate-500">Payment Link:</p>
+                      {!editingPaymentLink ? (
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => setEditingPaymentLink(true)}
+                          className="h-7 text-xs text-blue-600"
+                        >
+                          Edit
+                        </Button>
+                      ) : (
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => {
+                              setEditingPaymentLink(false);
+                              setEditedPaymentLink(selectedOrder.payment_link || '');
+                            }}
+                            className="h-7 text-xs"
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            size="sm"
+                            onClick={async () => {
+                              await handleUpdateOrder(selectedOrder.id, { payment_link: editedPaymentLink });
+                              setEditingPaymentLink(false);
+                            }}
+                            disabled={updateOrderMutation.isPending}
+                            className="h-7 text-xs bg-blue-600 hover:bg-blue-700"
+                          >
+                            Save
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                    {editingPaymentLink ? (
+                      <Input
+                        type="url"
+                        value={editedPaymentLink}
+                        onChange={(e) => setEditedPaymentLink(e.target.value)}
+                        placeholder="https://payment-gateway.com/..."
+                        className="bg-white"
+                      />
+                    ) : (
+                      <a 
+                        href={selectedOrder.payment_link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:underline text-sm flex items-center gap-2"
+                      >
+                        <span className="truncate">{selectedOrder.payment_link}</span>
+                        <ExternalLink className="w-4 h-4 flex-shrink-0" />
+                      </a>
+                    )}
                   </div>
                 )}
 
