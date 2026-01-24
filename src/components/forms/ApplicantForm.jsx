@@ -41,13 +41,29 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
   });
   const [errors, setErrors] = useState({});
 
-  const handleFileUpload = async (file, type) => {
+  const handleFileUpload = async (file, type, inputElement) => {
     if (!file) return;
+    
+    // Validate file
+    if (!file.size || file.size === 0) {
+      alert('Selected file is empty. Please try again.');
+      return;
+    }
+    
+    // Check file size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      alert('File is too large. Maximum size is 10MB.');
+      return;
+    }
     
     setUploading(prev => ({ ...prev, [type]: true }));
     
     try {
       const { file_url } = await base44.integrations.Core.UploadFile({ file });
+      
+      if (!file_url) {
+        throw new Error('Upload failed - no URL returned');
+      }
       
       if (type === 'passportFront') {
         setFormData(prev => ({ ...prev, passport_front_url: file_url }));
@@ -61,9 +77,19 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
           supporting_documents_urls: [...(prev.supporting_documents_urls || []), file_url] 
         }));
       }
+      
+      // Reset input to allow re-selection
+      if (inputElement) {
+        inputElement.value = '';
+      }
     } catch (error) {
       console.error('File upload failed:', error);
-      alert(`Upload failed: ${error.message}. Please try again.`);
+      alert(`Upload failed: ${error.message || 'Unknown error'}. Please try again.`);
+      
+      // Reset input on error
+      if (inputElement) {
+        inputElement.value = '';
+      }
     } finally {
       setUploading(prev => ({ ...prev, [type]: false }));
     }
@@ -241,7 +267,12 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                     type="file"
                     className="hidden"
                     accept="image/*,application/pdf"
-                    onChange={(e) => handleFileUpload(e.target.files[0], 'passportFront')}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        handleFileUpload(file, 'passportFront', e.target);
+                      }
+                    }}
                   />
                 </label>
               )}
@@ -280,7 +311,12 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                     type="file"
                     className="hidden"
                     accept="image/*,application/pdf"
-                    onChange={(e) => handleFileUpload(e.target.files[0], 'passportCover')}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        handleFileUpload(file, 'passportCover', e.target);
+                      }
+                    }}
                   />
                 </label>
               )}
@@ -319,7 +355,12 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                     type="file"
                     className="hidden"
                     accept="image/*"
-                    onChange={(e) => handleFileUpload(e.target.files[0], 'photo')}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        handleFileUpload(file, 'photo', e.target);
+                      }
+                    }}
                   />
                 </label>
               )}
@@ -344,7 +385,12 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                     type="file"
                     className="hidden"
                     accept="image/*,application/pdf"
-                    onChange={(e) => handleFileUpload(e.target.files[0], 'supporting')}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        handleFileUpload(file, 'supporting', e.target);
+                      }
+                    }}
                   />
                 </label>
               )}
