@@ -187,7 +187,7 @@ export default function Track() {
                           variant="outline"
                           className="border-amber-300 text-amber-700 hover:bg-amber-50"
                         >
-                          I Have Completed Payment - AED {order.total_amount?.toFixed(2)}
+                          I Have Completed Payment
                         </Button>
                       </div>
                     </div>
