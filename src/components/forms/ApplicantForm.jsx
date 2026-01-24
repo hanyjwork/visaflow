@@ -46,22 +46,27 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
     
     setUploading(prev => ({ ...prev, [type]: true }));
     
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
-    
-    if (type === 'passportFront') {
-      setFormData(prev => ({ ...prev, passport_front_url: file_url }));
-    } else if (type === 'passportCover') {
-      setFormData(prev => ({ ...prev, passport_cover_url: file_url }));
-    } else if (type === 'photo') {
-      setFormData(prev => ({ ...prev, photo_url: file_url }));
-    } else if (type === 'supporting') {
-      setFormData(prev => ({ 
-        ...prev, 
-        supporting_documents_urls: [...(prev.supporting_documents_urls || []), file_url] 
-      }));
+    try {
+      const { file_url } = await base44.integrations.Core.UploadFile({ file });
+      
+      if (type === 'passportFront') {
+        setFormData(prev => ({ ...prev, passport_front_url: file_url }));
+      } else if (type === 'passportCover') {
+        setFormData(prev => ({ ...prev, passport_cover_url: file_url }));
+      } else if (type === 'photo') {
+        setFormData(prev => ({ ...prev, photo_url: file_url }));
+      } else if (type === 'supporting') {
+        setFormData(prev => ({ 
+          ...prev, 
+          supporting_documents_urls: [...(prev.supporting_documents_urls || []), file_url] 
+        }));
+      }
+    } catch (error) {
+      console.error('File upload failed:', error);
+      alert(`Upload failed: ${error.message}. Please try again.`);
+    } finally {
+      setUploading(prev => ({ ...prev, [type]: false }));
     }
-    
-    setUploading(prev => ({ ...prev, [type]: false }));
   };
 
   const validate = () => {
