@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 const steps = [
   { key: 'pending_review', label: 'Submitted', icon: Clock },
   { key: 'under_review', label: 'Under Review', icon: Search },
-  { key: 'approved', label: 'Approved', icon: CheckCircle },
+  { key: 'approved', label: 'Ready for Processing', icon: CheckCircle },
   { key: 'customer_confirmed_payment', label: 'Payment', icon: CreditCard },
   { key: 'processing', label: 'Processing', icon: Clock },
   { key: 'completed', label: 'Completed', icon: FileCheck },
