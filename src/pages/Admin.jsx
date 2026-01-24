@@ -449,6 +449,7 @@ export default function Admin() {
                               variant="ghost"
                               size="sm"
                               onClick={() => loadApplications(order)}
+                              title="View order details"
                             >
                               <Eye className="w-4 h-4" />
                             </Button>
@@ -460,6 +461,7 @@ export default function Admin() {
                                   size="sm"
                                   className="text-green-600"
                                   onClick={() => setActionDialog({ open: true, type: 'approve', order })}
+                                  title="Approve application"
                                 >
                                   <CheckCircle className="w-4 h-4" />
                                 </Button>
@@ -468,6 +470,7 @@ export default function Admin() {
                                   size="sm"
                                   className="text-amber-600"
                                   onClick={() => setActionDialog({ open: true, type: 'return', order })}
+                                  title="Return for modification"
                                 >
                                   <RefreshCw className="w-4 h-4" />
                                 </Button>
@@ -476,6 +479,7 @@ export default function Admin() {
                                   size="sm"
                                   className="text-red-600"
                                   onClick={() => setActionDialog({ open: true, type: 'reject', order })}
+                                  title="Cannot process application"
                                 >
                                   <XCircle className="w-4 h-4" />
                                 </Button>
@@ -500,13 +504,14 @@ export default function Admin() {
                                 size="sm"
                                 className="text-blue-600"
                                 onClick={() => handleMarkProcessing(order)}
+                                title="Mark as processing"
                               >
                                 Start Processing
                               </Button>
                             )}
 
                             {order.status === 'processing' && (
-                              <label className="cursor-pointer">
+                              <label className="cursor-pointer" title="Upload visa document">
                                 <input
                                   type="file"
                                   accept=".pdf"
