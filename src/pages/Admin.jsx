@@ -612,26 +612,50 @@ export default function Admin() {
                         Confirmed on: {format(new Date(selectedOrder.customer_payment_confirmation_date), 'MMM d, yyyy HH:mm')}
                       </p>
                     )}
-                    <Button
-                      onClick={() => {
-                        updateOrderMutation.mutate({
-                          id: selectedOrder.id,
-                          data: { 
-                            status: 'paid',
-                            admin_payment_verification_date: new Date().toISOString()
-                          }
-                        });
-                      }}
-                      disabled={updateOrderMutation.isPending}
-                      className="w-full bg-green-600 hover:bg-green-700"
-                    >
-                      {updateOrderMutation.isPending ? (
-                        <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                      ) : (
-                        <CheckCircle className="w-4 h-4 mr-2" />
-                      )}
-                      Verify & Confirm Payment
-                    </Button>
+                    <div className="grid grid-cols-2 gap-3">
+                      <Button
+                        onClick={() => {
+                          updateOrderMutation.mutate({
+                            id: selectedOrder.id,
+                            data: { 
+                              status: 'payment_pending',
+                              customer_payment_confirmation_date: null,
+                              admin_notes: (selectedOrder.admin_notes || '') + '\n[Admin rejected payment confirmation - ' + new Date().toLocaleString() + ']'
+                            }
+                          });
+                        }}
+                        disabled={updateOrderMutation.isPending}
+                        variant="outline"
+                        className="border-red-300 text-red-700 hover:bg-red-50"
+                      >
+                        {updateOrderMutation.isPending ? (
+                          <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                        ) : (
+                          <XCircle className="w-4 h-4 mr-2" />
+                        )}
+                        Payment Not Received
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          updateOrderMutation.mutate({
+                            id: selectedOrder.id,
+                            data: { 
+                              status: 'paid',
+                              admin_payment_verification_date: new Date().toISOString()
+                            }
+                          });
+                        }}
+                        disabled={updateOrderMutation.isPending}
+                        className="bg-green-600 hover:bg-green-700"
+                      >
+                        {updateOrderMutation.isPending ? (
+                          <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                        ) : (
+                          <CheckCircle className="w-4 h-4 mr-2" />
+                        )}
+                        Verify Payment
+                      </Button>
+                    </div>
                   </div>
                 )}
 
