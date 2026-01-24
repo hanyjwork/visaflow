@@ -85,7 +85,7 @@ export default function Home() {
   const insuranceServices = services.filter((s) => s.category === 'insurance');
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white overflow-x-hidden">
       {/* Known Customer Banner */}
       {knownCustomer && (
         <div className="bg-blue-600 text-white py-2 px-4 pt-20">
