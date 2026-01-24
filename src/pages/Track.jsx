@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
 import { 
   Search, ArrowLeft, Loader2, AlertCircle, 
-  User, FileText, Calendar, CreditCard, Plane, Shield, Download
+  User, FileText, Calendar, CreditCard, Plane, Shield, Download, CheckCircle
 } from 'lucide-react';
 import OrderTracker from '@/components/tracking/OrderTracker';
 import StatusBadge from '@/components/tracking/StatusBadge';
@@ -58,15 +58,17 @@ export default function Track() {
   };
 
   const handleConfirmPayment = async () => {
+    setLoading(true);
     // Customer confirms payment was made
     await base44.entities.Order.update(order.id, {
-      status: 'paid',
-      payment_date: new Date().toISOString(),
+      status: 'customer_confirmed_payment',
+      customer_payment_confirmation_date: new Date().toISOString(),
     });
     
     // Refresh order
     const updatedOrders = await base44.entities.Order.filter({ tracking_number: trackingNumber });
     setOrder(updatedOrders[0]);
+    setLoading(false);
   };
 
   return (
@@ -166,23 +168,87 @@ export default function Track() {
                     </div>
                   </div>
 
-                  {/* Payment CTA */}
-                  {(order.status === 'approved' || order.status === 'payment_pending') && order.payment_link && (
-                    <div className="bg-gradient-to-r from-amber-50 to-amber-100 border border-amber-200 rounded-xl p-6 text-center">
-                      <h3 className="font-semibold text-lg text-amber-800 mb-2">
+                  {/* Payment CTA - Waiting for Payment Link */}
+                  {order.status === 'approved' && !order.payment_link && (
+                    <div className="bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-xl p-6 text-center">
+                      <h3 className="font-semibold text-lg text-blue-800 mb-2">
                         Your Application is Approved!
                       </h3>
-                      <p className="text-amber-700 mb-4">
-                        Please complete the payment to start visa processing
+                      <p className="text-blue-700">
+                        Please wait while the administrator prepares your payment link. You will be notified soon.
                       </p>
-                      <a href={order.payment_link} target="_blank" rel="noopener noreferrer">
+                    </div>
+                  )}
+
+                  {/* Payment Link Provided - Customer Action Required */}
+                  {order.status === 'payment_pending' && order.payment_link && (
+                    <div className="bg-gradient-to-r from-amber-50 to-amber-100 border border-amber-200 rounded-xl p-6">
+                      <h3 className="font-semibold text-lg text-amber-800 mb-2 text-center">
+                        Payment Required
+                      </h3>
+                      <p className="text-amber-700 mb-4 text-center">
+                        Please complete the payment to proceed with visa processing
+                      </p>
+                      <div className="space-y-3">
+                        <a href={order.payment_link} target="_blank" rel="noopener noreferrer" className="block">
+                          <Button 
+                            className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700"
+                          >
+                            <CreditCard className="w-5 h-5 mr-2" />
+                            Pay Now - AED {order.total_amount?.toFixed(2)}
+                          </Button>
+                        </a>
+                        <div className="relative">
+                          <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t border-amber-300"></div>
+                          </div>
+                          <div className="relative flex justify-center text-xs">
+                            <span className="bg-amber-50 px-2 text-amber-600">After payment</span>
+                          </div>
+                        </div>
                         <Button 
-                          className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700"
+                          onClick={handleConfirmPayment}
+                          disabled={loading}
+                          variant="outline"
+                          className="w-full border-amber-500 text-amber-700 hover:bg-amber-100"
                         >
-                          <CreditCard className="w-5 h-5 mr-2" />
-                          Pay AED {order.total_amount?.toFixed(2)}
+                          {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <CheckCircle className="w-5 h-5 mr-2" />}
+                          I Have Completed Payment
                         </Button>
-                      </a>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Customer Confirmed Payment - Waiting for Admin Verification */}
+                  {order.status === 'customer_confirmed_payment' && (
+                    <div className="bg-gradient-to-r from-purple-50 to-purple-100 border border-purple-200 rounded-xl p-6 text-center">
+                      <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <CheckCircle className="w-6 h-6 text-white" />
+                      </div>
+                      <h3 className="font-semibold text-lg text-purple-800 mb-2">
+                        Payment Confirmation Received
+                      </h3>
+                      <p className="text-purple-700 mb-1">
+                        Thank you for confirming your payment!
+                      </p>
+                      <p className="text-sm text-purple-600">
+                        Our team is now verifying your payment. You'll be notified once verification is complete and visa processing begins.
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Payment Verified by Admin - Processing Started */}
+                  {order.status === 'paid' && (
+                    <div className="bg-gradient-to-r from-green-50 to-green-100 border border-green-200 rounded-xl p-6 text-center">
+                      <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <CheckCircle className="w-6 h-6 text-white" />
+                      </div>
+                      <h3 className="font-semibold text-lg text-green-800 mb-2">
+                        Payment Verified
+                      </h3>
+                      <p className="text-green-700">
+                        Your payment has been confirmed. We're now processing your visa application.
+                      </p>
                     </div>
                   )}
 
