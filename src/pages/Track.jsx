@@ -25,6 +25,7 @@ export default function Track() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [searched, setSearched] = useState(false);
+  const [paymentClicked, setPaymentClicked] = useState(false);
 
   useEffect(() => {
     if (initialTracking) {
@@ -175,20 +176,34 @@ export default function Track() {
                       <p className="text-amber-700 mb-4">
                         Please complete the payment to start visa processing
                       </p>
-                      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                      <div className="flex flex-col gap-4 items-center">
                         <a href={order.payment_link} target="_blank" rel="noopener noreferrer">
-                          <Button className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700">
+                          <Button 
+                            onClick={() => setPaymentClicked(true)}
+                            className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700"
+                          >
                             <CreditCard className="w-5 h-5 mr-2" />
                             Pay AED {order.total_amount?.toFixed(2)}
                           </Button>
                         </a>
-                        <Button 
-                          onClick={handleConfirmPayment}
-                          variant="outline"
-                          className="border-amber-300 text-amber-700 hover:bg-amber-50"
-                        >
-                          I Have Completed Payment
-                        </Button>
+                        
+                        {paymentClicked && (
+                          <>
+                            <div className="flex items-center gap-3 w-full max-w-xs">
+                              <div className="flex-1 h-px bg-amber-300"></div>
+                              <span className="text-xs text-amber-600 font-medium">After Payment</span>
+                              <div className="flex-1 h-px bg-amber-300"></div>
+                            </div>
+                            
+                            <Button 
+                              onClick={handleConfirmPayment}
+                              variant="outline"
+                              className="border-amber-300 text-amber-700 hover:bg-amber-50"
+                            >
+                              I Have Completed Payment
+                            </Button>
+                          </>
+                        )}
                       </div>
                     </div>
                   )}
