@@ -167,24 +167,31 @@ export default function Track() {
                   </div>
 
                   {/* Payment CTA */}
-                  {(order.status === 'approved' || order.status === 'payment_pending') && order.payment_link &&
-                <div className="bg-gradient-to-r from-amber-50 to-amber-100 border border-amber-200 rounded-xl p-6 text-center">
-                      <h3 className="font-semibold text-lg text-amber-800 mb-2">Your Application is accurate, ready for processing!
-
-                  </h3>
+                  {(order.status === 'ready_for_processing' || order.status === 'payment_pending') && order.payment_link && (
+                    <div className="bg-gradient-to-r from-amber-50 to-amber-100 border border-amber-200 rounded-xl p-6 text-center">
+                      <h3 className="font-semibold text-lg text-amber-800 mb-2">
+                        Your Application is Approved!
+                      </h3>
                       <p className="text-amber-700 mb-4">
                         Please complete the payment to start visa processing
                       </p>
-                      <a href={order.payment_link} target="_blank" rel="noopener noreferrer">
-                        <Button
-                      className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700">
-
-                          <CreditCard className="w-5 h-5 mr-2" />
-                          Pay AED {order.total_amount?.toFixed(2)}
+                      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                        <a href={order.payment_link} target="_blank" rel="noopener noreferrer">
+                          <Button className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700">
+                            <CreditCard className="w-5 h-5 mr-2" />
+                            Pay Now
+                          </Button>
+                        </a>
+                        <Button 
+                          onClick={handleConfirmPayment}
+                          variant="outline"
+                          className="border-amber-300 text-amber-700 hover:bg-amber-50"
+                        >
+                          I Have Completed Payment
                         </Button>
-                      </a>
+                      </div>
                     </div>
-                }
+                  )}
 
                   {/* Visa Download */}
                   {order.status === 'completed' && order.visa_document_url &&
