@@ -598,7 +598,7 @@ export default function Admin() {
                           onClick={() => setEditingPaymentLink(true)}
                           className="h-7 text-xs text-blue-600"
                         >
-                          Edit
+                          Update Payment link
                         </Button>
                       ) : (
                         <div className="flex gap-2">
