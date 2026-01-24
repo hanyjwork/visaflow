@@ -13,8 +13,8 @@ const statusConfig = {
     color: 'bg-blue-100 text-blue-700 border-blue-200',
     icon: Search,
   },
-  approved: {
-    label: 'Approved',
+  ready_for_processing: {
+    label: 'Ready for Processing',
     color: 'bg-green-100 text-green-700 border-green-200',
     icon: CheckCircle,
   },

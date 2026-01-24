@@ -121,7 +121,7 @@ export default function Admin() {
     });
     await updateApplicationsMutation.mutateAsync({
       orderId: actionDialog.order.id,
-      status: 'approved'
+      status: 'ready_for_processing'
     });
     setAdminNotes('');
     setSecurityDeposits({});
@@ -228,7 +228,7 @@ export default function Admin() {
   const stats = {
     total: orders.length,
     pending: orders.filter(o => o.status === 'pending_review').length,
-    approved: orders.filter(o => o.status === 'approved' || o.status === 'payment_pending').length,
+    approved: orders.filter(o => o.status === 'ready_for_processing' || o.status === 'payment_pending').length,
     awaiting_verification: orders.filter(o => o.status === 'customer_confirmed_payment').length,
     paid: orders.filter(o => o.status === 'paid' || o.status === 'processing').length,
   };
@@ -373,7 +373,7 @@ export default function Admin() {
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="pending_review">Pending Review</SelectItem>
                 <SelectItem value="under_review">Under Review</SelectItem>
-                <SelectItem value="approved">Approved</SelectItem>
+                <SelectItem value="ready_for_processing">Ready for Processing</SelectItem>
                 <SelectItem value="payment_pending">Payment Pending</SelectItem>
                 <SelectItem value="customer_confirmed_payment">Customer Confirmed Payment</SelectItem>
                 <SelectItem value="paid">Paid</SelectItem>

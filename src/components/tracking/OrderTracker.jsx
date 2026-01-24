@@ -6,13 +6,13 @@ import { motion } from 'framer-motion';
 const steps = [
   { key: 'pending_review', label: 'Submitted', icon: Clock },
   { key: 'under_review', label: 'Under Review', icon: Search },
-  { key: 'approved', label: 'Ready for Processing', icon: CheckCircle },
+  { key: 'ready_for_processing', label: 'Ready for Processing', icon: CheckCircle },
   { key: 'customer_confirmed_payment', label: 'Payment', icon: CreditCard },
   { key: 'processing', label: 'Processing', icon: Clock },
   { key: 'completed', label: 'Completed', icon: FileCheck },
 ];
 
-const statusOrder = ['pending_review', 'under_review', 'approved', 'payment_pending', 'customer_confirmed_payment', 'paid', 'processing', 'completed', 'cannot_process_application'];
+const statusOrder = ['pending_review', 'under_review', 'ready_for_processing', 'payment_pending', 'customer_confirmed_payment', 'paid', 'processing', 'completed', 'cannot_process_application'];
 
 export default function OrderTracker({ currentStatus }) {
   const currentIndex = statusOrder.indexOf(currentStatus);
