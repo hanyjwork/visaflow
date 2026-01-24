@@ -179,7 +179,7 @@ export default function Track() {
                         <a href={order.payment_link} target="_blank" rel="noopener noreferrer">
                           <Button className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700">
                             <CreditCard className="w-5 h-5 mr-2" />
-                            Pay Now
+                            Pay AED {order.total_amount?.toFixed(2)}
                           </Button>
                         </a>
                         <Button 
