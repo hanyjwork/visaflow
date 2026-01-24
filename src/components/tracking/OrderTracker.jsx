@@ -78,9 +78,6 @@ export default function OrderTracker({ currentStatus }) {
         {isRejected && (
           <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
             <p className="text-red-700 font-medium">Cannot Process Application</p>
-            <p className="text-sm text-red-600 mt-1">
-              Please check your email or contact support for more details.
-            </p>
           </div>
         )}
       </CardContent>
