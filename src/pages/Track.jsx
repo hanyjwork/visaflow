@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
 import { 
   Search, ArrowLeft, Loader2, AlertCircle, 
-  User, FileText, Calendar, CreditCard, Plane, Shield
+  User, FileText, Calendar, CreditCard, Plane, Shield, Download
 } from 'lucide-react';
 import OrderTracker from '@/components/tracking/OrderTracker';
 import StatusBadge from '@/components/tracking/StatusBadge';
@@ -57,9 +57,8 @@ export default function Track() {
     setLoading(false);
   };
 
-  const handlePayment = async () => {
-    // In a real app, this would redirect to a payment gateway
-    // For now, we'll just update the status
+  const handleConfirmPayment = async () => {
+    // Customer confirms payment was made
     await base44.entities.Order.update(order.id, {
       status: 'paid',
       payment_date: new Date().toISOString(),
@@ -168,7 +167,7 @@ export default function Track() {
                   </div>
 
                   {/* Payment CTA */}
-                  {(order.status === 'approved' || order.status === 'payment_pending') && (
+                  {(order.status === 'approved' || order.status === 'payment_pending') && order.payment_link && (
                     <div className="bg-gradient-to-r from-amber-50 to-amber-100 border border-amber-200 rounded-xl p-6 text-center">
                       <h3 className="font-semibold text-lg text-amber-800 mb-2">
                         Your Application is Approved!
@@ -176,13 +175,37 @@ export default function Track() {
                       <p className="text-amber-700 mb-4">
                         Please complete the payment to start visa processing
                       </p>
-                      <Button 
-                        onClick={handlePayment}
-                        className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700"
-                      >
-                        <CreditCard className="w-5 h-5 mr-2" />
-                        Pay AED {order.total_amount?.toFixed(2)}
-                      </Button>
+                      <a href={order.payment_link} target="_blank" rel="noopener noreferrer">
+                        <Button 
+                          className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700"
+                        >
+                          <CreditCard className="w-5 h-5 mr-2" />
+                          Pay AED {order.total_amount?.toFixed(2)}
+                        </Button>
+                      </a>
+                    </div>
+                  )}
+
+                  {/* Visa Download */}
+                  {order.status === 'completed' && order.visa_document_url && (
+                    <div className="bg-gradient-to-r from-green-50 to-green-100 border border-green-200 rounded-xl p-6 text-center">
+                      <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <FileText className="w-8 h-8 text-white" />
+                      </div>
+                      <h3 className="font-semibold text-lg text-green-800 mb-2">
+                        Your Visa is Ready!
+                      </h3>
+                      <p className="text-green-700 mb-4">
+                        Your visa has been processed and is ready for download
+                      </p>
+                      <a href={order.visa_document_url} target="_blank" rel="noopener noreferrer" download>
+                        <Button 
+                          className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800"
+                        >
+                          <FileText className="w-5 h-5 mr-2" />
+                          Download Visa PDF
+                        </Button>
+                      </a>
                     </div>
                   )}
 
