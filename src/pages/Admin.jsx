@@ -670,8 +670,8 @@ export default function Admin() {
                     )}
                     <div className="grid grid-cols-2 gap-3">
                       <Button
-                        onClick={() => {
-                          updateOrderMutation.mutate({
+                        onClick={async () => {
+                          await updateOrderMutation.mutateAsync({
                             id: selectedOrder.id,
                             data: { 
                               status: 'payment_pending',
@@ -679,6 +679,7 @@ export default function Admin() {
                               admin_notes: (selectedOrder.admin_notes || '') + '\n[Admin rejected payment confirmation - ' + new Date().toLocaleString() + ']'
                             }
                           });
+                          setSelectedOrder(null);
                         }}
                         disabled={updateOrderMutation.isPending}
                         variant="outline"
@@ -692,14 +693,15 @@ export default function Admin() {
                         Payment Not Received
                       </Button>
                       <Button
-                        onClick={() => {
-                          updateOrderMutation.mutate({
+                        onClick={async () => {
+                          await updateOrderMutation.mutateAsync({
                             id: selectedOrder.id,
                             data: { 
                               status: 'paid',
                               admin_payment_verification_date: new Date().toISOString()
                             }
                           });
+                          setSelectedOrder(null);
                         }}
                         disabled={updateOrderMutation.isPending}
                         className="bg-green-600 hover:bg-green-700"
