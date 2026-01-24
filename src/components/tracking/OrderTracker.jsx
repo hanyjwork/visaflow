@@ -53,12 +53,11 @@ export default function OrderTracker({ currentStatus }) {
                     className={`
                       relative z-10 w-10 h-10 rounded-full flex items-center justify-center
                       transition-all duration-300
-                      ${isCurrent 
-                        ? 'bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-lg ring-4 ring-amber-100' 
-                        : isCompleted 
-                          ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg' 
-                          : 'bg-slate-100 text-slate-400'
+                      ${isCompleted 
+                        ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg' 
+                        : 'bg-slate-100 text-slate-400'
                       }
+                      ${isCurrent ? 'ring-4 ring-blue-100' : ''}
                     `}
                   >
                     {isCompleted ? (
