@@ -28,7 +28,11 @@ export default function OrderTracker({ currentStatus }) {
           {/* Progress Line */}
           <div className="absolute top-5 left-5 right-5 h-0.5 bg-slate-200 hidden md:block" />
           <div 
-            className="absolute top-5 left-5 h-0.5 bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-500 hidden md:block"
+            className={`absolute top-5 left-5 h-0.5 transition-all duration-500 hidden md:block ${
+              currentIndex >= statusOrder.indexOf('processing') 
+                ? 'bg-gradient-to-r from-blue-500 via-blue-600 to-green-500' 
+                : 'bg-gradient-to-r from-blue-500 to-blue-600'
+            }`}
             style={{ width: `${Math.min((currentIndex / (steps.length - 1)) * 100, 100)}%` }}
           />
           
