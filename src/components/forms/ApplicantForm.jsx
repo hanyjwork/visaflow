@@ -78,13 +78,16 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
         }));
       }
       
+      // Show success feedback
+      alert(`✓ ${file.name} uploaded successfully`);
+      
       // Reset input to allow re-selection
       if (inputElement) {
         inputElement.value = '';
       }
     } catch (error) {
       console.error('File upload failed:', error);
-      alert(`Upload failed: ${error.message || 'Unknown error'}. Please try again.`);
+      alert(`✗ Upload failed: ${error.message || 'Unknown error'}. Please try again.`);
       
       // Reset input on error
       if (inputElement) {
@@ -266,7 +269,7 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                   <input
                     type="file"
                     className="hidden"
-                    accept="image/*,application/pdf"
+                    accept="*"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
@@ -310,7 +313,7 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                   <input
                     type="file"
                     className="hidden"
-                    accept="image/*,application/pdf"
+                    accept="*"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
@@ -354,7 +357,7 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                   <input
                     type="file"
                     className="hidden"
-                    accept="image/*"
+                    accept="*"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
@@ -384,7 +387,7 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                   <input
                     type="file"
                     className="hidden"
-                    accept="image/*,application/pdf"
+                    accept="*"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
