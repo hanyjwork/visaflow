@@ -78,9 +78,6 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
         }));
       }
       
-      // Show success feedback
-      alert(`✓ ${file.name} uploaded successfully`);
-      
       // Reset input to allow re-selection
       if (inputElement) {
         inputElement.value = '';
