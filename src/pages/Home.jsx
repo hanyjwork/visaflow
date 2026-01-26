@@ -88,7 +88,7 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white overflow-x-hidden">
       {/* Known Customer Banner */}
       {knownCustomer && (
-        <div className={`bg-blue-600 text-white py-2 px-4 ${cart.length > 0 ? 'pt-[76px]' : 'pt-20'}`}>
+        <div className={`bg-blue-600 text-white py-2 px-4 ${cart.length > 0 ? 'pt-[136px]' : 'pt-20'}`}>
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-2 text-sm">
             <div className="flex items-center gap-2">
               <Shield className="w-4 h-4" />
