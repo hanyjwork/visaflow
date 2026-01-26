@@ -192,13 +192,26 @@ export default function Home() {
 
             <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <motion.div 
-                  className="p-2 bg-white/20 rounded-full"
-                  animate={cartPulse ? { scale: [1, 1.3, 1] } : { scale: 1 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <ShoppingCart className="w-5 h-5" />
-                </motion.div>
+                <div className="relative">
+                  <motion.div 
+                    className="p-2 bg-white/20 rounded-full relative z-10"
+                    animate={cartPulse ? { 
+                      scale: [1, 1.2, 1],
+                      backgroundColor: ['rgba(255, 255, 255, 0.2)', 'rgba(255, 255, 255, 0.9)', 'rgba(255, 255, 255, 0.2)']
+                    } : { scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <ShoppingCart className="w-5 h-5" />
+                  </motion.div>
+                  {cartPulse && (
+                    <motion.div
+                      className="absolute inset-0 rounded-full bg-white"
+                      initial={{ scale: 0.8, opacity: 0.8 }}
+                      animate={{ scale: 2.5, opacity: 0 }}
+                      transition={{ duration: 0.6 }}
+                    />
+                  )}
+                </div>
                 <span className="font-medium">
                   {cart.length} item{cart.length > 1 ? 's' : ''} in cart
                 </span>
