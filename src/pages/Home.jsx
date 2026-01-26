@@ -196,12 +196,12 @@ export default function Home() {
                   Total: AED {cart.reduce((sum, item) => sum + item.service.price, 0).toFixed(2)}
                 </span>
               </div>
-              <Link to={createPageUrl('Cart')}>
-                <Button size="sm" className="bg-white text-amber-600 hover:bg-amber-50">
+              <Button size="sm" className="bg-white text-amber-600 hover:bg-amber-50" asChild>
+                <Link to={createPageUrl('Cart')}>
                   View Cart
                   <ChevronRight className="w-4 h-4 ml-1" />
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </motion.div>
         }
