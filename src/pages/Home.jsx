@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'sonner';
 import {
   Plane, Shield, ShoppingCart, Search, ArrowRight,
   Clock, CheckCircle, Globe, Star, ChevronRight, FileText,
@@ -25,6 +26,7 @@ export default function Home() {
   const [category, setCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [knownCustomer, setKnownCustomer] = useState(null);
+  const [cartPulse, setCartPulse] = useState(false);
 
   const { data: services = [], isLoading } = useQuery({
     queryKey: ['services'],
@@ -79,6 +81,11 @@ export default function Home() {
 
   const addToCart = (service) => {
     setCart((prev) => [...prev, { service, applicant: null }]);
+    setCartPulse(true);
+    setTimeout(() => setCartPulse(false), 600);
+    toast.success(`${service.name} added to cart!`, {
+      duration: 2000,
+    });
   };
 
   const visaServices = services.filter((s) => s.category === 'visa');
@@ -185,9 +192,13 @@ export default function Home() {
 
             <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/20 rounded-full">
+                <motion.div 
+                  className="p-2 bg-white/20 rounded-full"
+                  animate={cartPulse ? { scale: [1, 1.3, 1] } : { scale: 1 }}
+                  transition={{ duration: 0.4 }}
+                >
                   <ShoppingCart className="w-5 h-5" />
-                </div>
+                </motion.div>
                 <span className="font-medium">
                   {cart.length} item{cart.length > 1 ? 's' : ''} in cart
                 </span>
