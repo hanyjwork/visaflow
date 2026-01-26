@@ -9,6 +9,30 @@ export default function Layout({ children, currentPageName }) {
   const isHome = currentPageName === 'Home';
   const isAdmin = currentPageName === 'Admin';
   
+  // Check if cart has items (for proper spacing)
+  const [hasCart, setHasCart] = React.useState(false);
+  
+  React.useEffect(() => {
+    const checkCart = () => {
+      try {
+        const cart = JSON.parse(localStorage.getItem('uae_visa_cart') || '[]');
+        setHasCart(cart.length > 0);
+      } catch {
+        setHasCart(false);
+      }
+    };
+    
+    checkCart();
+    window.addEventListener('storage', checkCart);
+    // Check periodically for cart changes
+    const interval = setInterval(checkCart, 500);
+    
+    return () => {
+      window.removeEventListener('storage', checkCart);
+      clearInterval(interval);
+    };
+  }, []);
+  
   const navLinks = [
     { name: 'Home', page: 'Home' },
     { name: 'Track Application', page: 'Track' },
@@ -22,7 +46,7 @@ export default function Layout({ children, currentPageName }) {
   return (
     <div className="min-h-screen">
       {/* Navigation */}
-      <nav className={`${isHome ? 'absolute top-0 left-0 right-0 z-50 bg-transparent' : 'bg-white shadow-sm'}`}>
+      <nav className={`${isHome ? `absolute ${hasCart ? 'top-[60px]' : 'top-0'} left-0 right-0 z-50 bg-transparent` : 'bg-white shadow-sm'}`}>
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
