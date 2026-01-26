@@ -88,7 +88,7 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white overflow-x-hidden">
       {/* Known Customer Banner */}
       {knownCustomer && (
-        <div className={`bg-blue-600 text-white py-2 px-4 ${cart.length > 0 ? 'pt-[76px]' : 'pt-20'}`}>
+        <div className="fixed top-[60px] left-0 right-0 z-[55] bg-blue-600 text-white py-2 px-4">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-2 text-sm">
             <div className="flex items-center gap-2">
               <Shield className="w-4 h-4" />
@@ -102,7 +102,7 @@ export default function Home() {
       )}
 
       {/* Hero Section */}
-      <section className={`relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white ${cart.length > 0 ? 'pt-[60px]' : ''}`}>
+      <section className={`relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white ${cart.length > 0 ? 'pt-[60px]' : ''} ${knownCustomer ? 'pt-[100px]' : ''}`}>
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1920')] bg-cover bg-center opacity-20" />
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-800/80" />
         
