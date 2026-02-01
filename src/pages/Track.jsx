@@ -26,6 +26,7 @@ export default function Track() {
   const [error, setError] = useState('');
   const [searched, setSearched] = useState(false);
   const [paymentClicked, setPaymentClicked] = useState(false);
+  const [paymentJustConfirmed, setPaymentJustConfirmed] = useState(false);
 
   useEffect(() => {
     if (initialTracking) {
@@ -68,6 +69,21 @@ export default function Track() {
     // Refresh order
     const updatedOrders = await base44.entities.Order.filter({ tracking_number: trackingNumber });
     setOrder(updatedOrders[0]);
+    setPaymentJustConfirmed(true);
+  };
+
+  const handleUndoPaymentConfirmation = async () => {
+    // Revert back to payment pending
+    await base44.entities.Order.update(order.id, {
+      status: 'payment_pending',
+      payment_date: null
+    });
+
+    // Refresh order
+    const updatedOrders = await base44.entities.Order.filter({ tracking_number: trackingNumber });
+    setOrder(updatedOrders[0]);
+    setPaymentJustConfirmed(false);
+    setPaymentClicked(false);
   };
 
   return (
@@ -205,6 +221,28 @@ export default function Track() {
                           </>
                         )}
                       </div>
+                    </div>
+                  )}
+
+                  {/* Payment Confirmed - Allow Undo */}
+                  {order.status === 'paid' && paymentJustConfirmed && (
+                    <div className="bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-xl p-6 text-center">
+                      <h3 className="font-semibold text-lg text-blue-800 mb-2">
+                        Payment Confirmation Received
+                      </h3>
+                      <p className="text-blue-700 mb-4">
+                        Our team will verify your payment and start processing your visa
+                      </p>
+                      <p className="text-sm text-blue-600 mb-4">
+                        Clicked by mistake? You can undo this action.
+                      </p>
+                      <Button 
+                        onClick={handleUndoPaymentConfirmation}
+                        variant="outline"
+                        className="border-blue-300 text-blue-700 hover:bg-blue-50"
+                      >
+                        Undo Payment Confirmation
+                      </Button>
                     </div>
                   )}
 
