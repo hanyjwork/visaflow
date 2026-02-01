@@ -100,7 +100,6 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
     if (!formData.applicant_name) newErrors.applicant_name = 'Name is required';
     if (!formData.nationality) newErrors.nationality = 'Nationality is required';
     if (!formData.residence_country) newErrors.residence_country = 'Residence country is required';
-    if (!formData.date_of_birth) newErrors.date_of_birth = 'Date of birth is required';
     if (!formData.expected_travel_date) newErrors.expected_travel_date = 'Expected travel date is required';
     if (!formData.gender) newErrors.gender = 'Gender is required';
     if (!formData.passport_front_url) newErrors.passport_front_url = 'Passport front page is required';
@@ -137,18 +136,6 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
               className={errors.applicant_name ? 'border-red-500' : ''}
             />
             {errors.applicant_name && <p className="text-xs text-red-500">{errors.applicant_name}</p>}
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="dob">Date of Birth *</Label>
-            <Input
-              id="dob"
-              type="date"
-              value={formData.date_of_birth}
-              onChange={(e) => setFormData(prev => ({ ...prev, date_of_birth: e.target.value }))}
-              className={errors.date_of_birth ? 'border-red-500' : ''}
-            />
-            {errors.date_of_birth && <p className="text-xs text-red-500">{errors.date_of_birth}</p>}
           </div>
           
           <div className="grid grid-cols-2 gap-4">
