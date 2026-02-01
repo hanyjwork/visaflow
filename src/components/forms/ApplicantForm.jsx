@@ -101,7 +101,6 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
     if (!formData.nationality) newErrors.nationality = 'Nationality is required';
     if (!formData.residence_country) newErrors.residence_country = 'Residence country is required';
     if (!formData.expected_travel_date) newErrors.expected_travel_date = 'Expected travel date is required';
-    if (!formData.gender) newErrors.gender = 'Gender is required';
     if (!formData.passport_front_url) newErrors.passport_front_url = 'Passport front page is required';
     if (!formData.passport_cover_url) newErrors.passport_cover_url = 'Passport cover is required';
     if (!formData.photo_url) newErrors.photo_url = 'Photo is required';
@@ -176,36 +175,17 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
             </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="travel_date">Expected Travel Date *</Label>
-              <Input
-                id="travel_date"
-                type="date"
-                value={formData.expected_travel_date}
-                onChange={(e) => setFormData(prev => ({ ...prev, expected_travel_date: e.target.value }))}
-                className={errors.expected_travel_date ? 'border-red-500' : ''}
-                min={new Date().toISOString().split('T')[0]}
-              />
-              {errors.expected_travel_date && <p className="text-xs text-red-500">{errors.expected_travel_date}</p>}
-            </div>
-            
-            <div className="space-y-2">
-              <Label>Gender *</Label>
-              <Select 
-                value={formData.gender} 
-                onValueChange={(value) => setFormData(prev => ({ ...prev, gender: value }))}
-              >
-                <SelectTrigger className={errors.gender ? 'border-red-500' : ''}>
-                  <SelectValue placeholder="Select gender" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="male">Male</SelectItem>
-                  <SelectItem value="female">Female</SelectItem>
-                </SelectContent>
-              </Select>
-              {errors.gender && <p className="text-xs text-red-500">{errors.gender}</p>}
-            </div>
+          <div className="space-y-2">
+            <Label htmlFor="travel_date">Expected Travel Date *</Label>
+            <Input
+              id="travel_date"
+              type="date"
+              value={formData.expected_travel_date}
+              onChange={(e) => setFormData(prev => ({ ...prev, expected_travel_date: e.target.value }))}
+              className={errors.expected_travel_date ? 'border-red-500' : ''}
+              min={new Date().toISOString().split('T')[0]}
+            />
+            {errors.expected_travel_date && <p className="text-xs text-red-500">{errors.expected_travel_date}</p>}
           </div>
           
           <div className="space-y-2">
