@@ -171,7 +171,7 @@ export default function Track() {
                   {(order.status === 'ready_for_processing' || order.status === 'payment_pending') && order.payment_link && (
                     <div className="bg-gradient-to-r from-amber-50 to-amber-100 border border-amber-200 rounded-xl p-6 text-center">
                       <h3 className="font-semibold text-lg text-amber-800 mb-2">
-                        Your Application is Approved!
+                        Your Application is Ready for Payment!
                       </h3>
                       <p className="text-amber-700 mb-4">
                         Please complete the payment to start visa processing
