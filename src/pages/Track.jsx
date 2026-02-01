@@ -250,6 +250,13 @@ export default function Track() {
                       <p className="text-red-700">{order.rejection_reason}</p>
                     </div>
                 }
+
+                  {order.government_rejection_reason &&
+                <div className="bg-red-50 border border-red-200 rounded-xl p-4 mt-4">
+                      <p className="text-red-800 font-medium mb-2">Government Rejected</p>
+                      <p className="text-red-700">{order.government_rejection_reason}</p>
+                    </div>
+                }
                 </CardContent>
               </Card>
 
