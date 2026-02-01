@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
 import {
   Search, ArrowLeft, Loader2, AlertCircle,
-  User, FileText, Calendar, CreditCard, Plane, Shield, Download } from
+  User, FileText, Calendar, CreditCard, Plane, Shield, Download, CheckCircle, XCircle } from
 'lucide-react';
 import OrderTracker from '@/components/tracking/OrderTracker';
 import StatusBadge from '@/components/tracking/StatusBadge';
@@ -246,28 +246,7 @@ export default function Track() {
                     </div>
                   )}
 
-                  {/* Visa Download */}
-                  {order.status === 'completed' && order.visa_document_url &&
-                <div className="bg-gradient-to-r from-green-50 to-green-100 border border-green-200 rounded-xl p-6 text-center">
-                      <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <FileText className="w-8 h-8 text-white" />
-                      </div>
-                      <h3 className="font-semibold text-lg text-green-800 mb-2">
-                        Your Visa is Ready!
-                      </h3>
-                      <p className="text-green-700 mb-4">
-                        Your visa has been processed and is ready for download
-                      </p>
-                      <a href={order.visa_document_url} target="_blank" rel="noopener noreferrer" download>
-                        <Button
-                      className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800">
 
-                          <FileText className="w-5 h-5 mr-2" />
-                          Download Visa PDF
-                        </Button>
-                      </a>
-                    </div>
-                }
 
                   {order.status === 'returned_for_modification' &&
                 <div className="bg-orange-50 border border-orange-200 rounded-xl p-6 mt-4">
@@ -289,12 +268,7 @@ export default function Track() {
                     </div>
                 }
 
-                  {order.government_rejection_reason &&
-                <div className="bg-red-50 border border-red-200 rounded-xl p-4 mt-4">
-                      <p className="text-red-800 font-medium mb-2">Government Rejected</p>
-                      <p className="text-red-700">{order.government_rejection_reason}</p>
-                    </div>
-                }
+
                 </CardContent>
               </Card>
 
@@ -335,6 +309,33 @@ export default function Track() {
                       <div className="flex items-center justify-between text-sm border-t pt-2">
                           <span className="text-slate-600">Security Deposit:</span>
                           <span className="font-medium text-amber-600">AED {app.security_deposit?.toFixed(2)}</span>
+                        </div>
+                      }
+                      
+                      {/* Visa Download for this applicant */}
+                      {app.visa_document_url &&
+                      <div className="bg-green-50 border border-green-200 rounded-lg p-3 mt-3">
+                          <div className="flex items-center gap-2 text-green-700 mb-2">
+                            <CheckCircle className="w-4 h-4" />
+                            <span className="font-medium text-sm">Visa Ready</span>
+                          </div>
+                          <a href={app.visa_document_url} target="_blank" rel="noopener noreferrer" download>
+                            <Button size="sm" className="w-full bg-green-600 hover:bg-green-700">
+                              <FileText className="w-4 h-4 mr-2" />
+                              Download Visa PDF
+                            </Button>
+                          </a>
+                        </div>
+                      }
+
+                      {/* Government Rejection for this applicant */}
+                      {app.government_rejection_reason &&
+                      <div className="bg-red-50 border border-red-200 rounded-lg p-3 mt-3">
+                          <div className="flex items-center gap-2 text-red-700 mb-2">
+                            <XCircle className="w-4 h-4" />
+                            <span className="font-medium text-sm">Government Rejected</span>
+                          </div>
+                          <p className="text-sm text-red-700">{app.government_rejection_reason}</p>
                         </div>
                       }
                     </motion.div>);

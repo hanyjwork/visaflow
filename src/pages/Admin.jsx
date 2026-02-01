@@ -36,8 +36,8 @@ export default function Admin() {
   const [authError, setAuthError] = useState(null);
   const [editingPaymentLink, setEditingPaymentLink] = useState(false);
   const [editedPaymentLink, setEditedPaymentLink] = useState('');
-  const [visaActionDialog, setVisaActionDialog] = useState({ open: false, order: null });
-  const [govRejectionReason, setGovRejectionReason] = useState('');
+  const [visaActionDialog, setVisaActionDialog] = useState({ open: false, order: null, applications: [] });
+  const [applicantVisaActions, setApplicantVisaActions] = useState({});
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -175,25 +175,33 @@ export default function Admin() {
     });
   };
 
-  const handleVisaUpload = async (order, file) => {
+  const handleVisaUpload = async (applicationId, file) => {
     setUploadingVisa(true);
     try {
       const { file_url } = await base44.integrations.Core.UploadFile({ file });
       
-      await updateOrderMutation.mutateAsync({
-        id: order.id,
-        data: { 
-          visa_document_url: file_url,
-          status: 'completed'
-        }
-      });
-
-      await updateApplicationsMutation.mutateAsync({
-        orderId: order.id,
+      await base44.entities.Application.update(applicationId, {
+        visa_document_url: file_url,
         status: 'completed'
       });
+
+      // Check if all applications are completed
+      const allApps = await base44.entities.Application.filter({ order_id: visaActionDialog.order.id });
+      const allCompleted = allApps.every(app => 
+        app.status === 'completed' || app.status === 'rejected'
+      );
+
+      if (allCompleted) {
+        await base44.entities.Order.update(visaActionDialog.order.id, {
+          status: 'completed'
+        });
+      }
+
+      // Refresh the applications list
+      const updatedApps = await base44.entities.Application.filter({ order_id: visaActionDialog.order.id });
+      setVisaActionDialog(prev => ({ ...prev, applications: updatedApps }));
       
-      setVisaActionDialog({ open: false, order: null });
+      queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
     } catch (error) {
       alert('Failed to upload visa document');
     } finally {
@@ -201,27 +209,41 @@ export default function Admin() {
     }
   };
 
-  const handleGovernmentRejection = async () => {
-    if (!govRejectionReason.trim()) {
+  const handleGovernmentRejection = async (applicationId, reason) => {
+    if (!reason.trim()) {
       alert('Please provide a rejection reason');
       return;
     }
 
-    await updateOrderMutation.mutateAsync({
-      id: visaActionDialog.order.id,
-      data: { 
-        status: 'government_rejected',
-        government_rejection_reason: govRejectionReason
-      }
+    await base44.entities.Application.update(applicationId, {
+      status: 'rejected',
+      government_rejection_reason: reason
     });
 
-    await updateApplicationsMutation.mutateAsync({
-      orderId: visaActionDialog.order.id,
-      status: 'rejected'
+    // Check if all applications are completed/rejected
+    const allApps = await base44.entities.Application.filter({ order_id: visaActionDialog.order.id });
+    const allProcessed = allApps.every(app => 
+      app.status === 'completed' || app.status === 'rejected'
+    );
+
+    if (allProcessed) {
+      // Check if any were rejected
+      const anyRejected = allApps.some(app => app.status === 'rejected');
+      await base44.entities.Order.update(visaActionDialog.order.id, {
+        status: anyRejected ? 'government_rejected' : 'completed'
+      });
+    }
+
+    // Refresh the applications list
+    const updatedApps = await base44.entities.Application.filter({ order_id: visaActionDialog.order.id });
+    setVisaActionDialog(prev => ({ ...prev, applications: updatedApps }));
+    setApplicantVisaActions(prev => {
+      const updated = { ...prev };
+      delete updated[applicationId];
+      return updated;
     });
 
-    setVisaActionDialog({ open: false, order: null });
-    setGovRejectionReason('');
+    queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
   };
 
   const handleMarkCompleted = async (order) => {
@@ -543,7 +565,11 @@ export default function Admin() {
                                 variant="ghost"
                                 size="sm"
                                 className="text-green-600"
-                                onClick={() => setVisaActionDialog({ open: true, order })}
+                                onClick={async () => {
+                                  const apps = await base44.entities.Application.filter({ order_id: order.id });
+                                  setVisaActionDialog({ open: true, order, applications: apps });
+                                  setApplicantVisaActions({});
+                                }}
                                 title="Upload visa or mark as rejected"
                               >
                                 <Upload className="w-4 h-4" />
@@ -726,20 +752,7 @@ export default function Admin() {
                   </div>
                 )}
 
-                {selectedOrder.visa_document_url && (
-                  <div className="p-3 bg-green-50 rounded-lg border border-green-200">
-                    <p className="text-sm text-slate-500 mb-1">Visa Document:</p>
-                    <a 
-                      href={selectedOrder.visa_document_url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-green-600 hover:underline text-sm flex items-center gap-2"
-                    >
-                      <Download className="w-4 h-4" />
-                      Download PDF
-                    </a>
-                  </div>
-                )}
+
 
                 <div>
                   <h4 className="font-medium mb-3">Applicants ({applications.length})</h4>
@@ -840,6 +853,26 @@ export default function Admin() {
                               </div>
                             </div>
                           )}
+                          {app.visa_document_url && (
+                            <div className="border-t pt-3 bg-green-50 px-3 py-2 rounded-md">
+                              <p className="text-xs text-green-700 font-medium mb-1">✓ Visa Issued</p>
+                              <a 
+                                href={app.visa_document_url} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="text-green-600 hover:underline text-sm flex items-center gap-2"
+                              >
+                                <Download className="w-4 h-4" />
+                                Download Visa PDF
+                              </a>
+                            </div>
+                          )}
+                          {app.government_rejection_reason && (
+                            <div className="border-t pt-3 bg-red-50 px-3 py-2 rounded-md">
+                              <p className="text-xs text-red-700 font-medium mb-1">✗ Government Rejected</p>
+                              <p className="text-sm text-red-700">{app.government_rejection_reason}</p>
+                            </div>
+                          )}
                         </div>
                       </Card>
                     ))}
@@ -850,99 +883,163 @@ export default function Admin() {
           </DialogContent>
         </Dialog>
 
-        {/* Visa Upload/Rejection Dialog */}
-        <Dialog open={visaActionDialog.open} onOpenChange={() => setVisaActionDialog({ open: false, order: null })}>
-          <DialogContent>
+        {/* Visa Upload/Rejection Dialog - Per Applicant */}
+        <Dialog open={visaActionDialog.open} onOpenChange={() => {
+          setVisaActionDialog({ open: false, order: null, applications: [] });
+          setApplicantVisaActions({});
+        }}>
+          <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Process Visa - #{visaActionDialog.order?.tracking_number}</DialogTitle>
+              <DialogTitle>Process Visas - #{visaActionDialog.order?.tracking_number}</DialogTitle>
             </DialogHeader>
-            <div className="space-y-6">
+            <div className="space-y-4">
               <p className="text-sm text-slate-600">
-                Choose one of the following actions:
+                Upload the issued visa or mark as government rejected for each applicant:
               </p>
 
-              {/* Upload Visa Document */}
-              <div className="border rounded-lg p-4 space-y-3">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600" />
-                  <h4 className="font-semibold text-slate-800">Upload Issued Visa</h4>
-                </div>
-                <p className="text-sm text-slate-600">
-                  The visa has been successfully issued by the government
-                </p>
-                <label className="cursor-pointer">
-                  <input
-                    type="file"
-                    accept=".pdf"
-                    className="hidden"
-                    onChange={(e) => e.target.files?.[0] && handleVisaUpload(visaActionDialog.order, e.target.files[0])}
-                    disabled={uploadingVisa}
-                  />
-                  <Button
-                    className="w-full bg-green-600 hover:bg-green-700"
-                    disabled={uploadingVisa}
-                    asChild
-                  >
-                    <span>
-                      {uploadingVisa ? (
-                        <>
-                          <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                          Uploading...
-                        </>
-                      ) : (
-                        <>
-                          <Upload className="w-4 h-4 mr-2" />
-                          Select PDF to Upload
-                        </>
-                      )}
-                    </span>
-                  </Button>
-                </label>
-              </div>
+              {visaActionDialog.applications.map((app) => (
+                <Card key={app.id} className="p-4">
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <h4 className="font-semibold text-slate-800">{app.applicant_name}</h4>
+                      <p className="text-sm text-slate-500">{app.service_name}</p>
+                    </div>
+                    <StatusBadge status={app.status} />
+                  </div>
 
-              {/* Government Rejection */}
-              <div className="border border-red-200 rounded-lg p-4 space-y-3 bg-red-50">
-                <div className="flex items-center gap-2">
-                  <XCircle className="w-5 h-5 text-red-600" />
-                  <h4 className="font-semibold text-slate-800">Government Rejected</h4>
-                </div>
-                <p className="text-sm text-slate-600">
-                  The visa application was rejected by the UAE government
-                </p>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Rejection Reason *</label>
-                  <Textarea
-                    value={govRejectionReason}
-                    onChange={(e) => setGovRejectionReason(e.target.value)}
-                    placeholder="Enter the government's rejection reason..."
-                    rows={4}
-                    className="bg-white"
-                  />
-                </div>
-                <Button
-                  variant="destructive"
-                  className="w-full"
-                  onClick={handleGovernmentRejection}
-                  disabled={!govRejectionReason.trim() || updateOrderMutation.isPending}
-                >
-                  {updateOrderMutation.isPending ? (
-                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                  {app.status === 'completed' && app.visa_document_url ? (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                      <div className="flex items-center gap-2 text-green-700 mb-2">
+                        <CheckCircle className="w-4 h-4" />
+                        <span className="font-medium text-sm">Visa Issued</span>
+                      </div>
+                      <a 
+                        href={app.visa_document_url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-green-600 hover:underline text-sm flex items-center gap-2"
+                      >
+                        <Download className="w-4 h-4" />
+                        Download Visa PDF
+                      </a>
+                    </div>
+                  ) : app.status === 'rejected' && app.government_rejection_reason ? (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                      <div className="flex items-center gap-2 text-red-700 mb-2">
+                        <XCircle className="w-4 h-4" />
+                        <span className="font-medium text-sm">Government Rejected</span>
+                      </div>
+                      <p className="text-sm text-red-700">{app.government_rejection_reason}</p>
+                    </div>
                   ) : (
-                    <XCircle className="w-4 h-4 mr-2" />
+                    <div className="grid md:grid-cols-2 gap-3">
+                      {/* Upload Visa */}
+                      <div className="border rounded-lg p-3 space-y-2">
+                        <div className="flex items-center gap-2 text-green-700">
+                          <CheckCircle className="w-4 h-4" />
+                          <span className="font-medium text-sm">Upload Visa</span>
+                        </div>
+                        <label className="cursor-pointer">
+                          <input
+                            type="file"
+                            accept=".pdf"
+                            className="hidden"
+                            onChange={(e) => e.target.files?.[0] && handleVisaUpload(app.id, e.target.files[0])}
+                            disabled={uploadingVisa}
+                          />
+                          <Button
+                            size="sm"
+                            className="w-full bg-green-600 hover:bg-green-700"
+                            disabled={uploadingVisa}
+                            asChild
+                          >
+                            <span>
+                              {uploadingVisa ? (
+                                <>
+                                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                                  Uploading...
+                                </>
+                              ) : (
+                                <>
+                                  <Upload className="w-4 h-4 mr-2" />
+                                  Select PDF
+                                </>
+                              )}
+                            </span>
+                          </Button>
+                        </label>
+                      </div>
+
+                      {/* Government Rejection */}
+                      <div className="border border-red-200 rounded-lg p-3 space-y-2 bg-red-50">
+                        <div className="flex items-center gap-2 text-red-700">
+                          <XCircle className="w-4 h-4" />
+                          <span className="font-medium text-sm">Gov. Rejected</span>
+                        </div>
+                        {applicantVisaActions[app.id]?.showRejectionInput ? (
+                          <div className="space-y-2">
+                            <Textarea
+                              value={applicantVisaActions[app.id]?.rejectionReason || ''}
+                              onChange={(e) => setApplicantVisaActions(prev => ({
+                                ...prev,
+                                [app.id]: { ...prev[app.id], rejectionReason: e.target.value }
+                              }))}
+                              placeholder="Enter reason..."
+                              rows={2}
+                              className="bg-white text-xs"
+                            />
+                            <div className="flex gap-2">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => setApplicantVisaActions(prev => {
+                                  const updated = { ...prev };
+                                  delete updated[app.id];
+                                  return updated;
+                                })}
+                                className="flex-1 text-xs"
+                              >
+                                Cancel
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                onClick={() => handleGovernmentRejection(app.id, applicantVisaActions[app.id]?.rejectionReason)}
+                                disabled={!applicantVisaActions[app.id]?.rejectionReason?.trim()}
+                                className="flex-1 text-xs"
+                              >
+                                Confirm
+                              </Button>
+                            </div>
+                          </div>
+                        ) : (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="w-full text-xs border-red-300 text-red-700 hover:bg-red-100"
+                            onClick={() => setApplicantVisaActions(prev => ({
+                              ...prev,
+                              [app.id]: { showRejectionInput: true, rejectionReason: '' }
+                            }))}
+                          >
+                            Mark as Rejected
+                          </Button>
+                        )}
+                      </div>
+                    </div>
                   )}
-                  Mark as Government Rejected
-                </Button>
-              </div>
+                </Card>
+              ))}
             </div>
             <DialogFooter>
               <Button 
                 variant="outline" 
                 onClick={() => {
-                  setVisaActionDialog({ open: false, order: null });
-                  setGovRejectionReason('');
+                  setVisaActionDialog({ open: false, order: null, applications: [] });
+                  setApplicantVisaActions({});
                 }}
               >
-                Cancel
+                Close
               </Button>
             </DialogFooter>
           </DialogContent>
