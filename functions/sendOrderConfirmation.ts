@@ -65,30 +65,17 @@ Deno.serve(async (req) => {
             </div>
         `;
 
-        // Send email using Resend
-        const resendApiKey = Deno.env.get("RESEND_API_KEY");
-        const resendResponse = await fetch("https://api.resend.com/emails", {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${resendApiKey}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                from: "UAE Visa Services <onboarding@resend.dev>",
-                to: [data.customer_email],
-                subject: `Application Received - Tracking #${data.tracking_number}`,
-                html: emailBody
-            })
+        // Send the email
+        await base44.asServiceRole.integrations.Core.SendEmail({
+            to: data.customer_email,
+            subject: `Application Received - Tracking #${data.tracking_number}`,
+            body: emailBody,
+            from_name: 'UAE Visa Services'
         });
-
-        if (!resendResponse.ok) {
-            const errorData = await resendResponse.json();
-            throw new Error(`Resend API error: ${JSON.stringify(errorData)}`);
-        }
 
         return Response.json({ 
             success: true,
-            message: 'Order confirmation email sent successfully via Resend' 
+            message: 'Order confirmation email sent successfully' 
         });
 
     } catch (error) {
