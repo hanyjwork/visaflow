@@ -69,7 +69,8 @@ Deno.serve(async (req) => {
         await base44.asServiceRole.integrations.Core.SendEmail({
             to: data.customer_email,
             subject: `Application Received - Tracking #${data.tracking_number}`,
-            body: emailBody
+            body: emailBody,
+            from_name: 'UAE Visa Services'
         });
 
         return Response.json({ 
