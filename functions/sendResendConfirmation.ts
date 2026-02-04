@@ -17,7 +17,7 @@ Deno.serve(async (req) => {
         
         // Send confirmation email to customer
         const emailData = await resend.emails.send({
-            from: 'Visa Flow UAE <onboarding@resend.dev>',
+            from: 'Visa Flow UAE <support@visaflowuae.com>',
             to: order.customer_email,
             subject: `Order Confirmation - Tracking #${order.tracking_number}`,
             html: `
