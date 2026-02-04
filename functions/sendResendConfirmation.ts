@@ -8,6 +8,9 @@ Deno.serve(async (req) => {
         const base44 = createClientFromRequest(req);
         const { event, data } = await req.json();
 
+        console.log('Received event:', event);
+        console.log('Order data:', data);
+
         // Only process create events
         if (event?.type !== 'create') {
             return Response.json({ message: 'Not a create event' });
@@ -15,9 +18,15 @@ Deno.serve(async (req) => {
 
         const order = data;
         
+        if (!order.customer_email || !order.tracking_number) {
+            console.error('Missing required fields:', { email: order.customer_email, tracking: order.tracking_number });
+            return Response.json({ error: 'Missing required order fields' }, { status: 400 });
+        }
+        
         // Send confirmation email to customer
+        console.log('Sending email to:', order.customer_email);
         const emailData = await resend.emails.send({
-            from: 'Visa Flow UAE <support@visaflowuae.com>',
+            from: 'support@visaflowuae.com',
             to: order.customer_email,
             subject: `Order Confirmation - Tracking #${order.tracking_number}`,
             html: `
@@ -41,14 +50,18 @@ Deno.serve(async (req) => {
             `
         });
 
+        console.log('Email sent successfully:', emailData.id);
+
         return Response.json({ 
             success: true, 
             message: 'Confirmation email sent',
             emailId: emailData.id 
         });
     } catch (error) {
+        console.error('Error sending email:', error);
         return Response.json({ 
-            error: error.message 
+            error: error.message,
+            stack: error.stack 
         }, { status: 500 });
     }
 });
