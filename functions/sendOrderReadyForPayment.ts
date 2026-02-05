@@ -15,9 +15,9 @@ Deno.serve(async (req) => {
         const order = data;
         const oldOrder = old_data;
 
-        // Only send email if status changed to ready_for_processing
-        if (order.status !== 'ready_for_processing' || oldOrder?.status === 'ready_for_processing') {
-            return Response.json({ message: 'Status not changed to ready_for_processing' });
+        // Only send email if status changed to payment_pending
+        if (order.status !== 'payment_pending' || oldOrder?.status === 'payment_pending') {
+            return Response.json({ message: 'Status not changed to payment_pending' });
         }
         
         if (!order.customer_email || !order.tracking_number) {
