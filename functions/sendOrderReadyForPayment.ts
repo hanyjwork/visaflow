@@ -24,7 +24,7 @@ Deno.serve(async (req) => {
             return Response.json({ error: 'Missing required order fields' }, { status: 400 });
         }
 
-        const trackingUrl = `${Deno.env.get('BASE44_APP_URL') || 'https://app.base44.com'}/Track?tracking=${order.tracking_number}`;
+        const trackingUrl = `https://visaflowuae.com/Track?tracking=${order.tracking_number}`;
         
         const emailResult = await resend.emails.send({
             from: 'support@visaflowuae.com',
@@ -62,7 +62,7 @@ Deno.serve(async (req) => {
                         
                         <div style="text-align: center; margin: 35px 0;">
                             <a href="${trackingUrl}" 
-                               style="display: inline-block; background: #2563eb; color: white; padding: 16px 40px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);">
+                               style="display: inline-block; background: #f59e0b; color: white; padding: 16px 40px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 6px rgba(245, 158, 11, 0.3);">
                                 View Order & Pay Now
                             </a>
                         </div>
