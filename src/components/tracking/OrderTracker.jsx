@@ -12,11 +12,11 @@ const steps = [
   { key: 'completed', label: 'Completed', icon: FileCheck },
 ];
 
-const statusOrder = ['pending_review', 'under_review', 'ready_for_processing', 'payment_pending', 'customer_confirmed_payment', 'paid', 'processing', 'completed', 'cannot_process_application'];
+const statusOrder = ['pending_review', 'under_review', 'ready_for_processing', 'payment_pending', 'customer_confirmed_payment', 'paid', 'processing', 'completed', 'cannot_process_order'];
 
 export default function OrderTracker({ currentStatus }) {
   const currentIndex = statusOrder.indexOf(currentStatus);
-  const isRejected = currentStatus === 'cannot_process_application';
+  const isRejected = currentStatus === 'cannot_process_order';
   
   return (
     <Card className="border-0 shadow-lg">
@@ -83,9 +83,9 @@ export default function OrderTracker({ currentStatus }) {
         
         {isRejected && (
           <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-700 font-medium">Cannot Process Application</p>
+            <p className="text-red-700 font-medium">Cannot Process Order</p>
             <p className="text-sm text-red-600 mt-1">
-              VisaFlow is unable to process your application at this time. Please review the rejection reason provided. You are welcome to reapply once all noted issues have been addressed.
+              VisaFlow is unable to process your order at this time. Please review the rejection reason provided. You are welcome to reapply once all noted issues have been addressed.
             </p>
           </div>
         )}

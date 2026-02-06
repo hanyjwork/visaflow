@@ -134,14 +134,14 @@ export default function Admin() {
     await updateOrderMutation.mutateAsync({
       id: actionDialog.order.id,
       data: { 
-        status: 'cannot_process_application', 
+        status: 'cannot_process_order', 
         rejection_reason: rejectionReason,
         admin_notes: adminNotes 
       }
     });
     await updateApplicationsMutation.mutateAsync({
       orderId: actionDialog.order.id,
-      status: 'cannot_process_application'
+      status: 'cannot_process_order'
     });
     setRejectionReason('');
     setAdminNotes('');
@@ -428,7 +428,7 @@ export default function Admin() {
                 <SelectItem value="paid">Paid</SelectItem>
                 <SelectItem value="processing">Processing</SelectItem>
                 <SelectItem value="completed">Completed</SelectItem>
-                <SelectItem value="cannot_process_application">Cannot Process Application</SelectItem>
+                <SelectItem value="cannot_process_order">Cannot Process Order</SelectItem>
                 <SelectItem value="returned_for_modification">Returned for Modification</SelectItem>
                 <SelectItem value="government_rejected">Government Rejected</SelectItem>
               </SelectContent>
@@ -529,7 +529,7 @@ export default function Admin() {
                                   size="sm"
                                   className="text-red-600"
                                   onClick={() => setActionDialog({ open: true, type: 'reject', order })}
-                                  title="Cannot process application"
+                                  title="Cannot process order"
                                 >
                                   <XCircle className="w-4 h-4" />
                                 </Button>
@@ -1052,7 +1052,7 @@ export default function Admin() {
               <DialogTitle>
                 {actionDialog.type === 'approve' ? 'Approve Application' : 
                  actionDialog.type === 'return' ? 'Return for Modification' : 
-                 'Cannot Process Application'}
+                 'Cannot Process Order'}
               </DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
@@ -1125,7 +1125,7 @@ export default function Admin() {
                   <Textarea
                     value={rejectionReason}
                     onChange={(e) => setRejectionReason(e.target.value)}
-                    placeholder="Enter the reason why the application cannot be processed..."
+                    placeholder="Enter the reason why the order cannot be processed..."
                     rows={3}
                   />
                 </div>
