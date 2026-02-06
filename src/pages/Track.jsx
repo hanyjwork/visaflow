@@ -62,8 +62,8 @@ export default function Track() {
   const handleConfirmPayment = async () => {
     // Customer confirms payment was made
     await base44.entities.Order.update(order.id, {
-      status: 'paid',
-      payment_date: new Date().toISOString()
+      status: 'customer_confirmed_payment',
+      customer_payment_confirmation_date: new Date().toISOString()
     });
 
     // Refresh order
@@ -76,7 +76,7 @@ export default function Track() {
     // Revert back to payment pending
     await base44.entities.Order.update(order.id, {
       status: 'payment_pending',
-      payment_date: null
+      customer_payment_confirmation_date: null
     });
 
     // Refresh order
@@ -225,7 +225,7 @@ export default function Track() {
                   )}
 
                   {/* Payment Confirmed - Allow Undo */}
-                  {order.status === 'paid' && paymentJustConfirmed && (
+                  {order.status === 'customer_confirmed_payment' && paymentJustConfirmed && (
                     <div className="bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-xl p-6 text-center">
                       <h3 className="font-semibold text-lg text-blue-800 mb-2">
                         Payment Confirmation Received
@@ -243,6 +243,18 @@ export default function Track() {
                       >
                         Undo Payment Confirmation
                       </Button>
+                    </div>
+                  )}
+
+                  {/* Waiting for Admin Verification */}
+                  {order.status === 'customer_confirmed_payment' && !paymentJustConfirmed && (
+                    <div className="bg-gradient-to-r from-amber-50 to-amber-100 border border-amber-200 rounded-xl p-6 text-center">
+                      <h3 className="font-semibold text-lg text-amber-800 mb-2">
+                        Payment Confirmation Pending Verification
+                      </h3>
+                      <p className="text-amber-700">
+                        Our team is verifying your payment. We'll notify you once confirmed.
+                      </p>
                     </div>
                   )}
 
