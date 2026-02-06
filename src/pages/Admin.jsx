@@ -79,6 +79,26 @@ export default function Admin() {
     },
   });
 
+  // Helper function to update order status based on all applications
+  const updateOrderStatusBasedOnApplications = async (orderId) => {
+    const allApps = await base44.entities.Application.filter({ order_id: orderId });
+    
+    if (allApps.length === 0) return;
+
+    // Check if all applications are fully processed (completed or rejected)
+    const allProcessed = allApps.every(app => 
+      app.status === 'completed' || app.status === 'rejected'
+    );
+
+    // If all applications are processed, mark the order as completed
+    // Order status reflects processing state, not individual outcomes
+    if (allProcessed) {
+      await base44.entities.Order.update(orderId, {
+        status: 'completed'
+      });
+    }
+  };
+
   const loadApplications = async (order) => {
     const apps = await base44.entities.Application.filter({ order_id: order.id });
     setApplications(apps);
@@ -180,22 +200,14 @@ export default function Admin() {
     try {
       const { file_url } = await base44.integrations.Core.UploadFile({ file });
       
+      // Update individual application status to completed
       await base44.entities.Application.update(applicationId, {
         visa_document_url: file_url,
         status: 'completed'
       });
 
-      // Check if all applications are completed
-      const allApps = await base44.entities.Application.filter({ order_id: visaActionDialog.order.id });
-      const allCompleted = allApps.every(app => 
-        app.status === 'completed' || app.status === 'rejected'
-      );
-
-      if (allCompleted) {
-        await base44.entities.Order.update(visaActionDialog.order.id, {
-          status: 'completed'
-        });
-      }
+      // Update order status based on all applications
+      await updateOrderStatusBasedOnApplications(visaActionDialog.order.id);
 
       // Refresh the applications list
       const updatedApps = await base44.entities.Application.filter({ order_id: visaActionDialog.order.id });
@@ -215,24 +227,14 @@ export default function Admin() {
       return;
     }
 
+    // Update individual application status to rejected
     await base44.entities.Application.update(applicationId, {
       status: 'rejected',
       government_rejection_reason: reason
     });
 
-    // Check if all applications are completed/rejected
-    const allApps = await base44.entities.Application.filter({ order_id: visaActionDialog.order.id });
-    const allProcessed = allApps.every(app => 
-      app.status === 'completed' || app.status === 'rejected'
-    );
-
-    if (allProcessed) {
-      // Check if any were rejected
-      const anyRejected = allApps.some(app => app.status === 'rejected');
-      await base44.entities.Order.update(visaActionDialog.order.id, {
-        status: anyRejected ? 'government_rejected' : 'completed'
-      });
-    }
+    // Update order status based on all applications
+    await updateOrderStatusBasedOnApplications(visaActionDialog.order.id);
 
     // Refresh the applications list
     const updatedApps = await base44.entities.Application.filter({ order_id: visaActionDialog.order.id });
