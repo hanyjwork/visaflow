@@ -26,9 +26,8 @@ Deno.serve(async (req) => {
             return Response.json({ error: 'Missing tracking number' }, { status: 400 });
         }
         
-        // Fetch all admin users
-        const allUsers = await base44.asServiceRole.entities.User.list();
-        const adminUsers = allUsers.filter(user => user.role === 'admin');
+        // Fetch admin users only
+        const adminUsers = await base44.asServiceRole.entities.User.filter({ role: 'admin' });
         
         console.log(`Found ${adminUsers.length} admin users.`);
 
