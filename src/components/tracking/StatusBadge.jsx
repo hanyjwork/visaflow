@@ -53,8 +53,8 @@ const statusConfig = {
     color: 'bg-orange-100 text-orange-700 border-orange-200',
     icon: AlertCircle,
   },
-  government_rejected: {
-    label: 'Government Rejected',
+  rejected: {
+    label: 'Rejected',
     color: 'bg-red-100 text-red-700 border-red-200',
     icon: XCircle,
   },
