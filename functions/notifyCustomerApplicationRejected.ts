@@ -21,12 +21,10 @@ Deno.serve(async (req) => {
         }
         
         // Get the order details
-        const orders = await base44.asServiceRole.entities.Order.filter({ id: application.order_id });
-        if (orders.length === 0) {
+        const order = await base44.asServiceRole.entities.Order.get(application.order_id);
+        if (!order) {
             return Response.json({ error: 'Order not found' }, { status: 404 });
         }
-        
-        const order = orders[0];
         
         if (!order.customer_email || !order.tracking_number) {
             return Response.json({ error: 'Missing required order fields' }, { status: 400 });
