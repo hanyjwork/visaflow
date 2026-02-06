@@ -432,7 +432,6 @@ export default function Admin() {
                 <SelectItem value="completed">Completed</SelectItem>
                 <SelectItem value="cannot_process_application">Cannot Process Application</SelectItem>
                 <SelectItem value="returned_for_modification">Returned for Modification</SelectItem>
-                <SelectItem value="government_rejected">Government Rejected</SelectItem>
               </SelectContent>
             </Select>
           </CardContent>
