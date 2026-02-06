@@ -43,8 +43,8 @@ const statusConfig = {
     color: 'bg-green-100 text-green-700 border-green-200',
     icon: FileCheck,
   },
-  cannot_process_order: {
-    label: 'Cannot Process Order',
+  cannot_process_application: {
+    label: 'Cannot Process Application',
     color: 'bg-red-100 text-red-700 border-red-200',
     icon: XCircle,
   },
