@@ -376,11 +376,14 @@ export default function Admin() {
             <h1 className="text-2xl font-bold text-slate-800">Admin Dashboard</h1>
             <p className="text-slate-500">Manage visa applications</p>
           </div>
-          <div className="flex gap-2">
-            <Button onClick={() => window.location.href = '/ManageNationalities'} variant="outline">
-              <Settings className="w-4 h-4 mr-2" />
+          <div className="flex items-center gap-4">
+            <a 
+              href="/ManageNationalities" 
+              className="text-sm text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1"
+            >
+              <Settings className="w-4 h-4" />
               Manage Nationalities
-            </Button>
+            </a>
             <Button onClick={() => refetch()} variant="outline">
               <RefreshCw className="w-4 h-4 mr-2" />
               Refresh
