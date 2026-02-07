@@ -244,7 +244,6 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                   <input
                     type="file"
                     className="hidden"
-                    accept="*"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
@@ -288,7 +287,6 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                   <input
                     type="file"
                     className="hidden"
-                    accept="*"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
@@ -332,7 +330,6 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                   <input
                     type="file"
                     className="hidden"
-                    accept="*"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
@@ -362,7 +359,6 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                   <input
                     type="file"
                     className="hidden"
-                    accept="*"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
