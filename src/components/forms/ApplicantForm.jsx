@@ -18,7 +18,7 @@ const countries = [
   "UK", "Ukraine", "USA", "Vietnam", "Yemen"
 ];
 
-export default function ApplicantForm({ isOpen, onClose, onSave, initialData, serviceName }) {
+export default function ApplicantForm({ isOpen, onClose, onSave, initialData, serviceName, serviceCategory }) {
   const [formData, setFormData] = useState(initialData || {
     applicant_name: '',
     passport_number: '',
@@ -32,6 +32,14 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
     photo_url: '',
     supporting_documents_urls: [],
   });
+
+  // Calculate minimum travel date based on service type
+  const getMinTravelDate = () => {
+    const today = new Date();
+    const daysToAdd = serviceCategory === 'express_visa' ? 2 : 5;
+    today.setDate(today.getDate() + daysToAdd);
+    return today.toISOString().split('T')[0];
+  };
   
   const [uploading, setUploading] = useState({ 
     passportFront: false, 
@@ -184,8 +192,13 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
               value={formData.expected_travel_date}
               onChange={(e) => setFormData(prev => ({ ...prev, expected_travel_date: e.target.value }))}
               className={errors.expected_travel_date ? 'border-red-500' : ''}
-              min={new Date().toISOString().split('T')[0]}
+              min={getMinTravelDate()}
             />
+            <p className="text-xs text-slate-500">
+              {serviceCategory === 'express_visa' 
+                ? 'Minimum 2 days from today for express visas' 
+                : 'Minimum 5 days from today'}
+            </p>
             {errors.expected_travel_date && <p className="text-xs text-red-500">{errors.expected_travel_date}</p>}
           </div>
           
