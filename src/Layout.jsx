@@ -152,6 +152,7 @@ export default function Layout({ children, currentPageName }) {
                     <Link
                       key={link.page}
                       to={createPageUrl(link.page)}
+                      onClick={() => window.scrollTo(0, 0)}
                       className="block text-slate-400 hover:text-white text-sm"
                     >
                       {link.name}
