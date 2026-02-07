@@ -51,12 +51,12 @@ import Admin from './pages/Admin';
 import Cart from './pages/Cart';
 import Confirmation from './pages/Confirmation';
 import EditApplication from './pages/EditApplication';
+import Home from './pages/Home';
 import KnownCustomerLogin from './pages/KnownCustomerLogin';
 import ManageNationalities from './pages/ManageNationalities';
 import ManageServices from './pages/ManageServices';
 import Terms from './pages/Terms';
 import Track from './pages/Track';
-import Home from './pages/Home';
 import __Layout from './Layout.jsx';
 
 
@@ -65,12 +65,12 @@ export const PAGES = {
     "Cart": Cart,
     "Confirmation": Confirmation,
     "EditApplication": EditApplication,
+    "Home": Home,
     "KnownCustomerLogin": KnownCustomerLogin,
     "ManageNationalities": ManageNationalities,
     "ManageServices": ManageServices,
     "Terms": Terms,
     "Track": Track,
-    "Home": Home,
 }
 
 export const pagesConfig = {

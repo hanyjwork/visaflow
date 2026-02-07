@@ -239,7 +239,7 @@ export default function Home() {
         <div className="grid md:grid-cols-3 gap-6">
           {[
           { icon: Clock, title: 'Fast Processing', desc: 'Get your visa in as little as 24 hours' },
-          { icon: CheckCircle, title: '100% Online', desc: 'No embassy visits required' },
+          { icon: CheckCircle, title: '100% Online', desc: 'No visits, calls, or effort. All digital solution.' },
           { icon: Globe, title: 'All Nationalities', desc: 'We process visas for all countries' }].
           map((feature, index) =>
           <motion.div
