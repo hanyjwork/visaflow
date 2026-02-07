@@ -348,6 +348,7 @@ export default function Cart() {
           onSave={(data) => updateApplicant(editingIndex, data)}
           initialData={cart[editingIndex]?.applicant}
           serviceName={cart[editingIndex]?.service.name}
+          serviceCategory={cart[editingIndex]?.service.category}
         />
       )}
 
