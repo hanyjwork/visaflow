@@ -166,15 +166,7 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                 <SelectContent className="max-h-60">
                   {countries.map(country => (
                     <SelectItem key={country.id} value={country.name}>
-                      <span className="flex items-center gap-2">
-                        <img 
-                          src={`https://flagsapi.com/${country.flag.toUpperCase()}/flat/64.png`}
-                          alt={`${country.name} flag`}
-                          className="w-6 h-4 object-cover rounded"
-                          onError={(e) => { e.target.style.display = 'none'; }}
-                        />
-                        <span>{country.name}</span>
-                      </span>
+                      {country.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
