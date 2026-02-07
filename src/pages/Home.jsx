@@ -470,11 +470,10 @@ export default function Home() {
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
             <Link to={createPageUrl('Terms')}>
-              <Link to={createPageUrl('Terms')}>
-                <Button size="lg" variant="outline" className="bg-background text-amber-500 px-8 text-sm font-medium rounded-md inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border shadow-sm hover:text-accent-foreground h-10 border-white/30 hover:bg-white/10 w-full">
-                View Terms & Conditions
+              <Button size="lg" variant="outline" className="bg-background text-amber-500 px-8 text-sm font-medium rounded-md inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border shadow-sm hover:text-accent-foreground h-10 border-white/30 hover:bg-white/10 w-full">
+                <FileText className="w-5 h-5 mr-2" />
+                Read Terms & Conditions
               </Button>
-            </Link>
           </div>
         </div>
       </section>
