@@ -152,7 +152,7 @@ export default function Cart() {
           </div>
           <h2 className="text-2xl font-bold text-slate-800 mb-2">Your cart is empty</h2>
           <p className="text-slate-500 mb-6">Add some services to get started with your visa application</p>
-          <Link to={createPageUrl('Home')}>
+          <Link to={createPageUrl('Home') + '#services'}>
             <Button className="bg-blue-600 hover:bg-blue-700">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Browse Services
