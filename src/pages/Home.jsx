@@ -391,22 +391,22 @@ export default function Home() {
           {/* Filters */}
           <div className="flex flex-col md:flex-row gap-4 mb-8 items-center justify-between">
             <Tabs value={category} onValueChange={setCategory}>
-              <TabsList className="bg-white shadow-md border-2 border-slate-200">
-                <TabsTrigger value="all" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-blue-50 active:scale-95 transition-all flex-col gap-1 h-auto py-3 px-4">
-                  <Package className="w-6 h-6" />
-                  <span className="text-xs font-semibold">All Services</span>
+              <TabsList className="bg-white shadow-sm">
+                <TabsTrigger value="all" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex-col gap-1 h-auto py-2">
+                  <Package className="w-5 h-5" />
+                  <span className="text-xs">All Services</span>
                 </TabsTrigger>
-                <TabsTrigger value="visa" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-blue-50 active:scale-95 transition-all flex-col gap-1 h-auto py-3 px-4">
-                  <Plane className="w-6 h-6" />
-                  <span className="text-xs font-semibold">Visas</span>
+                <TabsTrigger value="visa" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex-col gap-1 h-auto py-2">
+                  <Plane className="w-5 h-5" />
+                  <span className="text-xs">Visas</span>
                 </TabsTrigger>
-                <TabsTrigger value="express_visa" className="data-[state=active]:bg-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-amber-50 active:scale-95 transition-all flex-col gap-1 h-auto py-3 px-4">
-                  <Plane className="w-6 h-6" />
-                  <span className="text-xs font-semibold">Express Visas</span>
+                <TabsTrigger value="express_visa" className="data-[state=active]:bg-amber-500 data-[state=active]:text-white flex-col gap-1 h-auto py-2">
+                  <Plane className="w-5 h-5" />
+                  <span className="text-xs">Express Visas</span>
                 </TabsTrigger>
-                <TabsTrigger value="insurance" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-blue-50 active:scale-95 transition-all flex-col gap-1 h-auto py-3 px-4">
-                  <Shield className="w-6 h-6" />
-                  <span className="text-xs font-semibold">Insurance</span>
+                <TabsTrigger value="insurance" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex-col gap-1 h-auto py-2">
+                  <Shield className="w-5 h-5" />
+                  <span className="text-xs">Insurance</span>
                 </TabsTrigger>
               </TabsList>
             </Tabs>
