@@ -377,8 +377,8 @@ export default function Admin() {
             <p className="text-slate-500">Manage visa applications</p>
           </div>
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 rounded-lg">
-              <span className="text-xs font-medium text-slate-600">Application Settings:</span>
+            <div className="px-3 py-2 bg-slate-100 rounded-lg">
+              <span className="text-xs font-medium text-slate-600 block mb-1">Application Settings:</span>
               <a 
                 href="/ManageNationalities" 
                 className="text-sm text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1"
