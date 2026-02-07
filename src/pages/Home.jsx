@@ -111,7 +111,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className={`relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white ${cart.length > 0 ? 'pt-[60px]' : ''}`}>
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1920')] bg-cover bg-center opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/60 to-blue-800/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/40 to-blue-800/30" />
         
         <div className="relative max-w-7xl mx-auto px-4 py-20 md:py-32">
           <motion.div
