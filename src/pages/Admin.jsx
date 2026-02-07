@@ -11,9 +11,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
 import { 
   Search, FileText, Clock, CheckCircle, 
-  XCircle, Eye, CreditCard, Loader2, RefreshCw, Download, Upload, ExternalLink, Image as ImageIcon, ShieldAlert, Shield, AlertCircle, Send
+  XCircle, Eye, CreditCard, Loader2, RefreshCw, Download, Upload, ExternalLink, Image as ImageIcon, ShieldAlert, Shield, AlertCircle, Send, Settings
 } from 'lucide-react';
 import StatusBadge from '@/components/tracking/StatusBadge';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -376,10 +378,18 @@ export default function Admin() {
             <h1 className="text-2xl font-bold text-slate-800">Admin Dashboard</h1>
             <p className="text-slate-500">Manage visa applications</p>
           </div>
-          <Button onClick={() => refetch()} variant="outline">
-            <RefreshCw className="w-4 h-4 mr-2" />
-            Refresh
-          </Button>
+          <div className="flex gap-2">
+            <Link to={createPageUrl('ManageNationalities')}>
+              <Button variant="outline">
+                <Settings className="w-4 h-4 mr-2" />
+                Application Settings
+              </Button>
+            </Link>
+            <Button onClick={() => refetch()} variant="outline">
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Refresh
+            </Button>
+          </div>
         </div>
 
         {/* Stats */}
