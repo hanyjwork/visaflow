@@ -474,6 +474,7 @@ export default function Home() {
                 <FileText className="w-5 h-5 mr-2" />
                 Read Terms & Conditions
               </Button>
+            </Link>
           </div>
         </div>
       </section>
