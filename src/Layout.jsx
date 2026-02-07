@@ -51,9 +51,11 @@ export default function Layout({ children, currentPageName }) {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link to={createPageUrl('Home')} className="flex items-center gap-2">
-              <div className={`p-2 rounded-lg ${isHome ? 'bg-white/10' : 'bg-blue-600'}`}>
-                <Plane className={`w-5 h-5 ${isHome ? 'text-white' : 'text-white'}`} />
-              </div>
+              <img 
+                src="https://i.imgur.com/8xQZ9Yh.png" 
+                alt="Visa Flow UAE" 
+                className="h-10 w-auto"
+              />
               <span className={`font-bold text-xl ${isHome ? 'text-white' : 'text-slate-800'}`}>
                 Visa Flow UAE
               </span>
@@ -129,9 +131,11 @@ export default function Layout({ children, currentPageName }) {
             <div className="grid md:grid-cols-4 gap-8">
               <div>
                 <div className="flex items-center gap-2 mb-4">
-                  <div className="p-2 rounded-lg bg-blue-600">
-                    <Plane className="w-5 h-5 text-white" />
-                  </div>
+                  <img 
+                    src="https://i.imgur.com/8xQZ9Yh.png" 
+                    alt="Visa Flow UAE" 
+                    className="h-10 w-auto"
+                  />
                   <span className="font-bold text-xl">Visa Flow UAE</span>
                 </div>
                 <p className="text-slate-400 text-sm">
