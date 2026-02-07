@@ -91,7 +91,7 @@ export default function Layout({ children, currentPageName }) {
             </div>
 
             {/* Mobile Nav */}
-            <Sheet>
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild className="md:hidden">
                 <Button variant="ghost" size="icon" className={isHome ? 'text-white' : ''}>
                   <Menu className="w-6 h-6" />
@@ -103,12 +103,13 @@ export default function Layout({ children, currentPageName }) {
                     <Link
                       key={link.page}
                       to={createPageUrl(link.page)}
+                      onClick={() => setMobileMenuOpen(false)}
                       className="text-lg font-medium text-slate-700 hover:text-slate-900 py-2"
                     >
                       {link.name}
                     </Link>
                   ))}
-                  <Link to={createPageUrl('Cart')}>
+                  <Link to={createPageUrl('Cart')} onClick={() => setMobileMenuOpen(false)}>
                     <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-4">
                       Apply Now
                     </Button>
