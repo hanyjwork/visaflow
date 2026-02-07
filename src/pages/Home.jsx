@@ -401,7 +401,7 @@ export default function Home() {
                   <span className="text-xs">Visas</span>
                 </TabsTrigger>
                 <TabsTrigger value="express_visa" className="data-[state=active]:bg-amber-500 data-[state=active]:text-white flex-col gap-1 h-auto py-2">
-                  <Plane className="w-5 h-5 text-slate-600 data-[state=active]:text-white" />
+                  <Plane className="w-5 h-5" />
                   <span className="text-xs">Express Visas</span>
                 </TabsTrigger>
                 <TabsTrigger value="insurance" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex-col gap-1 h-auto py-2">
