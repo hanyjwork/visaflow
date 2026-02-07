@@ -140,26 +140,16 @@ export default function About() {
 
               {/* Map */}
               <div className="rounded-lg overflow-hidden shadow-md h-80">
-                <MapContainer
-                  center={[25.2048, 55.2708]}
-                  zoom={15}
-                  scrollWheelZoom={true}
-                  className="h-full w-full"
-                >
-                  <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  />
-                  <Marker position={[25.2048, 55.2708]}>
-                    <Popup>
-                      <div className="text-sm">
-                        <strong>Visaflow UAE</strong><br />
-                        DIFC, Gate Avenue<br />
-                        Dubai, UAE
-                      </div>
-                    </Popup>
-                  </Marker>
-                </MapContainer>
+                <iframe
+                  width="100%"
+                  height="100%"
+                  frameBorder="0"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3616.8857476578356!2d55.26893!3d25.2048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f43348c5555f5%3A0x123!2sDubai%20International%20Financial%20Centre!5e0!3m2!1sen!2sae!4v1234567890"
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  style={{ pointerEvents: 'auto' }}
+                />
               </div>
             </div>
           </CardContent>
