@@ -11,7 +11,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { 
-  Plus, Pencil, Trash2, Loader2, ShieldAlert, ArrowLeft
+  Plus, Pencil, Trash2, Loader2, ShieldAlert, ArrowLeft, Search
 } from 'lucide-react';
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -23,6 +23,8 @@ export default function ManageServices() {
   const [authError, setAuthError] = useState(null);
   const [editDialog, setEditDialog] = useState({ open: false, service: null });
   const [deleteDialog, setDeleteDialog] = useState({ open: false, service: null });
+  const [searchQuery, setSearchQuery] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
   const [formData, setFormData] = useState({
     name: '',
     category: 'visa',
@@ -255,10 +257,42 @@ export default function ManageServices() {
           </Button>
         </div>
 
+        {/* Filters */}
+        <Card className="border-0 shadow-md">
+          <CardContent className="p-4 flex flex-col md:flex-row gap-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Input
+                placeholder="Search services by name or description..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+              <SelectTrigger className="w-full md:w-48">
+                <SelectValue placeholder="Filter by category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Categories</SelectItem>
+                <SelectItem value="visa">Visa</SelectItem>
+                <SelectItem value="insurance">Insurance</SelectItem>
+                <SelectItem value="express_visa">Express Visa</SelectItem>
+              </SelectContent>
+            </Select>
+          </CardContent>
+        </Card>
+
         {/* Services Table */}
         <Card className="border-0 shadow-md">
           <CardHeader>
-            <CardTitle>Services ({services.length})</CardTitle>
+            <CardTitle>Services ({services.filter(service => {
+              const matchesSearch = 
+                service.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                service.description?.toLowerCase().includes(searchQuery.toLowerCase());
+              const matchesCategory = categoryFilter === 'all' || service.category === categoryFilter;
+              return matchesSearch && matchesCategory;
+            }).length})</CardTitle>
           </CardHeader>
           <CardContent>
             {isLoading ? (
@@ -283,7 +317,13 @@ export default function ManageServices() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {services.map((service) => (
+                    {services.filter(service => {
+                      const matchesSearch = 
+                        service.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        service.description?.toLowerCase().includes(searchQuery.toLowerCase());
+                      const matchesCategory = categoryFilter === 'all' || service.category === categoryFilter;
+                      return matchesSearch && matchesCategory;
+                    }).map((service) => (
                       <TableRow key={service.id} className="hover:bg-slate-50">
                         <TableCell>
                           <div>
