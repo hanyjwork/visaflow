@@ -82,10 +82,8 @@ export default function Cart() {
   const allApplicantsFilled = cart.every(item => item.applicant?.applicant_name);
 
   const generateTrackingNumber = () => {
-    // Generate a 10-digit tracking number
-    const timestamp = Date.now().toString().slice(-6);
-    const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-    return timestamp + random;
+    // Generate a 6-digit tracking number
+    return Math.floor(100000 + Math.random() * 900000).toString();
   };
 
   const validateCustomerInfo = () => {
