@@ -54,9 +54,9 @@ import EditApplication from './pages/EditApplication';
 import Home from './pages/Home';
 import KnownCustomerLogin from './pages/KnownCustomerLogin';
 import ManageNationalities from './pages/ManageNationalities';
+import ManageServices from './pages/ManageServices';
 import Terms from './pages/Terms';
 import Track from './pages/Track';
-import ManageServices from './pages/ManageServices';
 import __Layout from './Layout.jsx';
 
 
@@ -68,9 +68,9 @@ export const PAGES = {
     "Home": Home,
     "KnownCustomerLogin": KnownCustomerLogin,
     "ManageNationalities": ManageNationalities,
+    "ManageServices": ManageServices,
     "Terms": Terms,
     "Track": Track,
-    "ManageServices": ManageServices,
 }
 
 export const pagesConfig = {
