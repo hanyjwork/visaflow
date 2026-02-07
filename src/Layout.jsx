@@ -52,7 +52,7 @@ export default function Layout({ children, currentPageName }) {
             {/* Logo */}
             <Link to={createPageUrl('Home')} className="flex items-center gap-2">
               <img 
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6957a1f81f10f2f9a853595e/16758e7d5_VFlogo.jpg" 
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6957a1f81f10f2f9a853595e/2e39d3c47_visaflowlogo.png" 
                 alt="Visa Flow Logo" 
                 className="w-12 h-12 object-contain rounded-lg"
               />
@@ -132,7 +132,7 @@ export default function Layout({ children, currentPageName }) {
               <div>
                 <div className="flex items-center gap-2 mb-4">
                   <img 
-                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6957a1f81f10f2f9a853595e/16758e7d5_VFlogo.jpg" 
+                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6957a1f81f10f2f9a853595e/2e39d3c47_visaflowlogo.png" 
                     alt="Visa Flow Logo" 
                     className="w-12 h-12 object-contain rounded-lg"
                   />
