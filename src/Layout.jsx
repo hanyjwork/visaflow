@@ -8,9 +8,10 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 export default function Layout({ children, currentPageName }) {
   const isHome = currentPageName === 'Home';
   const isAdmin = currentPageName === 'Admin';
-  
+
   // Check if cart has items (for proper spacing)
   const [hasCart, setHasCart] = React.useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   
   React.useEffect(() => {
     const checkCart = () => {
