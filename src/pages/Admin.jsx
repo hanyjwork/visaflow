@@ -386,6 +386,13 @@ export default function Admin() {
                 <Settings className="w-4 h-4" />
                 Manage Nationalities
               </a>
+              <a 
+                href="/ManageServices" 
+                className="text-sm text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1 mt-1"
+              >
+                <Settings className="w-4 h-4" />
+                Manage Services
+              </a>
             </div>
             <Button onClick={() => refetch()} variant="outline">
               <RefreshCw className="w-4 h-4 mr-2" />
