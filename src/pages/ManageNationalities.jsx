@@ -261,9 +261,10 @@ export default function ManageNationalities() {
                     >
                       <div className="flex items-center gap-3">
                         <img 
-                          src={`https://flagcdn.com/32x24/${nat.flag}.png`}
+                          src={`https://flagsapi.com/${nat.flag.toUpperCase()}/flat/64.png`}
                           alt={`${nat.name} flag`}
                           className="w-8 h-6 object-cover rounded shadow-sm"
+                          onError={(e) => { e.target.style.display = 'none'; }}
                         />
                         <span className="font-medium text-slate-800">{nat.name}</span>
                       </div>

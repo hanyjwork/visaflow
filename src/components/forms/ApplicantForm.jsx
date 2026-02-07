@@ -168,9 +168,10 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                     <SelectItem key={country.id} value={country.name}>
                       <span className="flex items-center gap-2">
                         <img 
-                          src={`https://flagcdn.com/24x18/${country.flag}.png`}
+                          src={`https://flagsapi.com/${country.flag.toUpperCase()}/flat/64.png`}
                           alt={`${country.name} flag`}
                           className="w-6 h-4 object-cover rounded"
+                          onError={(e) => { e.target.style.display = 'none'; }}
                         />
                         <span>{country.name}</span>
                       </span>
@@ -196,9 +197,10 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                     <SelectItem key={country.id} value={country.name}>
                       <span className="flex items-center gap-2">
                         <img 
-                          src={`https://flagcdn.com/24x18/${country.flag}.png`}
+                          src={`https://flagsapi.com/${country.flag.toUpperCase()}/flat/64.png`}
                           alt={`${country.name} flag`}
                           className="w-6 h-4 object-cover rounded"
+                          onError={(e) => { e.target.style.display = 'none'; }}
                         />
                         <span>{country.name}</span>
                       </span>
