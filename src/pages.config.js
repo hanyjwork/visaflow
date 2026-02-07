@@ -55,6 +55,7 @@ import Home from './pages/Home';
 import KnownCustomerLogin from './pages/KnownCustomerLogin';
 import Terms from './pages/Terms';
 import Track from './pages/Track';
+import ManageNationalities from './pages/ManageNationalities';
 import __Layout from './Layout.jsx';
 
 
@@ -67,6 +68,7 @@ export const PAGES = {
     "KnownCustomerLogin": KnownCustomerLogin,
     "Terms": Terms,
     "Track": Track,
+    "ManageNationalities": ManageNationalities,
 }
 
 export const pagesConfig = {

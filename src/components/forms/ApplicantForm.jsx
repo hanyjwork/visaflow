@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,17 +6,6 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Upload, X, FileText, Image, Loader2 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
-
-const countries = [
-  "Afghanistan", "Albania", "Algeria", "Argentina", "Australia", "Austria", "Bangladesh", 
-  "Belgium", "Brazil", "Canada", "China", "Colombia", "Egypt", "France", "Germany", 
-  "Greece", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Italy", "Japan", "Jordan",
-  "Kenya", "Kuwait", "Lebanon", "Malaysia", "Mexico", "Morocco", "Nepal", "Netherlands",
-  "New Zealand", "Nigeria", "Norway", "Oman", "Pakistan", "Philippines", "Poland", "Portugal",
-  "Qatar", "Russia", "Saudi Arabia", "Singapore", "South Africa", "South Korea", "Spain",
-  "Sri Lanka", "Sweden", "Switzerland", "Syria", "Thailand", "Tunisia", "Turkey", "UAE",
-  "UK", "Ukraine", "USA", "Vietnam", "Yemen"
-];
 
 export default function ApplicantForm({ isOpen, onClose, onSave, initialData, serviceName, serviceCategory }) {
   const [formData, setFormData] = useState(initialData || {
@@ -32,6 +21,23 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
     photo_url: '',
     supporting_documents_urls: [],
   });
+
+  const [countries, setCountries] = useState([]);
+  const [loadingCountries, setLoadingCountries] = useState(true);
+
+  useEffect(() => {
+    const fetchNationalities = async () => {
+      try {
+        const nationalities = await base44.entities.Nationality.filter({ is_enabled: true });
+        setCountries(nationalities.sort((a, b) => a.name.localeCompare(b.name)));
+      } catch (error) {
+        console.error('Failed to load nationalities:', error);
+      } finally {
+        setLoadingCountries(false);
+      }
+    };
+    fetchNationalities();
+  }, []);
 
   // Calculate minimum travel date based on service type
   const getMinTravelDate = () => {
@@ -152,13 +158,19 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
               <Select 
                 value={formData.nationality} 
                 onValueChange={(value) => setFormData(prev => ({ ...prev, nationality: value }))}
+                disabled={loadingCountries}
               >
                 <SelectTrigger className={errors.nationality ? 'border-red-500' : ''}>
-                  <SelectValue placeholder="Select country" />
+                  <SelectValue placeholder={loadingCountries ? "Loading..." : "Select country"} />
                 </SelectTrigger>
                 <SelectContent className="max-h-60">
                   {countries.map(country => (
-                    <SelectItem key={country} value={country}>{country}</SelectItem>
+                    <SelectItem key={country.id} value={country.name}>
+                      <span className="flex items-center gap-2">
+                        <span>{country.flag}</span>
+                        <span>{country.name}</span>
+                      </span>
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -170,13 +182,19 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
               <Select 
                 value={formData.residence_country} 
                 onValueChange={(value) => setFormData(prev => ({ ...prev, residence_country: value }))}
+                disabled={loadingCountries}
               >
                 <SelectTrigger className={errors.residence_country ? 'border-red-500' : ''}>
-                  <SelectValue placeholder="Select country" />
+                  <SelectValue placeholder={loadingCountries ? "Loading..." : "Select country"} />
                 </SelectTrigger>
                 <SelectContent className="max-h-60">
                   {countries.map(country => (
-                    <SelectItem key={country} value={country}>{country}</SelectItem>
+                    <SelectItem key={country.id} value={country.name}>
+                      <span className="flex items-center gap-2">
+                        <span>{country.flag}</span>
+                        <span>{country.name}</span>
+                      </span>
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
