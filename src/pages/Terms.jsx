@@ -74,7 +74,7 @@ export default function Terms() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       {/* Header */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 text-white py-16 px-4">
+      <div className="bg-gradient-to-br from-blue-700 to-blue-800 text-white py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <Link to={createPageUrl('Home')} className="inline-flex items-center text-slate-300 hover:text-white mb-6">
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -110,7 +110,7 @@ export default function Terms() {
                       <div className="p-2 rounded-lg bg-blue-100">
                         <Icon className="w-5 h-5 text-blue-600" />
                       </div>
-                      <h2 className="text-xl font-bold text-slate-800">{section.title}</h2>
+                      <h2 className="text-xl font-bold text-blue-800">{section.title}</h2>
                     </div>
                     <ul className="space-y-3 ml-11">
                       {section.items.map((item, itemIndex) => (
@@ -126,18 +126,18 @@ export default function Terms() {
             </div>
 
             <div className="mt-12 pt-8 border-t">
-              <h2 className="text-xl font-bold text-slate-800 mb-4">Contact Information</h2>
+              <h2 className="text-xl font-bold text-blue-800 mb-4">Contact Information</h2>
               <p className="text-slate-600 mb-4">
                 For any questions regarding these terms and conditions or your visa application, please contact us:
               </p>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="p-4 bg-slate-50 rounded-xl">
                   <p className="text-sm text-slate-500">Email</p>
-                  <p className="font-medium text-slate-800">support@uaevisa.com</p>
+                  <p className="font-medium text-blue-800">support@uaevisa.com</p>
                 </div>
                 <div className="p-4 bg-slate-50 rounded-xl">
                   <p className="text-sm text-slate-500">WhatsApp</p>
-                  <p className="font-medium text-slate-800">+971 50 123 4567</p>
+                  <p className="font-medium text-blue-800">+971 50 123 4567</p>
                 </div>
               </div>
             </div>
