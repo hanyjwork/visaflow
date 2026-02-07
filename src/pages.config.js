@@ -57,6 +57,7 @@ import ManageNationalities from './pages/ManageNationalities';
 import ManageServices from './pages/ManageServices';
 import Terms from './pages/Terms';
 import Track from './pages/Track';
+import About from './pages/About';
 import __Layout from './Layout.jsx';
 
 
@@ -71,6 +72,7 @@ export const PAGES = {
     "ManageServices": ManageServices,
     "Terms": Terms,
     "Track": Track,
+    "About": About,
 }
 
 export const pagesConfig = {
