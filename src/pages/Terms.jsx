@@ -24,6 +24,7 @@ export default function Terms() {
       items: [
         "Payment is required only after your application has been reviewed and approved by our team.",
         "All fees are quoted in UAE Dirhams (AED) and include processing fees.",
+        "A security deposit may be required for certain visa applications. This deposit is fully refundable once the visitor exits the UAE in compliance with visa regulations.",
         "Government fees may change without prior notice as per UAE immigration policies.",
         "Additional fees may apply for urgent processing requests."
       ]
