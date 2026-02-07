@@ -54,7 +54,7 @@ export default function Layout({ children, currentPageName }) {
               <img 
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6957a1f81f10f2f9a853595e/16758e7d5_VFlogo.jpg" 
                 alt="Visa Flow Logo" 
-                className="w-10 h-10 object-contain rounded-lg"
+                className="w-12 h-12 object-contain rounded-lg"
               />
               <span className={`font-bold text-xl ${isHome ? 'text-white' : 'text-slate-800'}`}>
                 Visa Flow UAE
@@ -134,7 +134,7 @@ export default function Layout({ children, currentPageName }) {
                   <img 
                     src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6957a1f81f10f2f9a853595e/16758e7d5_VFlogo.jpg" 
                     alt="Visa Flow Logo" 
-                    className="w-10 h-10 object-contain rounded-lg"
+                    className="w-12 h-12 object-contain rounded-lg"
                   />
                   <span className="font-bold text-xl">Visa Flow UAE</span>
                 </div>
