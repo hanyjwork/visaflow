@@ -133,7 +133,7 @@ export default function Terms() {
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="p-4 bg-slate-50 rounded-xl">
                   <p className="text-sm text-slate-500">Email</p>
-                  <p className="font-medium text-blue-800">support@uaevisa.com</p>
+                  <p className="font-medium text-blue-800">support@visaflowuae.com</p>
                 </div>
                 <div className="p-4 bg-slate-50 rounded-xl">
                   <p className="text-sm text-slate-500">WhatsApp</p>
