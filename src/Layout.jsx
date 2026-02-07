@@ -170,7 +170,7 @@ export default function Layout({ children, currentPageName }) {
             </div>
             
             <div className="border-t border-slate-800 mt-8 pt-8 text-center text-sm text-slate-400">
-              <p>© 2026 UAE Visa Services. All rights reserved.</p>
+              <p>© 2026 Visaflow UAE services, all rights reserved.</p>
             </div>
           </div>
         </footer>
