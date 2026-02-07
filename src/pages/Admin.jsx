@@ -377,13 +377,16 @@ export default function Admin() {
             <p className="text-slate-500">Manage visa applications</p>
           </div>
           <div className="flex items-center gap-4">
-            <a 
-              href="/ManageNationalities" 
-              className="text-sm text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1"
-            >
-              <Settings className="w-4 h-4" />
-              Manage Nationalities
-            </a>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 rounded-lg">
+              <span className="text-xs font-medium text-slate-600">Application Settings:</span>
+              <a 
+                href="/ManageNationalities" 
+                className="text-sm text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1"
+              >
+                <Settings className="w-4 h-4" />
+                Manage Nationalities
+              </a>
+            </div>
             <Button onClick={() => refetch()} variant="outline">
               <RefreshCw className="w-4 h-4 mr-2" />
               Refresh
