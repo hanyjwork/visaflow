@@ -167,7 +167,11 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                   {countries.map(country => (
                     <SelectItem key={country.id} value={country.name}>
                       <span className="flex items-center gap-2">
-                        <span>{country.flag}</span>
+                        <img 
+                          src={`https://flagcdn.com/24x18/${country.flag}.png`}
+                          alt={`${country.name} flag`}
+                          className="w-6 h-4 object-cover rounded"
+                        />
                         <span>{country.name}</span>
                       </span>
                     </SelectItem>
@@ -191,7 +195,11 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                   {countries.map(country => (
                     <SelectItem key={country.id} value={country.name}>
                       <span className="flex items-center gap-2">
-                        <span>{country.flag}</span>
+                        <img 
+                          src={`https://flagcdn.com/24x18/${country.flag}.png`}
+                          alt={`${country.name} flag`}
+                          className="w-6 h-4 object-cover rounded"
+                        />
                         <span>{country.name}</span>
                       </span>
                     </SelectItem>
