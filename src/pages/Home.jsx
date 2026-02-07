@@ -130,8 +130,7 @@ export default function Home() {
               </span>
             </h1>
             <p className="text-lg md:text-xl text-blue-100 mb-8 leading-relaxed">
-              Fast, reliable visa processing for Dubai and the UAE. 
-              Complete your application in minutes, track your status in real-time.
+              Get your express visa in as little as 24-48 hours. Complete your application in minutes, track your status in real-time.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
