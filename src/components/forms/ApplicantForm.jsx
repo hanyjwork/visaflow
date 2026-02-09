@@ -144,9 +144,9 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
             <Input
               id="name"
               value={formData.applicant_name}
-              onChange={(e) => setFormData(prev => ({ ...prev, applicant_name: e.target.value }))}
+              onChange={(e) => setFormData(prev => ({ ...prev, applicant_name: e.target.value.toUpperCase() }))}
               placeholder="Enter full name"
-              className={errors.applicant_name ? 'border-red-500' : ''}
+              className={`uppercase ${errors.applicant_name ? 'border-red-500' : ''}`}
             />
             {errors.applicant_name && <p className="text-xs text-red-500">{errors.applicant_name}</p>}
           </div>
