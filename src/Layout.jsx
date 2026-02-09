@@ -165,7 +165,7 @@ export default function Layout({ children, currentPageName }) {
               <div>
                 <h4 className="font-semibold mb-4">Contact</h4>
                 <div className="space-y-2 text-sm text-slate-400">
-                  <p>support@uaevisa.com</p>
+                  <p>support@visaflowuae.com</p>
                   <p>+971 50 122 4567</p>
                 </div>
               </div>
