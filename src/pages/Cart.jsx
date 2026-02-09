@@ -34,6 +34,8 @@ export default function Cart() {
   
   const [editingIndex, setEditingIndex] = useState(null);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [termsAgreed, setTermsAgreed] = useState(false);
+  const [noOtherAgency, setNoOtherAgency] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -267,8 +269,37 @@ export default function Cart() {
                   />
                   {errors.customer_phone && <p className="text-xs text-red-500">{errors.customer_phone}</p>}
                 </div>
-              </CardContent>
-            </Card>
+
+                <Separator className="my-4" />
+
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <Checkbox
+                      id="terms-agreed"
+                      checked={termsAgreed}
+                      onCheckedChange={setTermsAgreed}
+                    />
+                    <label htmlFor="terms-agreed" className="text-sm text-slate-600 leading-tight cursor-pointer">
+                      I have read and agreed to{' '}
+                      <Link to={createPageUrl('Terms')} className="text-blue-600 hover:underline" target="_blank">
+                        Terms and Conditions
+                      </Link>
+                    </label>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <Checkbox
+                      id="no-other-agency"
+                      checked={noOtherAgency}
+                      onCheckedChange={setNoOtherAgency}
+                    />
+                    <label htmlFor="no-other-agency" className="text-sm text-slate-600 leading-tight cursor-pointer">
+                      No other agency is processing my application
+                    </label>
+                  </div>
+                </div>
+                </CardContent>
+                </Card>
           </div>
 
           {/* Order Summary */}
@@ -321,7 +352,7 @@ export default function Cart() {
                     className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white"
                     size="lg"
                     onClick={handleSubmit}
-                    disabled={!allApplicantsFilled || !termsAccepted || submitting}
+                    disabled={!allApplicantsFilled || !termsAccepted || !termsAgreed || !noOtherAgency || submitting}
                   >
                     {submitting ? (
                       <>
