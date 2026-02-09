@@ -221,7 +221,9 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Info className="w-4 h-4 text-slate-400 cursor-help" />
+                    <button type="button" className="p-1 -m-1 touch-manipulation">
+                      <Info className="w-4 h-4 text-slate-400" />
+                    </button>
                   </TooltipTrigger>
                   <TooltipContent className="max-w-xs">
                     <div className="space-y-2">
@@ -284,7 +286,9 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Info className="w-4 h-4 text-slate-400 cursor-help" />
+                    <button type="button" className="p-1 -m-1 touch-manipulation">
+                      <Info className="w-4 h-4 text-slate-400" />
+                    </button>
                   </TooltipTrigger>
                   <TooltipContent className="max-w-xs">
                     <div className="space-y-2">
@@ -347,7 +351,9 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Info className="w-4 h-4 text-slate-400 cursor-help" />
+                    <button type="button" className="p-1 -m-1 touch-manipulation">
+                      <Info className="w-4 h-4 text-slate-400" />
+                    </button>
                   </TooltipTrigger>
                   <TooltipContent className="max-w-xs">
                     <div className="space-y-2">
