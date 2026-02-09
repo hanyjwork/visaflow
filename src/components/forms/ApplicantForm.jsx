@@ -227,7 +227,7 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                     <div className="space-y-2">
                       <p className="font-semibold text-sm">Valid Passport Example:</p>
                       <img 
-                        src="https://images.unsplash.com/photo-1578922746095-253a3e0c30c2?w=300&h=200&fit=crop" 
+                        src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=300&h=200&fit=crop" 
                         alt="Passport example" 
                         className="rounded border w-full"
                       />
@@ -290,7 +290,7 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                     <div className="space-y-2">
                       <p className="font-semibold text-sm">Passport Cover Example:</p>
                       <img 
-                        src="https://images.unsplash.com/photo-1589763472885-46dd5b282f52?w=300&h=200&fit=crop" 
+                        src="https://images.unsplash.com/photo-1606914469633-86f50d6cf590?w=300&h=200&fit=crop" 
                         alt="Passport cover example" 
                         className="rounded border w-full"
                       />
