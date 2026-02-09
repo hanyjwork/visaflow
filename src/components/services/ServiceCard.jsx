@@ -17,6 +17,10 @@ export default function ServiceCard({ service, onAddToCart }) {
   // Extract number from duration (e.g., "30 days" -> "30")
   const durationNumber = service.duration ? service.duration.match(/\d+/)?.[0] : null;
   
+  // Detect entry type from service name
+  const entryType = service.name?.toLowerCase().includes('multiple') ? 'multiple' : 
+                    service.name?.toLowerCase().includes('single') ? 'single' : null;
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -32,7 +36,12 @@ export default function ServiceCard({ service, onAddToCart }) {
             <div className="flex items-center gap-2">
               <div className="p-3 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-lg">
                 {(service.category === 'visa' || service.category === 'express_visa') && durationNumber ? (
-                  <span className="text-xl font-bold">{durationNumber}</span>
+                  <div className="flex flex-col items-center">
+                    <span className="text-xl font-bold leading-tight">{durationNumber}</span>
+                    {entryType && (
+                      <span className="text-[9px] uppercase tracking-wider opacity-90 leading-tight">{entryType}</span>
+                    )}
+                  </div>
                 ) : (
                   <Icon className="w-6 h-6" />
                 )}
