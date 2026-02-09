@@ -42,7 +42,7 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
   // Calculate minimum travel date based on service type
   const getMinTravelDate = () => {
     const today = new Date();
-    const daysToAdd = serviceCategory === 'express_visa' ? 2 : 4;
+    const daysToAdd = serviceCategory === 'express_visa' ? 3 : 5;
     today.setDate(today.getDate() + daysToAdd);
     return today.toISOString().split('T')[0];
   };
@@ -208,8 +208,8 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
             />
             <p className="text-xs text-slate-500">
               {serviceCategory === 'express_visa' 
-                ? 'Minimum 2 days from today for express visas' 
-                : 'Minimum 4 days from today'}
+                ? 'Minimum 3 days from today for express visas' 
+                : 'Minimum 5 days from today'}
             </p>
             {errors.expected_travel_date && <p className="text-xs text-red-500">{errors.expected_travel_date}</p>}
           </div>
