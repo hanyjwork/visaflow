@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Upload, X, FileText, Image, Loader2 } from 'lucide-react';
+import { Upload, X, FileText, Image, Loader2, Info } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export default function ApplicantForm({ isOpen, onClose, onSave, initialData, serviceName, serviceCategory }) {
   const [formData, setFormData] = useState(initialData || {
@@ -215,7 +216,27 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
           </div>
           
           <div className="space-y-2">
-            <Label>Passport Copy (Front) *</Label>
+            <div className="flex items-center gap-2">
+              <Label>Passport Copy (Front) *</Label>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info className="w-4 h-4 text-slate-400 cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <div className="space-y-2">
+                      <p className="font-semibold text-sm">Valid Passport Example:</p>
+                      <img 
+                        src="https://images.unsplash.com/photo-1578922746095-253a3e0c30c2?w=300&h=200&fit=crop" 
+                        alt="Passport example" 
+                        className="rounded border w-full"
+                      />
+                      <p className="text-xs">Clear photo of the data page showing your name, photo, passport number, and expiry date.</p>
+                    </div>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
             <p className="text-xs text-slate-500">Photo page with your details</p>
             <div className={`border-2 border-dashed rounded-lg p-4 text-center ${errors.passport_front_url ? 'border-red-300 bg-red-50' : 'border-slate-200 hover:border-blue-400'} transition-colors`}>
               {formData.passport_front_url ? (
@@ -258,7 +279,27 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
           </div>
 
           <div className="space-y-2">
-            <Label>Passport Cover Copy *</Label>
+            <div className="flex items-center gap-2">
+              <Label>Passport Cover Copy *</Label>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info className="w-4 h-4 text-slate-400 cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <div className="space-y-2">
+                      <p className="font-semibold text-sm">Passport Cover Example:</p>
+                      <img 
+                        src="https://images.unsplash.com/photo-1589763472885-46dd5b282f52?w=300&h=200&fit=crop" 
+                        alt="Passport cover example" 
+                        className="rounded border w-full"
+                      />
+                      <p className="text-xs">Clear photo of the front cover of your passport showing the country emblem.</p>
+                    </div>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
             <p className="text-xs text-slate-500">Front cover of your passport</p>
             <div className={`border-2 border-dashed rounded-lg p-4 text-center ${errors.passport_cover_url ? 'border-red-300 bg-red-50' : 'border-slate-200 hover:border-blue-400'} transition-colors`}>
               {formData.passport_cover_url ? (
@@ -301,7 +342,30 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
           </div>
           
           <div className="space-y-2">
-            <Label>Personal Photo *</Label>
+            <div className="flex items-center gap-2">
+              <Label>Personal Photo *</Label>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info className="w-4 h-4 text-slate-400 cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <div className="space-y-2">
+                      <p className="font-semibold text-sm">Photo Requirements:</p>
+                      <ul className="text-xs space-y-1 list-disc list-inside">
+                        <li>White or light colored background</li>
+                        <li>Face forward, looking at camera</li>
+                        <li>No glasses or headwear (unless for religious purposes)</li>
+                        <li>Neutral expression, mouth closed</li>
+                        <li>Recent photo (taken within last 6 months)</li>
+                        <li>Good lighting, no shadows</li>
+                        <li>High resolution (minimum 600x600 pixels)</li>
+                      </ul>
+                    </div>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
             <p className="text-xs text-slate-500">White background, recent photo</p>
             <div className={`border-2 border-dashed rounded-lg p-4 text-center ${errors.photo_url ? 'border-red-300 bg-red-50' : 'border-slate-200 hover:border-blue-400'} transition-colors`}>
               {formData.photo_url ? (
