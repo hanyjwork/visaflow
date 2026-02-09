@@ -391,21 +391,21 @@ export default function Home() {
           <div className="flex flex-col md:flex-row gap-4 mb-8 items-center justify-between">
             <Tabs value={category} onValueChange={setCategory}>
               <TabsList className="bg-white shadow-sm">
-                <TabsTrigger value="all" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex-col gap-1 h-auto py-2">
-                  <Package className="w-5 h-5" />
-                  <span className="text-xs">All Services</span>
+                <TabsTrigger value="all" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex-col gap-2 h-auto py-3">
+                  <Package className="w-7 h-7" />
+                  <span className="text-sm">All Services</span>
                 </TabsTrigger>
-                <TabsTrigger value="visa" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex-col gap-1 h-auto py-2">
-                  <Plane className="w-5 h-5" />
-                  <span className="text-xs">Visas</span>
+                <TabsTrigger value="visa" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex-col gap-2 h-auto py-3">
+                  <Plane className="w-7 h-7" />
+                  <span className="text-sm">Visas</span>
                 </TabsTrigger>
-                <TabsTrigger value="express_visa" className="data-[state=active]:bg-amber-500 data-[state=active]:text-white flex-col gap-1 h-auto py-2">
-                  <Plane className="w-5 h-5" />
-                  <span className="text-xs">Express Visas</span>
+                <TabsTrigger value="express_visa" className="data-[state=active]:bg-amber-500 data-[state=active]:text-white flex-col gap-2 h-auto py-3">
+                  <Plane className="w-7 h-7" />
+                  <span className="text-sm">Express Visas</span>
                 </TabsTrigger>
-                <TabsTrigger value="insurance" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex-col gap-1 h-auto py-2">
-                  <Shield className="w-5 h-5" />
-                  <span className="text-xs">Insurance</span>
+                <TabsTrigger value="insurance" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white flex-col gap-2 h-auto py-3">
+                  <Shield className="w-7 h-7" />
+                  <span className="text-sm">Insurance</span>
                 </TabsTrigger>
               </TabsList>
             </Tabs>
