@@ -224,12 +224,16 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
             <div className="flex items-center gap-2">
               <Label>Passport Copy (Front) *</Label>
               <TooltipProvider>
-                <Tooltip open={tooltipOpen.passportFront} onOpenChange={(open) => setTooltipOpen(prev => ({ ...prev, passportFront: open }))}>
+                <Tooltip open={tooltipOpen.passportFront}>
                   <TooltipTrigger asChild>
                     <button 
                       type="button" 
                       className="p-1 -m-1 touch-manipulation"
-                      onClick={() => setTooltipOpen(prev => ({ ...prev, passportFront: !prev.passportFront }))}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setTooltipOpen(prev => ({ ...prev, passportFront: !prev.passportFront }));
+                      }}
                     >
                       <Info className="w-4 h-4 text-slate-400" />
                     </button>
@@ -293,12 +297,16 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
             <div className="flex items-center gap-2">
               <Label>Passport Cover Copy *</Label>
               <TooltipProvider>
-                <Tooltip open={tooltipOpen.passportCover} onOpenChange={(open) => setTooltipOpen(prev => ({ ...prev, passportCover: open }))}>
+                <Tooltip open={tooltipOpen.passportCover}>
                   <TooltipTrigger asChild>
                     <button 
                       type="button" 
                       className="p-1 -m-1 touch-manipulation"
-                      onClick={() => setTooltipOpen(prev => ({ ...prev, passportCover: !prev.passportCover }))}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setTooltipOpen(prev => ({ ...prev, passportCover: !prev.passportCover }));
+                      }}
                     >
                       <Info className="w-4 h-4 text-slate-400" />
                     </button>
@@ -362,12 +370,16 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
             <div className="flex items-center gap-2">
               <Label>Personal Photo *</Label>
               <TooltipProvider>
-                <Tooltip open={tooltipOpen.photo} onOpenChange={(open) => setTooltipOpen(prev => ({ ...prev, photo: open }))}>
+                <Tooltip open={tooltipOpen.photo}>
                   <TooltipTrigger asChild>
                     <button 
                       type="button" 
                       className="p-1 -m-1 touch-manipulation"
-                      onClick={() => setTooltipOpen(prev => ({ ...prev, photo: !prev.photo }))}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setTooltipOpen(prev => ({ ...prev, photo: !prev.photo }));
+                      }}
                     >
                       <Info className="w-4 h-4 text-slate-400" />
                     </button>
