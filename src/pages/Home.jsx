@@ -159,7 +159,7 @@ export default function Home() {
             className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
 
             {[
-            { value: '50K+', label: 'Visas Processed' },
+            { value: '12K+', label: 'Visas Processed' },
             { value: '98%', label: 'Success Rate' },
             { value: '10+', label: 'Licensed Experience' },
             { value: '4.9★', label: 'Customer Rating' }].
