@@ -55,6 +55,11 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
     supporting: false 
   });
   const [errors, setErrors] = useState({});
+  const [tooltipOpen, setTooltipOpen] = useState({
+    passportFront: false,
+    passportCover: false,
+    photo: false
+  });
 
   const handleFileUpload = async (file, type, inputElement) => {
     if (!file) return;
@@ -219,13 +224,17 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
             <div className="flex items-center gap-2">
               <Label>Passport Copy (Front) *</Label>
               <TooltipProvider>
-                <Tooltip>
+                <Tooltip open={tooltipOpen.passportFront} onOpenChange={(open) => setTooltipOpen(prev => ({ ...prev, passportFront: open }))}>
                   <TooltipTrigger asChild>
-                    <button type="button" className="p-1 -m-1 touch-manipulation">
+                    <button 
+                      type="button" 
+                      className="p-1 -m-1 touch-manipulation"
+                      onClick={() => setTooltipOpen(prev => ({ ...prev, passportFront: !prev.passportFront }))}
+                    >
                       <Info className="w-4 h-4 text-slate-400" />
                     </button>
                   </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
+                  <TooltipContent className="max-w-xs" onPointerDownOutside={() => setTooltipOpen(prev => ({ ...prev, passportFront: false }))}>
                     <div className="space-y-2">
                       <p className="font-semibold text-sm">Valid Passport Example:</p>
                       <img 
@@ -284,13 +293,17 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
             <div className="flex items-center gap-2">
               <Label>Passport Cover Copy *</Label>
               <TooltipProvider>
-                <Tooltip>
+                <Tooltip open={tooltipOpen.passportCover} onOpenChange={(open) => setTooltipOpen(prev => ({ ...prev, passportCover: open }))}>
                   <TooltipTrigger asChild>
-                    <button type="button" className="p-1 -m-1 touch-manipulation">
+                    <button 
+                      type="button" 
+                      className="p-1 -m-1 touch-manipulation"
+                      onClick={() => setTooltipOpen(prev => ({ ...prev, passportCover: !prev.passportCover }))}
+                    >
                       <Info className="w-4 h-4 text-slate-400" />
                     </button>
                   </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
+                  <TooltipContent className="max-w-xs" onPointerDownOutside={() => setTooltipOpen(prev => ({ ...prev, passportCover: false }))}>
                     <div className="space-y-2">
                       <p className="font-semibold text-sm">Passport Cover Example:</p>
                       <img 
@@ -349,13 +362,17 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
             <div className="flex items-center gap-2">
               <Label>Personal Photo *</Label>
               <TooltipProvider>
-                <Tooltip>
+                <Tooltip open={tooltipOpen.photo} onOpenChange={(open) => setTooltipOpen(prev => ({ ...prev, photo: open }))}>
                   <TooltipTrigger asChild>
-                    <button type="button" className="p-1 -m-1 touch-manipulation">
+                    <button 
+                      type="button" 
+                      className="p-1 -m-1 touch-manipulation"
+                      onClick={() => setTooltipOpen(prev => ({ ...prev, photo: !prev.photo }))}
+                    >
                       <Info className="w-4 h-4 text-slate-400" />
                     </button>
                   </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
+                  <TooltipContent className="max-w-xs" onPointerDownOutside={() => setTooltipOpen(prev => ({ ...prev, photo: false }))}>
                     <div className="space-y-2">
                       <p className="font-semibold text-sm">Photo Requirements:</p>
                       <ul className="text-xs space-y-1 list-disc list-inside">
