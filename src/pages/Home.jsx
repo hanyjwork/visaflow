@@ -161,7 +161,7 @@ export default function Home() {
             {[
             { value: '50K+', label: 'Visas Processed' },
             { value: '98%', label: 'Success Rate' },
-            { value: '24-48h', label: 'Processing Time' },
+            { value: '10+', label: 'Licensed Experience' },
             { value: '4.9★', label: 'Customer Rating' }].
             map((stat, index) =>
             <div key={index} className="text-center">
