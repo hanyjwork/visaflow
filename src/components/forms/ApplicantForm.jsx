@@ -227,7 +227,7 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                     <div className="space-y-2">
                       <p className="font-semibold text-sm">Valid Passport Example:</p>
                       <img 
-                        src="https://images.unsplash.com/photo-1578922746095-253a3e0c30c2?w=300&h=200&fit=crop" 
+                        src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6957a1f81f10f2f9a853595e/728a81ea1_passportexample.png" 
                         alt="Passport example" 
                         className="rounded border w-full"
                       />
