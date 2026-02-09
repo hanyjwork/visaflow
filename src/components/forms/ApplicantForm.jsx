@@ -345,7 +345,7 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
 
           <div className="space-y-2">
             <Label>Additional Supporting Documents (Optional)</Label>
-            <p className="text-xs text-slate-500">Bank statements, hotel bookings, or other documents to assist with visa processing</p>
+            <p className="text-xs text-slate-500">Return flight ticket, national ID, sponsor ID, bank statements, hotel bookings, or other documents to assist with visa processing</p>
             <div className="border-2 border-dashed rounded-lg p-4 text-center border-slate-200 hover:border-blue-400 transition-colors">
               {uploading.supporting ? (
                 <div className="flex items-center justify-center gap-2 text-slate-500">
