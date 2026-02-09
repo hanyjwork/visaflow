@@ -333,21 +333,6 @@ export default function Cart() {
                 )}
 
                 <div className="space-y-3">
-                  <div className="flex items-start gap-2">
-                    <Checkbox
-                      id="terms"
-                      checked={termsAccepted}
-                      onCheckedChange={setTermsAccepted}
-                    />
-                    <label htmlFor="terms" className="text-sm text-slate-600 leading-tight">
-                      I agree to the{' '}
-                      <Link to={createPageUrl('Terms')} className="text-blue-600 hover:underline" target="_blank">
-                        Terms & Conditions
-                      </Link>
-                      {' '}and confirm all information provided is accurate.
-                    </label>
-                  </div>
-
                   <Button 
                     className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white"
                     size="lg"
