@@ -34,7 +34,7 @@ export default function ServiceCard({ service, onAddToCart }) {
         <CardHeader className="pb-2">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-2">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-lg">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-lg flex items-center justify-center">
                 {(service.category === 'visa' || service.category === 'express_visa') && durationNumber ? (
                   <div className="flex flex-col items-center">
                     <span className="text-xl font-bold leading-tight">{durationNumber}</span>
