@@ -290,7 +290,7 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
                     <div className="space-y-2">
                       <p className="font-semibold text-sm">Passport Cover Example:</p>
                       <img 
-                        src="https://images.unsplash.com/photo-1589763472885-46dd5b282f52?w=300&h=200&fit=crop" 
+                        src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6957a1f81f10f2f9a853595e/9c1c67679_passportcover.png" 
                         alt="Passport cover example" 
                         className="rounded border w-full"
                       />
