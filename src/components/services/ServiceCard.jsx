@@ -14,6 +14,9 @@ const iconMap = {
 export default function ServiceCard({ service, onAddToCart }) {
   const Icon = iconMap[service.category] || FileText;
   
+  // Extract number from duration (e.g., "30 days" -> "30")
+  const durationNumber = service.duration ? service.duration.match(/\d+/)?.[0] : null;
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -28,7 +31,11 @@ export default function ServiceCard({ service, onAddToCart }) {
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-2">
               <div className="p-3 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-lg">
-                <Icon className="w-6 h-6" />
+                {(service.category === 'visa' || service.category === 'express_visa') && durationNumber ? (
+                  <span className="text-xl font-bold">{durationNumber}</span>
+                ) : (
+                  <Icon className="w-6 h-6" />
+                )}
               </div>
               {service.category === 'express_visa' && (
                 <div className="bg-gradient-to-r from-amber-500 to-amber-600 text-white px-2 py-1 rounded-full flex items-center gap-1 shadow-md">
