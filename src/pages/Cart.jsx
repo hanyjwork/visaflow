@@ -102,7 +102,7 @@ export default function Cart() {
   const handleSubmit = async () => {
     if (!validateCustomerInfo()) return;
     if (!allApplicantsFilled) return;
-    if (!termsAccepted) return;
+    if (!termsAgreed || !noOtherAgency) return;
 
     setSubmitting(true);
 
@@ -337,7 +337,7 @@ export default function Cart() {
                     className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white"
                     size="lg"
                     onClick={handleSubmit}
-                    disabled={!allApplicantsFilled || !termsAccepted || !termsAgreed || !noOtherAgency || submitting}
+                    disabled={!allApplicantsFilled || !termsAgreed || !noOtherAgency || submitting}
                   >
                     {submitting ? (
                       <>
