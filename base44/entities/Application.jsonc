@@ -1,0 +1,110 @@
+{
+  "name": "Application",
+  "type": "object",
+  "properties": {
+    "order_id": {
+      "type": "string",
+      "description": "Reference to Order"
+    },
+    "service_id": {
+      "type": "string",
+      "description": "Reference to Service"
+    },
+    "service_name": {
+      "type": "string"
+    },
+    "service_price": {
+      "type": "number"
+    },
+    "security_deposit": {
+      "type": "number",
+      "default": 0,
+      "description": "Optional security deposit amount in AED"
+    },
+    "applicant_name": {
+      "type": "string"
+    },
+    "passport_number": {
+      "type": "string"
+    },
+    "nationality": {
+      "type": "string"
+    },
+    "residence_country": {
+      "type": "string",
+      "description": "Country of residence"
+    },
+    "date_of_birth": {
+      "type": "string",
+      "format": "date"
+    },
+    "expected_travel_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Expected travel date to UAE"
+    },
+    "gender": {
+      "type": "string",
+      "enum": [
+        "male",
+        "female"
+      ]
+    },
+    "passport_front_url": {
+      "type": "string",
+      "description": "Passport copy (front page)"
+    },
+    "passport_cover_url": {
+      "type": "string",
+      "description": "Passport cover copy"
+    },
+    "photo_url": {
+      "type": "string",
+      "description": "Personal photo"
+    },
+    "supporting_documents_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Optional additional supporting documents"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "processing",
+        "completed",
+        "returned_for_modification"
+      ],
+      "default": "pending"
+    },
+    "admin_notes": {
+      "type": "string"
+    },
+    "is_known_customer": {
+      "type": "boolean",
+      "default": false,
+      "description": "Flag indicating if application was submitted by a known/logged-in customer"
+    },
+    "customer_user_email": {
+      "type": "string",
+      "description": "Email of the authenticated known customer"
+    },
+    "visa_document_url": {
+      "type": "string",
+      "description": "URL to the uploaded visa PDF document for this applicant"
+    },
+    "government_rejection_reason": {
+      "type": "string",
+      "description": "Reason provided by government for visa rejection for this applicant"
+    }
+  },
+  "required": [
+    "order_id",
+    "service_id",
+    "applicant_name"
+  ]
+}

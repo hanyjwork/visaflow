@@ -1,0 +1,16 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "customer_type": {
+      "type": "string",
+      "enum": [
+        "regular",
+        "known_customer"
+      ],
+      "default": "regular",
+      "description": "Type of customer account"
+    }
+  },
+  "required": []
+}

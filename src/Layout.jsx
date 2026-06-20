@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Plane, Menu, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import MobileNav from '@/components/MobileNav';
+import WhatsAppButton from '@/components/ui/WhatsAppButton';
 
 export default function Layout({ children, currentPageName }) {
   const isHome = currentPageName === 'Home';
   const isAdmin = currentPageName === 'Admin';
 
   // Check if cart has items (for proper spacing)
-  const [hasCart, setHasCart] = React.useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [hasCart, setHasCart] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
-  React.useEffect(() => {
+  useEffect(() => {
     const checkCart = () => {
       try {
         const cart = JSON.parse(localStorage.getItem('uae_visa_cart') || '[]');
@@ -123,7 +125,7 @@ export default function Layout({ children, currentPageName }) {
       </nav>
 
       {/* Main Content */}
-      <main className={isHome ? '' : 'pt-0'}>
+      <main className={`${isHome ? '' : 'pt-0'} mobile-content-pad`}>
         {children}
       </main>
 
@@ -177,6 +179,7 @@ export default function Layout({ children, currentPageName }) {
           </div>
         </footer>
       )}
+      <MobileNav />
     </div>
   );
 }

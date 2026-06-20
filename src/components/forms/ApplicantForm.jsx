@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerFooter } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,7 +9,18 @@ import { Upload, X, FileText, Image, Loader2, Info } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+  return isMobile;
+}
+
 export default function ApplicantForm({ isOpen, onClose, onSave, initialData, serviceName, serviceCategory }) {
+  const isMobile = useIsMobile();
   const [formData, setFormData] = useState(initialData || {
     applicant_name: '',
     passport_number: '',
@@ -136,13 +148,7 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
     }
   };
 
-  return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-xl">Applicant Details</DialogTitle>
-          <p className="text-sm text-slate-500">For: {serviceName}</p>
-        </DialogHeader>
+  const formBody = (
         
         <div className="space-y-4 py-4">
           <div className="space-y-2">
@@ -493,12 +499,39 @@ export default function ApplicantForm({ isOpen, onClose, onSave, initialData, se
           </div>
         </div>
         
-        <DialogFooter>
-          <Button variant="outline" onClick={onClose}>Cancel</Button>
-          <Button onClick={handleSubmit} className="bg-blue-600 hover:bg-blue-700">
-            Save Details
-          </Button>
-        </DialogFooter>
+  );
+
+  const footerButtons = (
+    <div className="flex gap-2 justify-end">
+      <Button variant="outline" onClick={onClose}>Cancel</Button>
+      <Button onClick={handleSubmit} className="bg-blue-600 hover:bg-blue-700">Save Details</Button>
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <Drawer open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
+        <DrawerContent className="max-h-[95vh]">
+          <DrawerHeader className="text-left">
+            <DrawerTitle>Applicant Details</DrawerTitle>
+            <p className="text-sm text-slate-500">For: {serviceName}</p>
+          </DrawerHeader>
+          <div className="overflow-y-auto px-4 pb-2 flex-1">{formBody}</div>
+          <DrawerFooter>{footerButtons}</DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    );
+  }
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="text-xl">Applicant Details</DialogTitle>
+          <p className="text-sm text-slate-500">For: {serviceName}</p>
+        </DialogHeader>
+        {formBody}
+        <DialogFooter>{footerButtons}</DialogFooter>
       </DialogContent>
     </Dialog>
   );

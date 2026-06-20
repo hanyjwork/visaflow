@@ -1,0 +1,55 @@
+{
+  "name": "Service",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Service name"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "visa",
+        "insurance",
+        "express_visa"
+      ],
+      "description": "Service category"
+    },
+    "description": {
+      "type": "string",
+      "description": "Service description"
+    },
+    "duration": {
+      "type": "string",
+      "description": "Duration (e.g., 30 days, 90 days)"
+    },
+    "price": {
+      "type": "number",
+      "description": "Price in AED"
+    },
+    "processing_time": {
+      "type": "string",
+      "description": "Processing time"
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of requirements"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "icon": {
+      "type": "string",
+      "description": "Icon name from lucide"
+    }
+  },
+  "required": [
+    "name",
+    "category",
+    "price"
+  ]
+}

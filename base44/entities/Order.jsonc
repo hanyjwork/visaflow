@@ -1,0 +1,90 @@
+{
+  "name": "Order",
+  "type": "object",
+  "properties": {
+    "tracking_number": {
+      "type": "string",
+      "description": "Easy to remember digit-only tracking number"
+    },
+    "customer_name": {
+      "type": "string"
+    },
+    "customer_email": {
+      "type": "string"
+    },
+    "customer_phone": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending_review",
+        "under_review",
+        "ready_for_processing",
+        "payment_pending",
+        "customer_confirmed_payment",
+        "paid",
+        "processing",
+        "completed",
+        "cannot_process_application",
+        "returned_for_modification"
+      ],
+      "default": "pending_review"
+    },
+    "total_amount": {
+      "type": "number"
+    },
+    "admin_notes": {
+      "type": "string",
+      "description": "Notes from admin review"
+    },
+    "modification_notes": {
+      "type": "string",
+      "description": "Notes for customer when returning for modification"
+    },
+    "rejection_reason": {
+      "type": "string"
+    },
+    "terms_accepted": {
+      "type": "boolean",
+      "default": false
+    },
+    "terms_accepted_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payment_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payment_link": {
+      "type": "string",
+      "description": "Secure payment link provided by admin"
+    },
+    "is_known_customer": {
+      "type": "boolean",
+      "default": false,
+      "description": "Flag indicating if order was submitted by a known/logged-in customer"
+    },
+    "customer_user_email": {
+      "type": "string",
+      "description": "Email of the authenticated known customer"
+    },
+    "customer_payment_confirmation_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When customer confirmed they made the payment"
+    },
+    "admin_payment_verification_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When admin verified and confirmed payment was received"
+    }
+  },
+  "required": [
+    "tracking_number",
+    "customer_name",
+    "customer_email",
+    "customer_phone"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "name": "Nationality",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Country name"
+    },
+    "flag": {
+      "type": "string",
+      "description": "Country flag emoji"
+    },
+    "is_enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this nationality is available for selection"
+    },
+    "sort_order": {
+      "type": "number",
+      "description": "Display order"
+    }
+  },
+  "required": [
+    "name",
+    "flag"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

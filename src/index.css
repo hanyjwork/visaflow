@@ -2,6 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Safe area env vars for iOS notch / home indicator */
+:root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+}
+
+/* Disable tap callouts & text selection on interactive elements */
+button, a, [role="button"], [role="tab"],
+.no-select {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Pull-to-refresh visual */
+.ptr-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: height 0.2s ease;
+}
+
+/* Bottom nav safe area padding */
+.bottom-nav {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Content padding for bottom nav on mobile */
+@media (max-width: 767px) {
+  .mobile-content-pad {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
