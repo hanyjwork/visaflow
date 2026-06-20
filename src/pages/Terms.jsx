@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, FileText, CheckCircle, AlertTriangle, Clock, CreditCard, Shield, Ban } from 'lucide-react';
+import { FileText, CheckCircle, AlertTriangle, Clock, CreditCard, Shield, Ban } from 'lucide-react';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
+import MobileHeader from '@/components/MobileHeader';
 
 export default function Terms() {
   const sections = [
@@ -73,13 +74,10 @@ export default function Terms() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      <MobileHeader title="Terms & Conditions" />
       {/* Header */}
       <div className="bg-gradient-to-br from-blue-700 to-blue-800 text-white py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <Link to={createPageUrl('Home')} className="inline-flex items-center text-slate-300 hover:text-white mb-6">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
-          </Link>
           <h1 className="text-3xl md:text-4xl font-bold mb-4">Terms & Conditions</h1>
           <p className="text-slate-300 text-lg">
             Please read these terms carefully before submitting your visa application
@@ -144,11 +142,6 @@ export default function Terms() {
 
             <div className="mt-8 text-center">
               <p className="text-sm text-slate-500 mb-4">Last updated: January 2025</p>
-              <Link to={createPageUrl('Home')}>
-                <Button className="bg-blue-600 hover:bg-blue-700">
-                  Return to Home
-                </Button>
-              </Link>
             </div>
           </CardContent>
         </Card>

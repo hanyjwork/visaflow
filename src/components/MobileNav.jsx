@@ -37,7 +37,10 @@ export default function MobileNav() {
           return (
             <button
               key={label}
-              onClick={() => navigate(path)}
+              onClick={() => {
+                navigate(path);
+                window.scrollTo(0, 0);
+              }}
               className={`flex-1 flex flex-col items-center justify-center py-2 gap-0.5 transition-colors no-select ${
                 active ? 'text-blue-600' : 'text-slate-500'
               }`}

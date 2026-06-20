@@ -36,6 +36,7 @@ button, a, [role="button"], [role="tab"],
 /* Content padding for bottom nav on mobile */
 @media (max-width: 767px) {
   .mobile-content-pad {
+    padding-top: var(--sat);
     padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
   }
 }

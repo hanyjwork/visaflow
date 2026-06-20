@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { CheckCircle, Copy, Search, Home, MessageCircle } from 'lucide-react';
 import { toast } from "sonner";
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
+import MobileHeader from '@/components/MobileHeader';
 
 export default function Confirmation() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -18,7 +19,9 @@ export default function Confirmation() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
+      <MobileHeader title="Application Submitted" />
+    <div className="flex items-center justify-center px-4 py-12">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -110,6 +113,7 @@ export default function Confirmation() {
       </motion.div>
 
       <WhatsAppButton />
+    </div>
     </div>
   );
 }

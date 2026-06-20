@@ -5,9 +5,10 @@ import { createPageUrl } from '@/utils';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from 'framer-motion';
-import { ArrowLeft, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
+import { Loader2, CheckCircle, AlertCircle } from 'lucide-react';
 import ApplicantForm from '@/components/forms/ApplicantForm';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
+import MobileHeader from '@/components/MobileHeader';
 
 export default function EditApplication() {
   const navigate = useNavigate();
@@ -105,13 +106,10 @@ export default function EditApplication() {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      <MobileHeader title="Edit Application" />
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
-        <div className="mb-8">
-          <Link to={createPageUrl('Track') + `?tracking=${trackingNumber}`} className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-4">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Tracking
-          </Link>
+        <div className="mb-8 hidden md:block">
           <h1 className="text-3xl font-bold text-slate-800">Edit Application</h1>
           <p className="text-slate-500 mt-1">Update your application details as requested</p>
         </div>
