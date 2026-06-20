@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/toaster"
+import { AnimatePresence, motion } from 'framer-motion'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
 import NavigationTracker from '@/lib/NavigationTracker'
@@ -43,26 +44,36 @@ const AuthenticatedApp = () => {
 
   // Render the main app
   return (
-    <Routes>
-      <Route path="/" element={
-        <LayoutWrapper currentPageName={mainPageKey}>
-          <MainPage />
-        </LayoutWrapper>
-      } />
-      {Object.entries(Pages).map(([path, Page]) => (
-        <Route
-          key={path}
-          path={`/${path}`}
-          element={
-            <LayoutWrapper currentPageName={path}>
-              <Page />
+    <AnimatePresence mode="wait">
+      <Routes>
+        <Route path="/" element={
+          <motion.div key="main" initial={{ x: 30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: -30, opacity: 0 }} transition={{ duration: 0.18 }}>
+            <LayoutWrapper currentPageName={mainPageKey}>
+              <MainPage />
             </LayoutWrapper>
-          }
-        />
-      ))}
-      <Route path="/Settings" element={<LayoutWrapper currentPageName="Settings"><Settings /></LayoutWrapper>} />
-      <Route path="*" element={<PageNotFound />} />
-    </Routes>
+          </motion.div>
+        } />
+        {Object.entries(Pages).map(([path, Page]) => (
+          <Route
+            key={path}
+            path={`/${path}`}
+            element={
+              <motion.div key={path} initial={{ x: 30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: -30, opacity: 0 }} transition={{ duration: 0.18 }}>
+                <LayoutWrapper currentPageName={path}>
+                  <Page />
+                </LayoutWrapper>
+              </motion.div>
+            }
+          />
+        ))}
+        <Route path="/Settings" element={
+          <motion.div key="Settings" initial={{ x: 30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: -30, opacity: 0 }} transition={{ duration: 0.18 }}>
+            <LayoutWrapper currentPageName="Settings"><Settings /></LayoutWrapper>
+          </motion.div>
+        } />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </AnimatePresence>
   );
 };
 

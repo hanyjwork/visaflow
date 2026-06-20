@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Home, Search, ShoppingCart } from 'lucide-react';
 import { createPageUrl } from '@/utils';
 
 export default function MobileNav() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
@@ -34,9 +35,9 @@ export default function MobileNav() {
         {tabs.map(({ label, icon: Icon, path, badge }) => {
           const active = isActive(path);
           return (
-            <Link
+            <button
               key={label}
-              to={path}
+              onClick={() => navigate(path)}
               className={`flex-1 flex flex-col items-center justify-center py-2 gap-0.5 transition-colors no-select ${
                 active ? 'text-blue-600' : 'text-slate-500'
               }`}
@@ -52,7 +53,7 @@ export default function MobileNav() {
               <span className={`text-[10px] font-medium ${active ? 'text-blue-600' : 'text-slate-500'}`}>
                 {label}
               </span>
-            </Link>
+            </button>
           );
         })}
       </div>

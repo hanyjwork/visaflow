@@ -64,6 +64,17 @@ export default function Admin() {
 
   const updateOrderMutation = useMutation({
     mutationFn: ({ id, data }) => base44.entities.Order.update(id, data),
+    onMutate: async ({ id, data }) => {
+      await queryClient.cancelQueries({ queryKey: ['admin-orders'] });
+      const previous = queryClient.getQueryData(['admin-orders']);
+      queryClient.setQueryData(['admin-orders'], (old = []) =>
+        old.map(o => o.id === id ? { ...o, ...data } : o)
+      );
+      return { previous };
+    },
+    onError: (_err, _vars, context) => {
+      if (context?.previous) queryClient.setQueryData(['admin-orders'], context.previous);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
       setActionDialog({ open: false, type: '', order: null });

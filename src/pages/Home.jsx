@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
+import PullToRefresh from '@/components/PullToRefresh';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,7 @@ import { toast } from 'sonner';
 import {
   Plane, Shield, ShoppingCart, Search, ArrowRight,
   Clock, CheckCircle, Globe, Star, ChevronRight, FileText,
-  UserCheck, Send, Eye, CreditCard, Package, Award, LogOut, Settings } from
+  Send, Eye, CreditCard, Package, Award, LogOut, Settings } from
 'lucide-react';
 import ServiceCard from '@/components/services/ServiceCard';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
@@ -27,12 +28,6 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [knownCustomer, setKnownCustomer] = useState(null);
   const [cartPulse, setCartPulse] = useState(false);
-
-  // Pull-to-refresh state
-  const [ptrY, setPtrY] = useState(0);
-  const [ptrActive, setPtrActive] = useState(false);
-  const touchStartY = useRef(null);
-  const PTR_THRESHOLD = 80;
 
   const { data: services = [], isLoading, refetch } = useQuery({
     queryKey: ['services'],
@@ -97,43 +92,9 @@ export default function Home() {
   const visaServices = services.filter((s) => s.category === 'visa');
   const insuranceServices = services.filter((s) => s.category === 'insurance');
 
-  const handleTouchStart = (e) => {
-    if (window.scrollY === 0) touchStartY.current = e.touches[0].clientY;
-  };
-  const handleTouchMove = (e) => {
-    if (touchStartY.current === null) return;
-    const delta = e.touches[0].clientY - touchStartY.current;
-    if (delta > 0) setPtrY(Math.min(delta, PTR_THRESHOLD + 20));
-  };
-  const handleTouchEnd = async () => {
-    if (ptrY >= PTR_THRESHOLD) {
-      setPtrActive(true);
-      await refetch();
-      setPtrActive(false);
-    }
-    setPtrY(0);
-    touchStartY.current = null;
-  };
-
   return (
-    <div
-      className="min-h-screen bg-gradient-to-b from-slate-50 to-white overflow-x-hidden"
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
-      {/* Pull-to-refresh indicator */}
-      <div
-        className="ptr-indicator overflow-hidden bg-slate-100 transition-all"
-        style={{ height: ptrY > 0 ? `${ptrY}px` : ptrActive ? '60px' : '0px' }}
-      >
-        <div className="flex items-center gap-2 text-slate-500 text-sm">
-          <motion.div animate={ptrActive ? { rotate: 360 } : { rotate: ptrY * 3 }} transition={{ duration: ptrActive ? 0.6 : 0, repeat: ptrActive ? Infinity : 0, ease: 'linear' }}>
-            <ArrowRight className="w-4 h-4 rotate-90" />
-          </motion.div>
-          {ptrActive ? 'Refreshing...' : ptrY >= PTR_THRESHOLD ? 'Release to refresh' : 'Pull to refresh'}
-        </div>
-      </div>
+    <PullToRefresh onRefresh={refetch}>
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white overflow-x-hidden">
 
       {/* Known Customer Banner */}
       {knownCustomer && (
@@ -526,6 +487,7 @@ export default function Home() {
       </section>
 
       <WhatsAppButton />
-    </div>);
+    </div>
+    </PullToRefresh>);
 
 }

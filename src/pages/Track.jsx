@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
+import PullToRefresh from '@/components/PullToRefresh';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Button } from "@/components/ui/button";
@@ -86,7 +87,12 @@ export default function Track() {
     setPaymentClicked(false);
   };
 
+  const handleRefresh = async () => {
+    if (order) await handleSearch();
+  };
+
   return (
+    <PullToRefresh onRefresh={handleRefresh}>
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       {/* Header */}
       <div className="bg-gradient-to-br from-blue-900 to-blue-800 text-white py-16 px-4">
@@ -376,6 +382,7 @@ export default function Track() {
       </div>
 
       <WhatsAppButton />
-    </div>);
+    </div>
+    </PullToRefresh>);
 
 }
