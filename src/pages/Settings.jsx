@@ -4,13 +4,20 @@ import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { LogOut, Trash2, User, AlertCircle } from 'lucide-react';
+import { LogOut, Trash2, User, AlertCircle, Sun, Moon } from 'lucide-react';
 import MobileHeader from '@/components/MobileHeader';
+import { Switch } from '@/components/ui/switch';
 
 export default function Settings() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'));
+
+  const toggleTheme = (checked) => {
+    setIsDark(checked);
+    document.documentElement.classList.toggle('dark', checked);
+  };
 
   useEffect(() => {
     base44.auth.me().then(setUser).catch(() => navigate('/'));
@@ -47,6 +54,20 @@ export default function Settings() {
           <CardContent className="space-y-2">
             <p className="text-sm text-slate-600">{user.full_name || 'No name set'}</p>
             <p className="text-sm text-slate-500">{user.email}</p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-0 shadow-md mb-4">
+          <CardHeader>
+            <CardTitle className="text-base flex items-center gap-2">
+              {isDark ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />} Appearance
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-slate-600">Dark Mode</span>
+              <Switch checked={isDark} onCheckedChange={toggleTheme} />
+            </div>
           </CardContent>
         </Card>
 
