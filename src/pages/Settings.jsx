@@ -12,11 +12,12 @@ export default function Settings() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'));
+  const [isDark, setIsDark] = useState(() => localStorage.getItem('theme') === 'dark');
 
   const toggleTheme = (checked) => {
     setIsDark(checked);
     document.documentElement.classList.toggle('dark', checked);
+    localStorage.setItem('theme', checked ? 'dark' : 'light');
   };
 
   useEffect(() => {

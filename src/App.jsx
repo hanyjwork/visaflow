@@ -79,16 +79,12 @@ const AuthenticatedApp = () => {
 
 
 function App() {
-  // Auto dark mode based on system preference
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const apply = (e) => {
-      document.documentElement.classList.toggle('dark', e.matches);
-    };
-    apply(mq);
-    mq.addEventListener('change', apply);
-    return () => mq.removeEventListener('change', apply);
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
   }, []);
+
 
   return (
     <AuthProvider>
